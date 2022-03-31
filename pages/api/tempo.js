@@ -5,3 +5,5 @@ function tempo(request, response){
         date: dynamicDate
     })
 }
+
+export default tempo;
