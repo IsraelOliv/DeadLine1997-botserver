@@ -2,8 +2,10 @@ function tempo(request, response){
     const dynamicDate = new Date();
 
     response.json({
-        date: dynamicDate
+        serverTimestamp: dynamicDate,
+        marginBalance: "0.02738226"
     })
+    //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
 }
 
 export default tempo;
