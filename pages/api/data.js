@@ -18,9 +18,9 @@ function data(request, response){
     
     //const ts = timeApi.serverTime;
 
-    const carteira = await api.accountSnapshot(data.serverTimestamp);
+    const carteira = await api.accountSnapshot(dados.serverTimestamp);
     const coin = carteira.snapshotVos[0].data.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
-    data.marginBalance = coin[0].marginBalance;
+    dados.marginBalance = coin[0].marginBalance;
     console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
 
 
@@ -119,8 +119,10 @@ function data(request, response){
 */
 
     response.json({
-        serverTimestamp: dynamicDate,
-        marginBalance: "0.02738226"
+        //serverTimestamp: dynamicDate,
+        //marginBalance: "0.02738226"
+        serverTimestamp: dados.serverTimestamp,
+        marginBalance: "0"
     })
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
 }
