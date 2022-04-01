@@ -26,10 +26,11 @@ async function data(request, response){
     highArr = [];
     lowArr = [];
     volArr = [];
-
+/*
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
     dados.serverTimestamp = await timeApi.data.serverTime;
+    */
 
     /*
     //const ts = timeApi.serverTime;
@@ -136,9 +137,9 @@ async function data(request, response){
 */
 
     response.json({
-        //serverTimestamp: dynamicDate,
+        serverTimestamp: dynamicDate,
         //marginBalance: "0.02738226"
-        serverTimestamp: dados.serverTimestamp,
+        //serverTimestamp: dados.serverTimestamp,
         marginBalance: "0"
     })
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}

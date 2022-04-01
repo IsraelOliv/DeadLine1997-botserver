@@ -1,5 +1,9 @@
-const axios = require('axios');
-const queryString = require('querystring');
+//const axios = require('axios');
+//const queryString = require('querystring');
+/*
+import axios from 'axios';
+import queryString from "query-string";
+
  
 async function publicCall(path, data, method = 'GET', headers = {}) {
     try {
