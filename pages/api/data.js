@@ -26,6 +26,11 @@ async function data(request, response){
     highArr = [];
     lowArr = [];
     volArr = [];
+
+    //const bncResponse = await fetch(``);
+    //const bncResponseJson = await bncResponse.json();
+ 
+
 /*
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
@@ -135,6 +140,7 @@ async function data(request, response){
     console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
     //coin:  [{"asset":"USDT","marginBalance":"0.02738226","walletBalance":"0.02738226"}]
 */
+    response.setHeader('Cache-Control', 's-maxage=10', 'stale-while-revalidate');
 
     response.json({
         serverTimestamp: dynamicDate,
