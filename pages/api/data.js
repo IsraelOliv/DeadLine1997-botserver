@@ -1,6 +1,6 @@
 const api = require(process.cwd()+'/api');
-const SMA = require('technicalindicators').SMA;
-const StochasticRSI = require('technicalindicators').StochasticRSI;
+const SMA = require(process.cwd()+'technicalindicators').SMA;
+const StochasticRSI = require(process.cwd()+'technicalindicators').StochasticRSI;
 
 const symbol = process.env.SYMBOL;
 
