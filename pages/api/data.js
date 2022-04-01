@@ -1,8 +1,8 @@
 const api = require(process.cwd()+'/api');
-const SMA = require(process.cwd()+'technicalindicators').SMA;
-const StochasticRSI = require(process.cwd()+'technicalindicators').StochasticRSI;
+//const SMA = require(process.cwd()+'technicalindicators').SMA;
+//const StochasticRSI = require(process.cwd()+'technicalindicators').StochasticRSI;
 
-const symbol = process.env.SYMBOL;
+//const symbol = process.env.SYMBOL;
 
 var timestampArr = [];
 var dateArr = [];
@@ -17,7 +17,6 @@ var marketData = null;
 
 async function data(request, response){ 
     const dynamicDate = new Date();
-
 
     marketData = null;
     timestampArr = [];
