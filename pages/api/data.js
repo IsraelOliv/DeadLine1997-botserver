@@ -1,3 +1,20 @@
+const api = require('./api');
+const SMA = require('technicalindicators').SMA;
+const StochasticRSI = require('technicalindicators').StochasticRSI;
+
+const symbol = process.env.SYMBOL;
+
+var timestampArr = [];
+var dateArr = [];
+var openArr = [];
+var closeArr = [];
+var highArr = [];
+var lowArr = [];
+var volArr = [];
+
+var marketData = null;
+
+
 async function data(request, response){ 
     const dynamicDate = new Date();
 
