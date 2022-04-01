@@ -15,7 +15,7 @@ async function data(request, response){
     console.log(`serverTime: ${timeApi.data.serverTime}`);
     dados.serverTimestamp = await timeApi.data.serverTime;
 
-    
+    /*
     //const ts = timeApi.serverTime;
 
     const carteira = await api.accountSnapshot(dados.serverTimestamp);
@@ -59,7 +59,7 @@ async function data(request, response){
         dPeriod: 3
     }));
     */
-
+/*
     var stochRsi = StochasticRSI.calculate({values: marketData.close,
         rsiPeriod: 14,
         stochasticPeriod: 14,
@@ -70,6 +70,7 @@ async function data(request, response){
     console.log('');
     console.log('stochRsiData');
     console.log(stochRsi[stochRsi.length-1]);
+    */
 
     //console.log(await api.exchangeInfo());
 /*
