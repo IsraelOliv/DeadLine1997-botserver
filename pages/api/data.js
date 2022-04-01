@@ -1,4 +1,4 @@
-const api = require('../../api');
+const api = require('../../../api');
 const SMA = require('technicalindicators').SMA;
 const StochasticRSI = require('technicalindicators').StochasticRSI;
 
