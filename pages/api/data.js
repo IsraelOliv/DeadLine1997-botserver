@@ -1,4 +1,4 @@
-function data(request, response){
+ function data(request, response){ async () => {
     const dynamicDate = new Date();
 
 
@@ -125,6 +125,7 @@ function data(request, response){
         marginBalance: "0"
     })
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
+}
 }
 
 function criarObj(item){
