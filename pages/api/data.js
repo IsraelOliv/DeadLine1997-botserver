@@ -81,7 +81,7 @@ async function data(request, response){
         stochasticPeriod: 14,
         kPeriod: 3,
         dPeriod: 3
-    }).toString;
+    });
     
 /*
     const StochasticRSI = stochasticrsi({
