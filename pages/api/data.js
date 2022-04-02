@@ -47,7 +47,7 @@ async function data(request, response){
     //dados.marginBalance = coin[0].marginBalance;
     console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
 
-
+/*
     //console.log(await api.time());
     result = await api.time();
     console.log(`serverTime: ${result.data.serverTime}`);
