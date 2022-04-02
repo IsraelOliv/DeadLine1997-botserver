@@ -55,6 +55,8 @@ async function data(request, response){
 */
 
     result = await api.klines("15m");
+
+    /*
     console.log(`klines0: ${JSON.stringify(result.data[0])}`);
     console.log('');
     console.log(`klines00: ${JSON.stringify(result.data[result.data.length-1])}`);
