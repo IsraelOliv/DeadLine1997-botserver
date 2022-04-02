@@ -150,7 +150,7 @@ async function data(request, response){
         //marginBalance: "0.02"
         serverTimestamp: timeApi.data.serverTime,
         marginBalance: coin[0].marginBalance,
-        marketData: marketData
+        marketData: marketData.date[result.data.length-2]
     })
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
 }
