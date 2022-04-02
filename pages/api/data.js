@@ -5,7 +5,8 @@
 //const symbol = process.env.SYMBOL;
 
 import api from './api';
-import technicalindicators from 'technicalindicators';
+//import technicalindicators from ('technicalindicators');
+import StochasticRSI from ('technicalindicators').StochasticRSI;
 
 var timestampArr = [];
 var dateArr = [];
@@ -69,7 +70,7 @@ async function data(request, response){
     marketData = { date: dateArr, timestamp: timestampArr, open: openArr, close: closeArr, high: highArr, low: lowArr, volume: volArr };
     console.log('');
     console.log(`marketData.date(últimoCandle): ${JSON.stringify(marketData.date[result.data.length-2])}`);
-
+/*
     const StochasticRSI = stochasticrsi({
         values: marketData.close,
         rsiPeriod: 14,
