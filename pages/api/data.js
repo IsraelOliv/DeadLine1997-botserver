@@ -5,6 +5,7 @@
 //const symbol = process.env.SYMBOL;
 
 import api from './api';
+import StochasticRSI from 'technicalindicators/StochasticRSI';
 
 var timestampArr = [];
 var dateArr = [];
@@ -51,7 +52,6 @@ async function data(request, response){
     ts = result.serverTime;
 */
     const result = await api.klines("15m");
-
     
     console.log(`klines0: ${JSON.stringify(result.data[0])}`);
     console.log('');
@@ -70,6 +70,8 @@ async function data(request, response){
     console.log('');
     console.log(`marketData.date(últimoCandle): ${JSON.stringify(marketData.date[result.data.length-2])}`);
 
+    //technicalindicators.stochasticrsi
+    //StochasticRSI.
     /*
     //console.log('SMA: ');
     //console.log(SMA.calculate({period : 5, values : [1,2,3,4,5,6,7,8,9]}));
