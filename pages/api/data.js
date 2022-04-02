@@ -33,7 +33,7 @@ async function data(request, response){
     //const bncResponseJson = await bncResponse.json();
  
 
-
+    const dados=null;
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
     dados.serverTimestamp = await timeApi.data.serverTime;
