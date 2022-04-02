@@ -165,7 +165,7 @@ function criarObj(item){
     var minutes = date.getMinutes();
     var seconds = date.getSeconds();
     
-    var formattedTime = hours + ':' + minutes + ':' + seconds;
+    var formattedTime = hours-3 + ':' + minutes + ':' + seconds;
     
     //console.log(formattedTime);
 
