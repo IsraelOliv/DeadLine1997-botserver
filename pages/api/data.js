@@ -10,7 +10,7 @@ import dynamic from 'next/dynamic';
 //import technicalindicators from ('technicalindicators');
 //import StochasticRSI from ('technicalindicators').StochasticRSI;
 
-const stochRsi = dynamic(() => import('technicalindicators').StochasticRSI);
+const StochasticRSI = dynamic(() => import('technicalindicators').StochasticRSI);
 
 var timestampArr = [];
 var dateArr = [];
@@ -75,8 +75,7 @@ async function data(request, response){
     console.log('');
     console.log(`marketData.date(últimoCandle): ${JSON.stringify(marketData.date[result.data.length-2])}`);
 
-    const StchRSI = stochRsi({
-        values: marketData.close,
+    var stochRsi = StochasticRSI.calculate({values: marketData.close,
         rsiPeriod: 14,
         stochasticPeriod: 14,
         kPeriod: 3,
