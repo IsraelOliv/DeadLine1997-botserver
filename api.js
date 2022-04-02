@@ -1,9 +1,8 @@
 //const axios = require('axios');
 //const queryString = require('querystring');
-/*
+
 import axios from 'axios';
 import queryString from "query-string";
-
  
 async function publicCall(path, data, method = 'GET', headers = {}) {
     try {
@@ -18,12 +17,13 @@ async function publicCall(path, data, method = 'GET', headers = {}) {
     }
 }
 
-const crypto = require('crypto');
+//const crypto = require('crypto');
+import crypto from 'crypto';
 const apiKey = process.env.API_KEY;
 const apiSecret = process.env.SECRET_KEY;
 const apiUrl = process.env.API_URL;
-const symbol = process.env.SYMBOL;
- 
+//const symbol = process.env.SYMBOL;
+const symbol = 'BTCUSDT'; 
 async function privateCall(path, timestamp, data = {}, method = 'GET') {
     if (!apiKey || !apiSecret){
         throw new Error('Preencha corretamente sua API KEY e SECRET KEY');
@@ -79,10 +79,6 @@ async function klines(interval){
     return publicCall('/api/v3/klines',{symbol, interval, limit});
 }
 
-
-
-
-
 module.exports = { time, depth, exchangeInfo, accountSnapshot, klines }
 
 /*
@@ -99,7 +95,6 @@ endTime	LONG	NO
 limit	INT	NO	min 7, max 30, default 7
 recvWindow	LONG	NO	
 timestamp	LONG	YES
-
 
 
 GET /api/v3/klines
