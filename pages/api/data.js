@@ -5,6 +5,7 @@
 //const symbol = process.env.SYMBOL;
 
 import api from './api';
+import dynamic from 'next/dynamic';
 //import technicalindicators from ('technicalindicators');
 //import StochasticRSI from ('technicalindicators').StochasticRSI;
 
