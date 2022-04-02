@@ -16,7 +16,6 @@ var volArr = [];
 
 var marketData = null;
 
-
 async function data(request, response){ 
     const dynamicDate = new Date();
 
@@ -37,8 +36,6 @@ async function data(request, response){
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
     //dados.serverTimestamp = await timeApi.data.serverTime;
-    
-
     
     //const ts = timeApi.serverTime;
 
