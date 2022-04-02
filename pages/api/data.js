@@ -43,14 +43,12 @@ async function data(request, response){
     const coin = carteira.snapshotVos[0].data.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
     //dados.marginBalance = coin[0].marginBalance;
     console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
-
 /*
     //console.log(await api.time());
     result = await api.time();
     console.log(`serverTime: ${result.data.serverTime}`);
     ts = result.serverTime;
 */
-
     const result = await api.klines("15m");
 
     
