@@ -4,7 +4,7 @@
 
 //const symbol = process.env.SYMBOL;
 
-import api from '../../api'
+import api from process.cwd()+'/api';
 
 var timestampArr = [];
 var dateArr = [];
