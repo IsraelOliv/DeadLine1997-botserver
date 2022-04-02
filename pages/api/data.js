@@ -159,13 +159,14 @@ function criarObj(item){
     //var date = new Date(item[0]);
     //console.log(date.getTime())
     //console.log(date)
-
+/*
     var date = new Date(unix_timestamp);
     var hours = date.getHours();
     var minutes = date.getMinutes();
     var seconds = date.getSeconds();
-    
-    var formattedTime = hours-3 + ':' + minutes + ':' + seconds;
+  */  
+    //var formattedTime = hours-3 + ':' + minutes + ':' + seconds;
+    var formattedTime = formatTime(unix_timestamp);
     
     //console.log(formattedTime);
 
@@ -179,6 +180,18 @@ function criarObj(item){
     volArr.push(item[5]);
     //marketData = { open: item[1], close: item[4], high: item[2], low: item[3], volume: item[5] };
 
+}
+
+function formatTime(timestamp){
+
+    var date = new Date(timestamp);
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
+    
+    var formattedTime = hours-3 + ':' + minutes + ':' + seconds;
+
+    return formattedTime;
 }
 
 export default data;
