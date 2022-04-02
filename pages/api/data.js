@@ -1,4 +1,4 @@
-//const api = require(process.cwd()+'/api');
+const api = require(process.cwd()+'/api');
 //const SMA = require(process.cwd()+'technicalindicators').SMA;
 //const StochasticRSI = require(process.cwd()+'technicalindicators').StochasticRSI;
 
