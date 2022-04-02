@@ -54,7 +54,7 @@ async function data(request, response){
     ts = result.serverTime;
 */
 
-    result = await api.klines("15m");
+    const result = await api.klines("15m");
 
     /*
     console.log(`klines0: ${JSON.stringify(result.data[0])}`);
