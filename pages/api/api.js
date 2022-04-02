@@ -2,7 +2,7 @@
 //const queryString = require('querystring');
 
 import axios from 'axios';
-import queryString from "querystring";
+import queryString from 'querystring';
  
 async function publicCall(path, data, method = 'GET', headers = {}) {
     try {

@@ -33,11 +33,11 @@ async function data(request, response){
     //const bncResponseJson = await bncResponse.json();
  
 
-/*
+
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
     dados.serverTimestamp = await timeApi.data.serverTime;
-    */
+    
 
     /*
     //const ts = timeApi.serverTime;
@@ -145,9 +145,9 @@ async function data(request, response){
     response.setHeader('Cache-Control', 's-maxage=10', 'stale-while-revalidate');
 
     response.json({
-        serverTimestamp: dynamicDate,
+        //serverTimestamp: dynamicDate,
         //marginBalance: "0.02738226"
-        //serverTimestamp: dados.serverTimestamp,
+        serverTimestamp: dados.serverTimestamp,
         marginBalance: "0"
     })
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
