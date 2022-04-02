@@ -1,8 +1,10 @@
-const api = require(process.cwd()+'/api');
+//const api = require(process.cwd()+'/api');
 //const SMA = require(process.cwd()+'technicalindicators').SMA;
 //const StochasticRSI = require(process.cwd()+'technicalindicators').StochasticRSI;
 
 //const symbol = process.env.SYMBOL;
+
+import api from '../../api'
 
 var timestampArr = [];
 var dateArr = [];
