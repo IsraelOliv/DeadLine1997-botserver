@@ -6,7 +6,7 @@
 
 import api from './api';
 //import technicalindicators from ('technicalindicators');
-import StochasticRSI from ('technicalindicators').StochasticRSI;
+//import StochasticRSI from ('technicalindicators').StochasticRSI;
 
 const stochRsi = dynamic(() => import('technicalindicators').StochasticRSI)
 
