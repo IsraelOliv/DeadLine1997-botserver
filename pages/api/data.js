@@ -33,10 +33,10 @@ async function data(request, response){
     //const bncResponseJson = await bncResponse.json();
  
 
-    const dados=null;
+    //const dados=null;
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
-    dados.serverTimestamp = await timeApi.data.serverTime;
+    //dados.serverTimestamp = await timeApi.data.serverTime;
     
 
     /*
@@ -147,7 +147,7 @@ async function data(request, response){
     response.json({
         //serverTimestamp: dynamicDate,
         //marginBalance: "0.02738226"
-        serverTimestamp: dados.serverTimestamp,
+        serverTimestamp: timeApi.data.serverTime,
         marginBalance: "0"
     })
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
