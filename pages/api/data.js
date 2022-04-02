@@ -69,7 +69,7 @@ async function data(request, response){
     marketData = { date: dateArr, timestamp: timestampArr, open: openArr, close: closeArr, high: highArr, low: lowArr, volume: volArr };
     console.log('');
     console.log(`marketData.date(últimoCandle): ${JSON.stringify(marketData.date[result.data.length-2])}`);
-/*
+
     var StochasticRSI = technicalindicators.stochasticrsi({
         values: marketData.close,
         rsiPeriod: 14,
