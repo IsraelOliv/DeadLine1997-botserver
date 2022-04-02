@@ -6,6 +6,7 @@
 
 import api from './api';
 import dynamic from 'next/dynamic';
+import { stochasticrsi } from 'technicalindicators';
 //import { StochasticRsiInput } from 'technicalindicators/declarations/momentum/StochasticRSI';
 //import technicalindicators from ('technicalindicators');
 //import StochasticRSI from ('technicalindicators').StochasticRSI;
@@ -75,12 +76,12 @@ async function data(request, response){
     console.log('');
     console.log(`marketData.date(últimoCandle): ${JSON.stringify(marketData.date[result.data.length-2])}`);
 
-    const stochRsi = StochasticRSI({values: marketData.close,
+    const stochRsi = await stochasticrsi({values: marketData.close,
         rsiPeriod: 14,
         stochasticPeriod: 14,
         kPeriod: 3,
         dPeriod: 3
-    });
+    }).toString;
     
 /*
     const StochasticRSI = stochasticrsi({
