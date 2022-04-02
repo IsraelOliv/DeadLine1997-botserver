@@ -52,6 +52,7 @@ async function data(request, response){
     result = await api.time();
     console.log(`serverTime: ${result.data.serverTime}`);
     ts = result.serverTime;
+*/
 
     result = await api.klines("15m");
     console.log(`klines0: ${JSON.stringify(result.data[0])}`);
@@ -65,7 +66,7 @@ async function data(request, response){
     //invertido    
     for (let i = 40; i > 0; i--) {
         //criarObj(result.data[i]);
-    }    
+    }
 
     marketData = { date: dateArr, timestamp: timestampArr, open: openArr, close: closeArr, high: highArr, low: lowArr, volume: volArr };
     console.log('');
@@ -148,7 +149,8 @@ async function data(request, response){
         //serverTimestamp: dynamicDate,
         //marginBalance: "0.02"
         serverTimestamp: timeApi.data.serverTime,
-        marginBalance: coin[0].marginBalance
+        marginBalance: coin[0].marginBalance,
+        marketData: marketData
     })
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
 }
