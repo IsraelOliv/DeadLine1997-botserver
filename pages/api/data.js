@@ -42,7 +42,7 @@ async function data(request, response){
     
     //const ts = timeApi.serverTime;
 
-    const carteira = await api.accountSnapshot(dados.serverTimestamp);
+    const carteira = await api.accountSnapshot(timeApi.data.serverTime);
     const coin = carteira.snapshotVos[0].data.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
     //dados.marginBalance = coin[0].marginBalance;
     console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
