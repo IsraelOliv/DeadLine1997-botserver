@@ -5,7 +5,7 @@
 //const symbol = process.env.SYMBOL;
 
 import api from './api';
-import StochasticRSI from 'technicalindicators/StochasticRSI';
+import technicalindicators from 'technicalindicators';
 
 var timestampArr = [];
 var dateArr = [];
