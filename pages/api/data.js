@@ -35,6 +35,7 @@ async function data(request, response){
     //const dados=null;
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
+    const lastUpdate = formatTime(timeApi.data.serverTime);
     //dados.serverTimestamp = await timeApi.data.serverTime;
     
     //const ts = timeApi.serverTime;
@@ -146,6 +147,7 @@ async function data(request, response){
         //serverTimestamp: dynamicDate,
         //marginBalance: "0.02"
         serverTimestamp: timeApi.data.serverTime,
+        lastUpdate: lastUpdate,
         marginBalance: coin[0].marginBalance,
         marketData: marketData.date[result.data.length-2]
     })
