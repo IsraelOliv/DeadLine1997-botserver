@@ -5,13 +5,13 @@
 //const symbol = process.env.SYMBOL;
 
 import api from './api';
-import dynamic from 'next/dynamic';
+//import dynamic from 'next/dynamic';
 import { stochasticrsi } from 'technicalindicators';
 //import { StochasticRsiInput } from 'technicalindicators/declarations/momentum/StochasticRSI';
 //import technicalindicators from ('technicalindicators');
 //import StochasticRSI from ('technicalindicators').StochasticRSI;
 
-const StochasticRSI = dynamic(() => import('technicalindicators').StochasticRSI);
+//const StochasticRSI = dynamic(() => import('technicalindicators').StochasticRSI);
 
 var timestampArr = [];
 var dateArr = [];
