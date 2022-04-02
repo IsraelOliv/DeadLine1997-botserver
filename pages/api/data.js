@@ -70,7 +70,13 @@ async function data(request, response){
     console.log('');
     console.log(`marketData.date(últimoCandle): ${JSON.stringify(marketData.date[result.data.length-2])}`);
 
-    //technicalindicators.stochasticrsi
+    const StochasticRSI = technicalindicators.stochasticrsi({
+        values: marketData.close,
+        rsiPeriod: 14,
+        stochasticPeriod: 14,
+        kPeriod: 3,
+        dPeriod: 3
+    })
     //StochasticRSI.
     /*
     //console.log('SMA: ');
@@ -151,7 +157,8 @@ async function data(request, response){
         serverTimestamp: timeApi.data.serverTime,
         lastUpdate: lastUpdate,
         marginBalance: coin[0].marginBalance,
-        marketData: marketData.date[result.data.length-2]
+        marketData: marketData.date[result.data.length-2],
+        StochasticRSI: StochasticRSI[0]
     })
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
 }
