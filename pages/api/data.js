@@ -150,7 +150,7 @@ async function data(request, response){
 
 async function criarKlineObj(periodGrph){
 
-    marketData = null;
+    var marketData = null;
     timestampArr = [];
     dateArr = [];
     openArr = [];
