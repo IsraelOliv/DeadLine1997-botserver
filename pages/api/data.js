@@ -148,7 +148,7 @@ async function data(request, response){
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
 }
 
-async function criarKlineObj(periodGrph){
+function criarKlineObj(periodGrph){
 
     var market = null;
     var timestamp = [];
