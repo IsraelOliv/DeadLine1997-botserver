@@ -52,7 +52,7 @@ async function data(request, response){
     marketData = { date: dateArr, timestamp: timestampArr, open: openArr, close: closeArr, high: highArr, low: lowArr, volume: volArr };
     
 
-    let marketData15m = criarKlineObj("15m");
+    //let marketData15m = criarKlineObj("15m");
 
     /*
     console.log(`klines0: ${JSON.stringify(result.data[0])}`);
@@ -60,9 +60,9 @@ async function data(request, response){
     console.log(`klines00: ${JSON.stringify(result.data[result.data.length-1])}`);
   */
     //invertido    
-    for (let i = 40; i > 0; i--) {
+    //for (let i = 40; i > 0; i--) {
         //criarObj(result.data[i]);
-    }
+    //}
 
     //console.log('');
     //console.log(`marketData.date(últimoCandle): ${JSON.stringify(marketData.date[result.data.length-2])}`);
@@ -141,13 +141,13 @@ async function data(request, response){
         lastUpdate: lastUpdate,
         marginBalance: coin[0].marginBalance,
         serverTimestamp: timeApi.data.serverTime,
-        lastUpdtMarket15m: marketData15m.date[marketData15m.date.length-2],
+        lastUpdtMarket15m: marketData.date[marketData1.date.length-2],
         stoch: stochRsi[stochRsi.length-1]
         //StochasticRSI: StochasticRSI[StochasticRSI.length-1]
     })
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
 }
-
+/*
 function criarKlineObj(periodGrph){
 
     var market = null;
@@ -181,6 +181,7 @@ function criarKlineObj(periodGrph){
 
     return market;
 }
+*/
 
 function criarObj(item){
 
