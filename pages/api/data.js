@@ -22,6 +22,15 @@ let lowArr1m = [];
 let volArr1m = [];
 let marketData1m = null;
 
+let timestampArr3m = [];
+let dateArr3m = [];
+let openArr3m = [];
+let closeArr3m = [];
+let highArr3m = [];
+let lowArr3m = [];
+let volArr3m = [];
+let marketData3m = null;
+
 let timestampArr5m = [];
 let dateArr5m = [];
 let openArr5m = [];
@@ -49,8 +58,41 @@ let lowArr30m = [];
 let volArr30m = [];
 let marketData30m = null;
 
+let timestampArr1h = [];
+let dateArr1h = [];
+let openArr1h = [];
+let closeArr1h = [];
+let highArr1h = [];
+let lowArr1h = [];
+let volArr1h = [];
+let marketData1h = null;
 
+let timestampArr4h = [];
+let dateArr4h = [];
+let openArr4h = [];
+let closeArr4h = [];
+let highArr4h = [];
+let lowArr4h = [];
+let volArr4h = [];
+let marketData4h = null;
 
+let timestampArr1d = [];
+let dateArr1d = [];
+let openArr1d = [];
+let closeArr1d = [];
+let highArr1d = [];
+let lowArr1d = [];
+let volArr1d = [];
+let marketData1d = null;
+
+let timestampArr1w = [];
+let dateArr1w = [];
+let openArr1w = [];
+let closeArr1w = [];
+let highArr1w = [];
+let lowArr1w = [];
+let volArr1w = [];
+let marketData1w = null;
 
 async function data(request, response){ 
     const dynamicDate = new Date();
@@ -63,6 +105,15 @@ async function data(request, response){
     lowArr1m = [];
     volArr1m = [];
     marketData1m = null;
+
+    timestampArr3m = [];
+    dateArr3m = [];
+    openArr3m = [];
+    closeArr3m = [];
+    highArr3m = [];
+    lowArr3m = [];
+    volArr3m = [];
+    marketData3m = null;
 
     timestampArr5m = [];
     dateArr5m = [];
@@ -91,6 +142,42 @@ async function data(request, response){
     volArr30m = [];
     marketData30m = null;
 
+    timestampArr1h = [];
+    dateArr1h = [];
+    openArr1h = [];
+    closeArr1h = [];
+    highArr1h = [];
+    lowArr1h = [];
+    volArr1h = [];
+    marketData1h = null;
+
+    timestampArr4h = [];
+    dateArr4h = [];
+    openArr4h = [];
+    closeArr4h = [];
+    highArr4h = [];
+    lowArr4h = [];
+    volArr4h = [];
+    marketData4h = null;
+
+    timestampArr1d = [];
+    dateArr1d = [];
+    openArr1d = [];
+    closeArr1d = [];
+    highArr1d = [];
+    lowArr1d = [];
+    volArr1d = [];
+    marketData1d = null;
+
+    timestampArr1w = [];
+    dateArr1w = [];
+    openArr1w = [];
+    closeArr1w = [];
+    highArr1w = [];
+    lowArr1w = [];
+    volArr1w = [];
+    marketData1w = null;
+
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
     const lastUpdate = formatTime(timeApi.data.serverTime);
@@ -100,12 +187,21 @@ async function data(request, response){
     console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
     
     const result1m = await api.klines("1m");
+    const result3m = await api.klines("3m");
     const result5m = await api.klines("5m");
     const result15m = await api.klines("15m");
     const result30m = await api.klines("30m");
+    const result1h = await api.klines("1h");
+    const result4h = await api.klines("4h");
+    const result1d = await api.klines("1d");
+    const result1w = await api.klines("1w");
+
 
     for (let i = 0; i < result1m.data.length-1; i++) {
         criarObj1m(result1m.data[i]);
+    }
+    for (let i = 0; i < result3m.data.length-1; i++) {
+        criarObj3m(result3m.data[i]);
     }
     for (let i = 0; i < result5m.data.length-1; i++) {
         criarObj5m(result5m.data[i]);
@@ -116,12 +212,30 @@ async function data(request, response){
     for (let i = 0; i < result30m.data.length-1; i++) {
         criarObj30m(result30m.data[i]);
     }
+    for (let i = 0; i < result1h.data.length-1; i++) {
+        criarObj1h(result1h.data[i]);
+    }
+    for (let i = 0; i < result4h.data.length-1; i++) {
+        criarObj4h(result4h.data[i]);
+    }
+    for (let i = 0; i < result1d.data.length-1; i++) {
+        criarObj1d(result1d.data[i]);
+    }
+    for (let i = 0; i < result1w.data.length-1; i++) {
+        criarObj1w(result1w.data[i]);
+    }
+
 
     marketData1m = { date: dateArr1m, timestamp: timestampArr1m, open: openArr1m, close: closeArr1m, high: highArr1m, low: lowArr1m, volume: volArr1m };
+    marketData3m = { date: dateArr3m, timestamp: timestampArr3m, open: openArr3m, close: closeArr3m, high: highArr3m, low: lowArr3m, volume: volArr3m };
     marketData5m = { date: dateArr5m, timestamp: timestampArr5m, open: openArr5m, close: closeArr5m, high: highArr5m, low: lowArr5m, volume: volArr5m };
     marketData15m = { date: dateArr15m, timestamp: timestampArr15m, open: openArr15m, close: closeArr15m, high: highArr15m, low: lowArr15m, volume: volArr15m };
     marketData30m = { date: dateArr30m, timestamp: timestampArr30m, open: openArr30m, close: closeArr30m, high: highArr30m, low: lowArr30m, volume: volArr30m };
-    
+    marketData1h = { date: dateArr1h, timestamp: timestampArr1h, open: openArr1h, close: closeArr1h, high: highArr1h, low: lowArr1h, volume: volArr1h };
+    marketData4h = { date: dateArr4h, timestamp: timestampArr4h, open: openArr4h, close: closeArr4h, high: highArr4h, low: lowArr4h, volume: volArr4h };
+    marketData1d = { date: dateArr1d, timestamp: timestampArr1d, open: openArr1d, close: closeArr1d, high: highArr1d, low: lowArr1d, volume: volArr1d };
+    marketData1w = { date: dateArr1w, timestamp: timestampArr1w, open: openArr1w, close: closeArr1w, high: highArr1w, low: lowArr1w, volume: volArr1w };
+
     //let marketData15m = criarKlineObj("15m");
 
     /*
@@ -138,6 +252,13 @@ async function data(request, response){
     //console.log(`marketData.date(últimoCandle): ${JSON.stringify(marketData.date[result.data.length-2])}`);
 
     const stochRsi1m = stochasticrsi({values: marketData1m.close,
+        rsiPeriod: 14,
+        stochasticPeriod: 14,
+        kPeriod: 3,
+        dPeriod: 3
+    });
+
+    const stochRsi3m = stochasticrsi({values: marketData3m.close,
         rsiPeriod: 14,
         stochasticPeriod: 14,
         kPeriod: 3,
@@ -165,7 +286,33 @@ async function data(request, response){
         dPeriod: 3
     });
 
+    const stochRsi1h = stochasticrsi({values: marketData1h.close,
+        rsiPeriod: 14,
+        stochasticPeriod: 14,
+        kPeriod: 3,
+        dPeriod: 3
+    });
+    
+    const stochRsi4h = stochasticrsi({values: marketData4h.close,
+        rsiPeriod: 14,
+        stochasticPeriod: 14,
+        kPeriod: 3,
+        dPeriod: 3
+    });
+    
+    const stochRsi1d = stochasticrsi({values: marketData1d.close,
+        rsiPeriod: 14,
+        stochasticPeriod: 14,
+        kPeriod: 3,
+        dPeriod: 3
+    });
 
+    const stochRsi1w = stochasticrsi({values: marketData1w.close,
+        rsiPeriod: 14,
+        stochasticPeriod: 14,
+        kPeriod: 3,
+        dPeriod: 3
+    });
     /*
     //console.log('SMA: ');
     //console.log(SMA.calculate({period : 5, values : [1,2,3,4,5,6,7,8,9]}));
@@ -233,14 +380,34 @@ async function data(request, response){
         lastUpdate: lastUpdate,
         marginBalance: coin[0].marginBalance,
         serverTimestamp: timeApi.data.serverTime,
+
         lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
         stoch1m: stochRsi1m[stochRsi1m.length-1],
+
+        lastUpdtMarket3m: marketData3m.date[marketData3m.date.length-1],
+        stoch3m: stochRsi3m[stochRsi3m.length-1],
+
         lastUpdtMarket5m: marketData5m.date[marketData5m.date.length-1],
         stoch5m: stochRsi5m[stochRsi5m.length-1],
+
         lastUpdtMarket15m: marketData15m.date[marketData15m.date.length-1],
         stoch15m: stochRsi15m[stochRsi15m.length-1],
+
         lastUpdtMarket30m: marketData30m.date[marketData30m.date.length-1],
-        stoch30m: stochRsi30m[stochRsi30m.length-1]
+        stoch30m: stochRsi30m[stochRsi30m.length-1],
+
+        lastUpdtMarket1h: marketData1h.date[marketData1h.date.length-1],
+        stoch1h: stochRsi1h[stochRsi1h.length-1],
+
+        lastUpdtMarket4h: marketData4h.date[marketData4h.date.length-1],
+        stoch4h: stochRsi4h[stochRsi4h.length-1],
+        
+        lastUpdtMarket1d: marketData1d.date[marketData1d.date.length-1],
+        stoch1d: stochRsi1d[stochRsi1d.length-1],
+
+        lastUpdtMarket1w: marketData1w.date[marketData1w.date.length-1],
+        stoch1w: stochRsi1w[stochRsi1w.length-1],
+        
         //StochasticRSI: StochasticRSI[StochasticRSI.length-1]
     })
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
@@ -296,6 +463,21 @@ function criarObj1m(item){
 
 }
 
+function criarObj3m(item){
+
+    let unix_timestamp = item[0]
+    var formattedTime = formatTime(unix_timestamp);
+
+    dateArr3m.push(formattedTime);
+    timestampArr3m.push(unix_timestamp);
+    openArr3m.push(item[1]);
+    closeArr3m.push(item[4]);
+    highArr3m.push(item[2]);
+    lowArr3m.push(item[3]);
+    volArr3m.push(item[5]);
+
+}
+
 function criarObj5m(item){
 
     let unix_timestamp = item[0]
@@ -340,6 +522,67 @@ function criarObj30m(item){
     volArr30m.push(item[5]);
 
 }
+
+function criarObj1h(item){
+
+    let unix_timestamp = item[0]
+    var formattedTime = formatTime(unix_timestamp);
+
+    dateArr1h.push(formattedTime);
+    timestampArr1h.push(unix_timestamp);
+    openArr1h.push(item[1]);
+    closeArr1h.push(item[4]);
+    highArr1h.push(item[2]);
+    lowArr1h.push(item[3]);
+    volArr1h.push(item[5]);
+
+}
+
+function criarObj4h(item){
+
+    let unix_timestamp = item[0]
+    var formattedTime = formatTime(unix_timestamp);
+
+    dateArr4h.push(formattedTime);
+    timestampArr4h.push(unix_timestamp);
+    openArr4h.push(item[1]);
+    closeArr4h.push(item[4]);
+    highArr4h.push(item[2]);
+    lowArr4h.push(item[3]);
+    volArr4h.push(item[5]);
+
+}
+
+function criarObj1d(item){
+
+    let unix_timestamp = item[0]
+    var formattedTime = formatTime(unix_timestamp);
+
+    dateArr1d.push(formattedTime);
+    timestampArr1d.push(unix_timestamp);
+    openArr1d.push(item[1]);
+    closeArr1d.push(item[4]);
+    highArr1d.push(item[2]);
+    lowArr1d.push(item[3]);
+    volArr1d.push(item[5]);
+
+}
+
+function criarObj1w(item){
+
+    let unix_timestamp = item[0]
+    var formattedTime = formatTime(unix_timestamp);
+
+    dateArr1w.push(formattedTime);
+    timestampArr1w.push(unix_timestamp);
+    openArr1w.push(item[1]);
+    closeArr1w.push(item[4]);
+    highArr1w.push(item[2]);
+    lowArr1w.push(item[3]);
+    volArr1w.push(item[5]);
+
+}
+
 
 function formatTime(timestamp){
 
