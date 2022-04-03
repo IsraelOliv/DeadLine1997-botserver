@@ -141,7 +141,7 @@ async function data(request, response){
         lastUpdate: lastUpdate,
         marginBalance: coin[0].marginBalance,
         serverTimestamp: timeApi.data.serverTime,
-        lastUpdtMarket15m: marketData.date[marketData.date.length],
+        lastUpdtMarket15m: marketData.date[marketData.date.length-1],
         stoch: stochRsi[stochRsi.length-1]
         //StochasticRSI: StochasticRSI[StochasticRSI.length-1]
     })
