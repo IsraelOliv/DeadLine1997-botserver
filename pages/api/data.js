@@ -40,6 +40,15 @@ let lowArr15m = [];
 let volArr15m = [];
 let marketData15m = null;
 
+let timestampArr30m = [];
+let dateArr30m = [];
+let openArr30m = [];
+let closeArr30m = [];
+let highArr30m = [];
+let lowArr30m = [];
+let volArr30m = [];
+let marketData30m = null;
+
 
 
 
@@ -73,6 +82,15 @@ async function data(request, response){
     volArr15m = [];
     marketData15m = null;
 
+    timestampArr30m = [];
+    dateArr30m = [];
+    openArr30m = [];
+    closeArr30m = [];
+    highArr30m = [];
+    lowArr30m = [];
+    volArr30m = [];
+    marketData30m = null;
+
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
     const lastUpdate = formatTime(timeApi.data.serverTime);
@@ -84,6 +102,7 @@ async function data(request, response){
     const result1m = await api.klines("1m");
     const result5m = await api.klines("5m");
     const result15m = await api.klines("15m");
+    const result30m = await api.klines("30m");
 
     for (let i = 0; i < result1m.data.length-1; i++) {
         criarObj1m(result1m.data[i]);
@@ -94,10 +113,14 @@ async function data(request, response){
     for (let i = 0; i < result15m.data.length-1; i++) {
         criarObj15m(result15m.data[i]);
     }
+    for (let i = 0; i < result30m.data.length-1; i++) {
+        criarObj30m(result30m.data[i]);
+    }
 
     marketData1m = { date: dateArr1m, timestamp: timestampArr1m, open: openArr1m, close: closeArr1m, high: highArr1m, low: lowArr1m, volume: volArr1m };
     marketData5m = { date: dateArr5m, timestamp: timestampArr5m, open: openArr5m, close: closeArr5m, high: highArr5m, low: lowArr5m, volume: volArr5m };
     marketData15m = { date: dateArr15m, timestamp: timestampArr15m, open: openArr15m, close: closeArr15m, high: highArr15m, low: lowArr15m, volume: volArr15m };
+    marketData30m = { date: dateArr30m, timestamp: timestampArr30m, open: openArr30m, close: closeArr30m, high: highArr30m, low: lowArr30m, volume: volArr30m };
     
     //let marketData15m = criarKlineObj("15m");
 
@@ -134,6 +157,15 @@ async function data(request, response){
         kPeriod: 3,
         dPeriod: 3
     });
+
+    const stochRsi30m = stochasticrsi({values: marketData30m.close,
+        rsiPeriod: 14,
+        stochasticPeriod: 14,
+        kPeriod: 3,
+        dPeriod: 3
+    });
+
+
     /*
     //console.log('SMA: ');
     //console.log(SMA.calculate({period : 5, values : [1,2,3,4,5,6,7,8,9]}));
@@ -203,12 +235,12 @@ async function data(request, response){
         serverTimestamp: timeApi.data.serverTime,
         lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
         stoch1m: stochRsi1m[stochRsi1m.length-1],
-
         lastUpdtMarket5m: marketData5m.date[marketData5m.date.length-1],
         stoch5m: stochRsi5m[stochRsi5m.length-1],
-
         lastUpdtMarket15m: marketData15m.date[marketData15m.date.length-1],
-        stoch15m: stochRsi15m[stochRsi15m.length-1]
+        stoch15m: stochRsi15m[stochRsi15m.length-1],
+        lastUpdtMarket30m: marketData30m.date[marketData30m.date.length-1],
+        stoch30m: stochRsi30m[stochRsi30m.length-1]
         //StochasticRSI: StochasticRSI[StochasticRSI.length-1]
     })
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
@@ -291,6 +323,21 @@ function criarObj15m(item){
     highArr15m.push(item[2]);
     lowArr15m.push(item[3]);
     volArr15m.push(item[5]);
+
+}
+
+function criarObj30m(item){
+
+    let unix_timestamp = item[0]
+    var formattedTime = formatTime(unix_timestamp);
+
+    dateArr30m.push(formattedTime);
+    timestampArr30m.push(unix_timestamp);
+    openArr30m.push(item[1]);
+    closeArr30m.push(item[4]);
+    highArr30m.push(item[2]);
+    lowArr30m.push(item[3]);
+    volArr30m.push(item[5]);
 
 }
 
