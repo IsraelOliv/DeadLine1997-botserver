@@ -159,7 +159,7 @@ function criarKlineObj(periodGrph){
     var low = [];
     var vol = [];
 
-    const item = await api.klines(periodGrph);
+    const item = api.klines(periodGrph);
 
     for (let i = 0; i < item.data.length-1; i++) {
         //criarObj(item.data[i]);
