@@ -150,36 +150,36 @@ async function data(request, response){
 
 async function criarKlineObj(periodGrph){
 
-    var marketData = null;
-    var timestampArr = [];
-    var dateArr = [];
-    var openArr = [];
-    var closeArr = [];
-    var highArr = [];
-    var lowArr = [];
-    var volArr = [];
+    var market = null;
+    var timestamp = [];
+    var date = [];
+    var open = [];
+    var close = [];
+    var high = [];
+    var low = [];
+    var vol = [];
 
     const item = await api.klines(periodGrph);
 
-    for (let i = 0; i < result.data.length-1; i++) {
-        criarObj(result.data[i]);
+    for (let i = 0; i < item.data.length-1; i++) {
+        //criarObj(item.data[i]);
 
-        let unix_timestamp = item[0]
+        let unix_timestamp = item.data[i][0]
         var formattedTime = formatTime(unix_timestamp);
     
         dateArr.push(formattedTime);
         timestampArr.push(unix_timestamp);
-        openArr.push(item[1]);
-        closeArr.push(item[4]);
-        highArr.push(item[2]);
-        lowArr.push(item[3]);
-        volArr.push(item[5]);
+        openArr.push(item.data[i][1]);
+        closeArr.push(item.data[i][4]);
+        highArr.push(item.data[i][2]);
+        lowArr.push(item.data[i][3]);
+        volArr.push(item.data[i][5]);
 
     }
 
-    marketData = { date: dateArr, timestamp: timestampArr, open: openArr, close: closeArr, high: highArr, low: lowArr, volume: volArr };
+    market = { date: date, timestamp: timestamp, open: open, close: close, high: high, low: low, volume: vol };
 
-    return marketData;
+    return market;
 }
 
 function criarObj(item){
