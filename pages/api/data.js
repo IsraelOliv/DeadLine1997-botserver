@@ -52,7 +52,7 @@ async function data(request, response){
     marketData = { date: dateArr, timestamp: timestampArr, open: openArr, close: closeArr, high: highArr, low: lowArr, volume: volArr };
     */
 
-    const marketData15m = await criarKlineObj("15m");
+    var marketData15m = await criarKlineObj("15m");
 
     /*
     console.log(`klines0: ${JSON.stringify(result.data[0])}`);
