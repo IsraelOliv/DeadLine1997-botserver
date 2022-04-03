@@ -42,7 +42,7 @@ async function data(request, response){
     const carteira = await api.accountSnapshot(timeApi.data.serverTime);
     const coin = carteira.snapshotVos[0].data.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
     console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
-    /*
+    
     const result = await api.klines("15m");
 
     for (let i = 0; i < result.data.length-1; i++) {
@@ -50,9 +50,9 @@ async function data(request, response){
     }
 
     marketData = { date: dateArr, timestamp: timestampArr, open: openArr, close: closeArr, high: highArr, low: lowArr, volume: volArr };
-    */
+    
 
-    let marketData15m = await criarKlineObj("15m");
+    //let marketData15m = await criarKlineObj("15m");
 
     /*
     console.log(`klines0: ${JSON.stringify(result.data[0])}`);
@@ -67,7 +67,7 @@ async function data(request, response){
     //console.log('');
     //console.log(`marketData.date(últimoCandle): ${JSON.stringify(marketData.date[result.data.length-2])}`);
 
-    const stochRsi = stochasticrsi({values: marketData15m.close,
+    const stochRsi = stochasticrsi({values: marketData.close,
         rsiPeriod: 14,
         stochasticPeriod: 14,
         kPeriod: 3,
