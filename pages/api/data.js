@@ -13,15 +13,15 @@ import { stochasticrsi } from 'technicalindicators';
 
 //const StochasticRSI = dynamic(() => import('technicalindicators').StochasticRSI);
 
-var timestampArr = [];
-var dateArr = [];
-var openArr = [];
-var closeArr = [];
-var highArr = [];
-var lowArr = [];
-var volArr = [];
+let timestampArr = [];
+let dateArr = [];
+let openArr = [];
+let closeArr = [];
+let highArr = [];
+let lowArr = [];
+let volArr = [];
 
-var marketData = null;
+let marketData = null;
 
 async function data(request, response){ 
     const dynamicDate = new Date();
