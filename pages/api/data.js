@@ -64,8 +64,8 @@ async function data(request, response){
         //criarObj(result.data[i]);
     }
 
-    console.log('');
-    console.log(`marketData.date(últimoCandle): ${JSON.stringify(marketData.date[result.data.length-2])}`);
+    //console.log('');
+    //console.log(`marketData.date(últimoCandle): ${JSON.stringify(marketData.date[result.data.length-2])}`);
 
     const stochRsi = stochasticrsi({values: marketData15m.close,
         rsiPeriod: 14,
