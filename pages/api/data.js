@@ -52,7 +52,7 @@ async function data(request, response){
     marketData = { date: dateArr, timestamp: timestampArr, open: openArr, close: closeArr, high: highArr, low: lowArr, volume: volArr };
     
 
-    //let marketData15m = await criarKlineObj("15m");
+    const marketData15m = await criarKlineObj("15m");
 
     /*
     console.log(`klines0: ${JSON.stringify(result.data[0])}`);
@@ -151,18 +151,30 @@ async function data(request, response){
 async function criarKlineObj(periodGrph){
 
     var marketData = null;
-    timestampArr = [];
-    dateArr = [];
-    openArr = [];
-    closeArr = [];
-    highArr = [];
-    lowArr = [];
-    volArr = [];
+    var timestampArr = [];
+    var dateArr = [];
+    var openArr = [];
+    var closeArr = [];
+    var highArr = [];
+    var lowArr = [];
+    var volArr = [];
 
-    const result = await api.klines(periodGrph);
+    const item = await api.klines(periodGrph);
 
     for (let i = 0; i < result.data.length-1; i++) {
         criarObj(result.data[i]);
+
+        let unix_timestamp = item[0]
+        var formattedTime = formatTime(unix_timestamp);
+    
+        dateArr.push(formattedTime);
+        timestampArr.push(unix_timestamp);
+        openArr.push(item[1]);
+        closeArr.push(item[4]);
+        highArr.push(item[2]);
+        lowArr.push(item[3]);
+        volArr.push(item[5]);
+
     }
 
     marketData = { date: dateArr, timestamp: timestampArr, open: openArr, close: closeArr, high: highArr, low: lowArr, volume: volArr };
