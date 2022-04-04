@@ -611,27 +611,26 @@ function formatTime(timestamp){
     //var x = hours-3;
     hours = hours-3;
     minutes = minutes+1;
+    seconds = seconds-10;
 
     if (hours < 10){
         //var edited = "0"+hours;
         hours = "0"+ hours;
     }
-/*
-    if (hours < 10){
-        var edited = "0"+minutes
-        hours = edited
+
+    if (minutes < 10){
+        minutes = "0"+ minutes;
     }
 
-    if (hours < 10){
-        var edited = "0"+hours
-        hours = edited
+    if (seconds < 10){
+        seconds = "0"+ secondsS;
     }
-    */
+
 
 
     var formattedTime = hours + ':' + minutes + ':' + seconds;
 
-    return formattedTime;
+    return "Última atualização: " + formattedTime;
 }
 
 export default data;
