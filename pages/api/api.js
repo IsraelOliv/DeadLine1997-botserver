@@ -76,7 +76,8 @@ async function accountSnapshot(timestamp){
 
 async function klines(interval){
     const limit = 100;
-    return publicCall('/fapi/v1/klines',{symbol, interval, limit});
+    //return publicCall('/api/v3/klines',{symbol, interval, limit});
+    return publicCall('/api/v3/klines',{symbol, interval, limit});
 }
 
 module.exports = { time, depth, exchangeInfo, accountSnapshot, klines }
