@@ -17,6 +17,19 @@ async function publicCall(path, data, method = 'GET', headers = {}) {
     }
 }
 
+async function publicFutCall(path, data, method = 'GET', headers = {}) {
+    try {
+        const qs = data ? `?${queryString.stringify(data)}` : '';
+        const result = await axios({
+            method,
+            url: `${process.env.API_URL_FUT}${path}${qs}`
+        });
+        return result;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 //const crypto = require('crypto');
 import crypto from 'crypto';
 const apiKey = process.env.API_KEY;
@@ -77,7 +90,7 @@ async function accountSnapshot(timestamp){
 async function klines(interval){
     const limit = 100;
     //return publicCall('/api/v3/klines',{symbol, interval, limit});
-    return publicCall('/api/v3/klines',{symbol, interval, limit});
+    return publicFutCall('/fapi/v1/klines',{symbol, interval, limit});
 }
 
 module.exports = { time, depth, exchangeInfo, accountSnapshot, klines }
