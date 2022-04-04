@@ -376,7 +376,8 @@ async function data(request, response){
     response.json({
         //serverTimestamp: dynamicDate,
         //marginBalance: "0.02"
-        lastUpdate: lastUpdate,
+        //lastUpdate: lastUpdate,
+        lastUpdate: dynamicDate,
         marginBalance: coin[0].marginBalance,
         serverTimestamp: timeApi.data.serverTime,
 
