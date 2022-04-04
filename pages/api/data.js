@@ -610,12 +610,13 @@ function formatTime(timestamp){
     //hours = x;
     //var x = hours-3;
     hours = hours-3;
-/*
-    if (hours < 10){
-        var edited = "0"+hours;
-        hours = edited
-    }
+    minutes = minutes+1;
 
+    if (hours < 10){
+        //var edited = "0"+hours;
+        hours = "0"+ hours;
+    }
+/*
     if (hours < 10){
         var edited = "0"+minutes
         hours = edited
@@ -628,7 +629,7 @@ function formatTime(timestamp){
     */
 
 
-    var formattedTime = hours + ':' + minutes+1 + ':' + seconds;
+    var formattedTime = hours + ':' + minutes + ':' + seconds;
 
     return formattedTime;
 }
