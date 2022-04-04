@@ -376,8 +376,8 @@ async function data(request, response){
     response.json({
         //serverTimestamp: dynamicDate,
         //marginBalance: "0.02"
-        //lastUpdate: lastUpdate,
-        lastUpdate: dynamicDate,
+        lastUpdate: lastUpdate,
+        //lastUpdate: dynamicDate,
         marginBalance: coin[0].marginBalance,
         serverTimestamp: timeApi.data.serverTime,
 
@@ -590,8 +590,45 @@ function formatTime(timestamp){
     var hours = date.getHours();
     var minutes = date.getMinutes();
     var seconds = date.getSeconds();
+
+    switch(hours){
+        case 0 :
+            hours = 24;
+            break;
+        case 1 :
+            hours = 25;
+            break;
+        case 2 :
+            hours = 26;
+            break;
+        case 3 :
+            hours = 27;
+            break;
     
-    var formattedTime = hours-3 + ':' + minutes + ':' + seconds;
+    }
+    //var x = hours-3;
+    //hours = x;
+    //var x = hours-3;
+    hours = hours-3;
+/*
+    if (hours < 10){
+        var edited = "0"+hours;
+        hours = edited
+    }
+
+    if (hours < 10){
+        var edited = "0"+minutes
+        hours = edited
+    }
+
+    if (hours < 10){
+        var edited = "0"+hours
+        hours = edited
+    }
+    */
+
+
+    var formattedTime = hours + ':' + minutes+1 + ':' + seconds;
 
     return formattedTime;
 }
