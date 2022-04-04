@@ -197,34 +197,33 @@ async function data(request, response){
     const result1w = await api.klines("1w");
 
 
-    for (let i = 0; i < result1m.data.length-1; i++) {
+    for (let i = 0; i < result1m.data.length; i++) {
         criarObj1m(result1m.data[i]);
     }
-    for (let i = 0; i < result3m.data.length-1; i++) {
+    for (let i = 0; i < result3m.data.length; i++) {
         criarObj3m(result3m.data[i]);
     }
-    for (let i = 0; i < result5m.data.length-1; i++) {
+    for (let i = 0; i < result5m.data.length; i++) {
         criarObj5m(result5m.data[i]);
     }
-    for (let i = 0; i < result15m.data.length-1; i++) {
+    for (let i = 0; i < result15m.data.length; i++) {
         criarObj15m(result15m.data[i]);
     }
-    for (let i = 0; i < result30m.data.length-1; i++) {
+    for (let i = 0; i < result30m.data.length; i++) {
         criarObj30m(result30m.data[i]);
     }
-    for (let i = 0; i < result1h.data.length-1; i++) {
+    for (let i = 0; i < result1h.data.length; i++) {
         criarObj1h(result1h.data[i]);
     }
-    for (let i = 0; i < result4h.data.length-1; i++) {
+    for (let i = 0; i < result4h.data.length; i++) {
         criarObj4h(result4h.data[i]);
     }
-    for (let i = 0; i < result1d.data.length-1; i++) {
+    for (let i = 0; i < result1d.data.length; i++) {
         criarObj1d(result1d.data[i]);
     }
-    for (let i = 0; i < result1w.data.length-1; i++) {
+    for (let i = 0; i < result1w.data.length; i++) {
         criarObj1w(result1w.data[i]);
     }
-
 
     marketData1m = { date: dateArr1m, timestamp: timestampArr1m, open: openArr1m, close: closeArr1m, high: highArr1m, low: lowArr1m, volume: volArr1m };
     marketData3m = { date: dateArr3m, timestamp: timestampArr3m, open: openArr3m, close: closeArr3m, high: highArr3m, low: lowArr3m, volume: volArr3m };
