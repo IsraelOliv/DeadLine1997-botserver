@@ -610,8 +610,8 @@ function formatTime(timestamp){
     //hours = x;
     //var x = hours-3;
     hours = hours-3;
-    minutes = minutes+1;
-    seconds = seconds-10;
+    minutes = minutes;
+    seconds = seconds;
 
     if (hours < 10){
         //var edited = "0"+hours;
