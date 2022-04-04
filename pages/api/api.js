@@ -23,7 +23,7 @@ const apiKey = process.env.API_KEY;
 const apiSecret = process.env.SECRET_KEY;
 const apiUrl = process.env.API_URL;
 //const symbol = process.env.SYMBOL;
-const symbol = 'BTCUSDT'; 
+const symbol = 'BTCUSDTPERP'; 
 async function privateCall(path, timestamp, data = {}, method = 'GET') {
     if (!apiKey || !apiSecret){
         throw new Error('Preencha corretamente sua API KEY e SECRET KEY');
