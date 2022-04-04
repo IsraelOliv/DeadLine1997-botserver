@@ -23,7 +23,7 @@ const apiKey = process.env.API_KEY;
 const apiSecret = process.env.SECRET_KEY;
 const apiUrl = process.env.API_URL;
 //const symbol = process.env.SYMBOL;
-const symbol = 'BTCUSDTPERP'; 
+const symbol = 'BTCUSDT'; 
 async function privateCall(path, timestamp, data = {}, method = 'GET') {
     if (!apiKey || !apiSecret){
         throw new Error('Preencha corretamente sua API KEY e SECRET KEY');
@@ -76,7 +76,7 @@ async function accountSnapshot(timestamp){
 
 async function klines(interval){
     const limit = 100;
-    return publicCall('/api/v3/klines',{symbol, interval, limit});
+    return publicCall('/fapi/v1/klines',{symbol, interval, limit});
 }
 
 module.exports = { time, depth, exchangeInfo, accountSnapshot, klines }
