@@ -623,14 +623,14 @@ function formatTime(timestamp){
     }
 
     if (seconds < 10){
-        seconds = "0"+ secondsS;
+        seconds = "0"+ seconds;
     }
 
 
 
     var formattedTime = hours + ':' + minutes + ':' + seconds;
 
-    return "Última atualização: " + formattedTime;
+    return formattedTime;
 }
 
 export default data;
