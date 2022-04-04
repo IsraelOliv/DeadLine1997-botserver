@@ -180,7 +180,7 @@ async function data(request, response){
 
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
-    const lastUpdate ="Última atualização: " formatTime(timeApi.data.serverTime);
+    const lastUpdate ="Última atualização: " + formatTime(timeApi.data.serverTime);
     
     const carteira = await api.accountSnapshot(timeApi.data.serverTime);
     const coin = carteira.snapshotVos[0].data.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
