@@ -181,27 +181,29 @@ async function data(request, response){
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
     const lastUpdate = formatTime(timeApi.data.serverTime);
+
     /*
     const carteira = await api.accountSnapshot(timeApi.data.serverTime);
     const coin = carteira.snapshotVos[0].data.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
     console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
 
+    const carteira = await api.balance(timeApi.data.serverTime);
+    //console.log(`TEST:  ${JSON.stringify(carteira.filter(b => b.asset === 'USDT'))}`);
+    const coin = carteira.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
+    console.log(`TEST:coin:  ${JSON.stringify(coin[0].availableBalance)}`);
+    */
 
-const carteira = await api.balance(timeApi.data.serverTime);
-//console.log(`TEST:  ${JSON.stringify(carteira.filter(b => b.asset === 'USDT'))}`);
-const coin = carteira.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
-console.log(`TEST:coin:  ${JSON.stringify(coin[0].availableBalance)}`);
-*/
+    const carteira = await api.accountFutures(timeApi.data.serverTime);
+    //console.log(`TEST:  ${JSON.stringify(carteira.filter(b => b.asset === 'USDT'))}`);
+    const coin = carteira.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
+    console.log(`TEST:coin:  ${JSON.stringify(coin[0].availableBalance)}`);
 
-const carteira = await api.accountFutures(timeApi.data.serverTime);
-//console.log(`TEST:  ${JSON.stringify(carteira.filter(b => b.asset === 'USDT'))}`);
-const coin = carteira.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
-console.log(`TEST:coin:  ${JSON.stringify(coin[0].availableBalance)}`);
+    //accountFutures
 
-//accountFutures
-
-const availableBalance = coin[0].availableBalance;
-const balance = coin[0].walletBalance;
+    const availableBalance = coin[0].availableBalance;
+    const balance = coin[0].walletBalance;
+    const unrealizedProfit = coin[0].unrealizedProfit;
+    const marginBalance = coin[0].marginBalance;
 
     const result1m = await api.klines("1m");
     const result3m = await api.klines("3m");
@@ -395,7 +397,9 @@ const balance = coin[0].walletBalance;
         //marginBalance: "0.02"
         lastUpdate: lastUpdate,
         balance: balance,
-        marginBalance: availableBalance,
+        availableBalance: availableBalance,
+        marginBalance: marginBalance,
+        unrealizedProfit: unrealizedProfit,
         serverTimestamp: timeApi.data.serverTime,
 
         lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
