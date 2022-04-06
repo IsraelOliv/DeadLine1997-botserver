@@ -389,7 +389,7 @@ async function data(request, response){
         marginBalance: marginBalance,
         unrealizedProfit: unrealizedProfit,
         serverTimestamp: timeApi.data.serverTime,
-        tick: marketData1m.close[0],
+        tick: marketData1m.close[marketData1m.close.length-1],
 
         lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
         stoch1m: stochRsi1m[stochRsi1m.length-1],
