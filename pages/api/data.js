@@ -181,11 +181,19 @@ async function data(request, response){
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
     const lastUpdate = formatTime(timeApi.data.serverTime);
-    
+    /*
     const carteira = await api.accountSnapshot(timeApi.data.serverTime);
     const coin = carteira.snapshotVos[0].data.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
     console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
-    
+*/
+const carteira = await api.balance(timeApi.data.serverTime);
+//console.log(`TEST:  ${JSON.stringify(carteira.filter(b => b.asset === 'USDT'))}`);
+const coin = carteira.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
+console.log(`TEST:coin:  ${JSON.stringify(coin[0].availableBalance)}`);
+
+const availableBalance = coin[0].availableBalance;
+const balance = coin[0].balance;
+
     const result1m = await api.klines("1m");
     const result3m = await api.klines("3m");
     const result5m = await api.klines("5m");
@@ -377,8 +385,8 @@ async function data(request, response){
         //serverTimestamp: dynamicDate,
         //marginBalance: "0.02"
         lastUpdate: lastUpdate,
-        //lastUpdate: dynamicDate,
-        marginBalance: coin[0].marginBalance,
+        balance: balance,
+        marginBalance: availableBalance,
         serverTimestamp: timeApi.data.serverTime,
 
         lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],

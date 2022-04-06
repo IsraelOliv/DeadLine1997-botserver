@@ -64,6 +64,34 @@ async function privateCall(path, timestamp, data = {}, method = 'GET') {
         console.log(err);
     }
 }
+
+async function privateFutCall(path, timestamp, data = {}, method = 'GET') {
+    if (!apiKey || !apiSecret){
+        throw new Error('Preencha corretamente sua API KEY e SECRET KEY');
+    }
+    const type = "FUTURES";
+    //const timestamp = (Date.now())-1000;
+    const recvWindow = 60000;//máximo permitido, default 5000
+    
+    const signature = crypto
+        .createHmac('sha256', apiSecret)
+        .update(`${queryString.stringify({ ...data, type, timestamp, recvWindow })}`)
+        .digest('hex');
+ 
+    const newData = { ...data, type, timestamp, recvWindow, signature };
+    const qs = `?${queryString.stringify(newData)}`;
+ 
+    try {
+        const result = await axios({
+            method,
+            url: `${process.env.API_URL_FUT}${path}${qs}`,
+            headers: { 'X-MBX-APIKEY': apiKey }
+        });
+        return result.data;
+    } catch (err) {
+        console.log(err);
+    }
+}
  
 async function time() {
     return publicCall('/api/v3/time');
@@ -89,7 +117,7 @@ async function accountSnapshot(timestamp){
 
 async function balance(timestamp){
 
-    return privateCall('/fapi/v2/balance',timestamp);
+    return privateFutCall('/fapi/v2/balance',timestamp);
 }
 
 async function klines(interval){
