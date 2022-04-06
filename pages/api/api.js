@@ -3,6 +3,12 @@
 
 import axios from 'axios';
 import queryString from 'querystring';
+import crypto from 'crypto';
+const apiKey = process.env.API_KEY;
+const apiSecret = process.env.SECRET_KEY;
+const apiUrl = process.env.API_URL;
+//const symbol = process.env.SYMBOL;
+const symbol = 'BTCUSDT'; 
  
 async function publicCall(path, data, method = 'GET', headers = {}) {
     try {
@@ -30,13 +36,7 @@ async function publicFutCall(path, data, method = 'GET', headers = {}) {
     }
 }
 
-//const crypto = require('crypto');
-import crypto from 'crypto';
-const apiKey = process.env.API_KEY;
-const apiSecret = process.env.SECRET_KEY;
-const apiUrl = process.env.API_URL;
-//const symbol = process.env.SYMBOL;
-const symbol = 'BTCUSDT'; 
+
 async function privateCall(path, timestamp, data = {}, method = 'GET') {
     if (!apiKey || !apiSecret){
         throw new Error('Preencha corretamente sua API KEY e SECRET KEY');
@@ -87,15 +87,31 @@ async function accountSnapshot(timestamp){
     return privateCall('/sapi/v1/accountSnapshot',timestamp);
 }
 
+async function balance(timestamp){
+
+    return privateCall('/fapi/v2/balance',timestamp);
+}
+
 async function klines(interval){
     const limit = 100;
     //return publicCall('/api/v3/klines',{symbol, interval, limit});
     return publicFutCall('/fapi/v1/klines',{symbol, interval, limit});
 }
 
-module.exports = { time, depth, exchangeInfo, accountSnapshot, klines }
+module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, klines }
 
 /*
+
+GET /fapi/v2/balance (HMAC SHA256)
+
+Weight: 5
+
+Parameters:
+
+Name	Type	Mandatory	Description
+recvWindow	LONG	NO	
+timestamp	LONG	YES
+
 GET /sapi/v1/accountSnapshot (HMAC SHA256)
 
 Weight(IP): 2400
