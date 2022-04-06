@@ -393,6 +393,7 @@ async function data(request, response){
 
         lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
         stoch1m: stochRsi1m[stochRsi1m.length-1],
+        stoch1mprev: stochRsi1m[stochRsi1m.length-2],
 
         lastUpdtMarket3m: marketData3m.date[marketData3m.date.length-1],
         stoch3m: stochRsi3m[stochRsi3m.length-1],
