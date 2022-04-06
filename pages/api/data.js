@@ -1,17 +1,5 @@
-//const api = require(process.cwd()+'/api');
-//const SMA = require(process.cwd()+'technicalindicators').SMA;
-//const StochasticRSI = require(process.cwd()+'technicalindicators').StochasticRSI;
-
-//const symbol = process.env.SYMBOL;
-
 import api from './api';
-//import dynamic from 'next/dynamic';
 import { stochasticrsi } from 'technicalindicators';
-//import { StochasticRsiInput } from 'technicalindicators/declarations/momentum/StochasticRSI';
-//import technicalindicators from ('technicalindicators');
-//import StochasticRSI from ('technicalindicators').StochasticRSI;
-
-//const StochasticRSI = dynamic(() => import('technicalindicators').StochasticRSI);
 
 let timestampArr1m = [];
 let dateArr1m = [];
@@ -401,6 +389,7 @@ async function data(request, response){
         marginBalance: marginBalance,
         unrealizedProfit: unrealizedProfit,
         serverTimestamp: timeApi.data.serverTime,
+        tick: marketData1m.close[0],
 
         lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
         stoch1m: stochRsi1m[stochRsi1m.length-1],
