@@ -120,15 +120,23 @@ async function balance(timestamp){
     return privateFutCall('/fapi/v2/balance',timestamp);
 }
 
+async function accountFutures(timestamp){
+
+    return privateFutCall('/fapi/v2/account',timestamp);
+}
+
+
 async function klines(interval){
     const limit = 100;
     //return publicCall('/api/v3/klines',{symbol, interval, limit});
     return publicFutCall('/fapi/v1/klines',{symbol, interval, limit});
 }
 
-module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, klines }
+module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines }
 
 /*
+
+/fapi/v2/account
 
 GET /fapi/v2/balance (HMAC SHA256)
 
