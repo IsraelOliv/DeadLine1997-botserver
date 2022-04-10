@@ -140,6 +140,29 @@ module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountF
 
 /*
 
+"positions": [
+{
+        "symbol": "BTCUSDT",
+        "initialMargin": "1.03671120",
+        "maintMargin": "0.51835560",
+        "unrealizedProfit": "0.39540000",
+        "positionInitialMargin": "1.03671120",
+        "openOrderInitialMargin": "0",
+        "leverage": "125",
+        "isolated": true,
+        "entryPrice": "43064.5",
+        "maxNotional": "50000",
+        "positionSide": "BOTH",
+        "positionAmt": "0.003",
+        "notional": "129.58890000",
+        "isolatedWallet": "1.04676060",
+        "updateTime": 1649617567003,
+        "bidNotional": "0",
+        "askNotional": "0"
+      }
+    ]
+
+
 Current All Open Orders (USER_DATA)
 Response:
 

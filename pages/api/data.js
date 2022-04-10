@@ -202,6 +202,9 @@ async function data(request, response){
     const coin = carteira.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
     console.log(`TEST:coin:  ${JSON.stringify(coin[0].availableBalance)}`);
 
+    const positions = carteira.positions.filter(b => b.unrealizedProfit !== '0.00000000'); // || b.asset === 'USDT');
+    console.log(`TEST:positions:  ${JSON.stringify(coin[0].availableBalance)}`);
+
     //accountFutures
 
     const availableBalance = coin[0].availableBalance;
@@ -501,7 +504,7 @@ async function data(request, response){
         stoch1wprev: stochRsi1w[stochRsi1w.length-2],
 
         openorders: openOrders,
-        carteira: carteira
+        carteira: positions
         
     })
 }
