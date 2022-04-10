@@ -178,10 +178,7 @@ async function data(request, response){
     highArr1w = [];
     lowArr1w = [];
     volArr1w = [];
-    marketData1w = null;
-
-    
-    writeUserData(123,"Rael", "idx8264@hot", "test");
+    marketData1w = null;    
 
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
@@ -348,6 +345,7 @@ async function data(request, response){
         dPeriod: 3
     }));
     */
+    writeUserData();
 
     //console.log(await api.exchangeInfo());
 /*
@@ -450,13 +448,15 @@ async function data(request, response){
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
 }
 
-function writeUserData(userId, name, email, imageUrl) {
+function writeUserData() {
+
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
     //const db = getDatabase();
     //set(ref(database, 'rsidata/' + userId), {
-    set(ref(database, 'rsidata/'), {
-            lastUpdate: lastUpdate,
+    set(ref(database, 'rsidata'), {
+
+        lastUpdate: lastUpdate,
         balance: balance,
         availableBalance: availableBalance,
         marginBalance: marginBalance,
@@ -499,7 +499,9 @@ function writeUserData(userId, name, email, imageUrl) {
 
         lastUpdtMarket1w: marketData1w.date[marketData1w.date.length-1],
         stoch1w: stochRsi1w[stochRsi1w.length-1],
-        stoch1wprev: stochRsi1w[stochRsi1w.length-2]    });
+        stoch1wprev: stochRsi1w[stochRsi1w.length-2]    
+    
+    });
   }
 
 
