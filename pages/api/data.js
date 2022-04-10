@@ -1,5 +1,19 @@
 import api from './api';
 import { stochasticrsi } from 'technicalindicators';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set } from "firebase/database";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCCpzWIhst6gD7GHqLhIe2_N38T6cOwt6M",
+    authDomain: "deadline-1997.firebaseapp.com",
+    databaseURL: "https://deadline-1997-default-rtdb.firebaseio.com",
+    projectId: "deadline-1997",
+    storageBucket: "deadline-1997.appspot.com",
+    messagingSenderId: "110864270922",
+    appId: "1:110864270922:web:bd4984f9d157d4a685c8b3",
+    measurementId: "G-M66C87Z9QT"
+};
+
 
 let timestampArr1m = [];
 let dateArr1m = [];
@@ -165,6 +179,10 @@ async function data(request, response){
     lowArr1w = [];
     volArr1w = [];
     marketData1w = null;
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    writeUserData(123,"Rael", "idx8264@hot", "test");
 
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
@@ -432,6 +450,17 @@ async function data(request, response){
     })
     //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
 }
+
+function writeUserData(userId, name, email, imageUrl) {
+    const db = getDatabase();
+    set(ref(db, 'rsidata/' + userId), {
+      username: name,
+      email: email,
+      profile_picture : imageUrl
+    });
+  }
+
+
 /*
 function criarKlineObj(periodGrph){
 
