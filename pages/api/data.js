@@ -96,8 +96,10 @@ let lowArr1w = [];
 let volArr1w = [];
 let marketData1w = null;
 
+let openOrders = null;
+
 async function data(request, response){ 
-    const dynamicDate = new Date();
+    //const dynamicDate = new Date();
 
     timestampArr1m = [];
     dateArr1m = [];
@@ -333,6 +335,9 @@ async function data(request, response){
         kPeriod: 3,
         dPeriod: 3
     });
+
+    const openOrders = await openOrders(timeApi.data.serverTime);
+
     /*
     //console.log('SMA: ');
     //console.log(SMA.calculate({period : 5, values : [1,2,3,4,5,6,7,8,9]}));
@@ -391,7 +396,9 @@ async function data(request, response){
 
         lastUpdtMarket1w: marketData1w.date[marketData1w.date.length-1],
         stoch1w: stochRsi1w[stochRsi1w.length-1],
-        stoch1wprev: stochRsi1w[stochRsi1w.length-2]    
+        stoch1wprev: stochRsi1w[stochRsi1w.length-2],
+        
+        openorders: openOrders
 
     };
     
