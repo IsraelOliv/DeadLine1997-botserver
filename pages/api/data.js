@@ -336,7 +336,7 @@ async function data(request, response){
         dPeriod: 3
     });
 
-    const openOrders = await openOrders(timeApi.data.serverTime);
+    const openOrders = await api.openOrders(timeApi.data.serverTime);
 
     /*
     //console.log('SMA: ');
