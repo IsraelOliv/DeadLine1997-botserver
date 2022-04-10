@@ -443,7 +443,7 @@ async function data(request, response){
     console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
     //coin:  [{"asset":"USDT","marginBalance":"0.02738226","walletBalance":"0.02738226"}]
 */
-    //response.setHeader('Cache-Control', 's-maxage=3', 'stale-while-revalidate');
+    response.setHeader('Cache-Control', 's-maxage=1', 'stale-while-revalidate');
 
     response.json({
         //serverTimestamp: dynamicDate,
