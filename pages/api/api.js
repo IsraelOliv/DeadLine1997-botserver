@@ -125,14 +125,18 @@ async function accountFutures(timestamp){
     return privateFutCall('/fapi/v2/account',timestamp);
 }
 
-
 async function klines(interval){
     const limit = 100;
     //return publicCall('/api/v3/klines',{symbol, interval, limit});
     return publicFutCall('/fapi/v1/klines',{symbol, interval, limit});
 }
 
-module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines }
+async function openOrders(timestamp){
+
+    return privateFutCall('/fapi/v1/openOrders',timestamp);
+}
+
+module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders }
 
 /*
 
@@ -179,8 +183,6 @@ symbol	STRING	NO
 recvWindow	LONG	NO	
 timestamp	LONG	YES	
 If the symbol is not sent, orders for all symbols will be returned in an array.
-
-
 
 All Orders (USER_DATA)
 Response:
