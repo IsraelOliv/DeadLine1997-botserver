@@ -180,8 +180,7 @@ async function data(request, response){
     volArr1w = [];
     marketData1w = null;
 
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+    
     writeUserData(123,"Rael", "idx8264@hot", "test");
 
     const timeApi = await api.time();
@@ -452,8 +451,10 @@ async function data(request, response){
 }
 
 function writeUserData(userId, name, email, imageUrl) {
-    const db = getDatabase();
-    set(ref(db, 'rsidata/' + userId), {
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    //const db = getDatabase();
+    set(ref(database, 'rsidata/' + userId), {
       username: name,
       email: email,
       profile_picture : imageUrl
