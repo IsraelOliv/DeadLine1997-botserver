@@ -398,7 +398,7 @@ async function data(request, response){
         stoch1w: stochRsi1w[stochRsi1w.length-1],
         stoch1wprev: stochRsi1w[stochRsi1w.length-2],
         
-        openorders: openOrders
+        //openorders: openOrders
 
     };
     
