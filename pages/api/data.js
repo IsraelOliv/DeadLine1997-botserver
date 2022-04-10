@@ -504,7 +504,7 @@ function writeUserData(objSendcalc) {
     const database = getDatabase(app);
     //const db = getDatabase();
     //set(ref(database, 'rsidata/' + userId), {
-    set(ref(database, 'rsidata'), objSendcalc);
+    set(ref(database, 'rsidata/obj'), objSendcalc);
 }
 
 
