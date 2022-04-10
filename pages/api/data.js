@@ -498,11 +498,11 @@ async function data(request, response){
 
         lastUpdtMarket1w: marketData1w.date[marketData1w.date.length-1],
         stoch1w: stochRsi1w[stochRsi1w.length-1],
-        stoch1wprev: stochRsi1w[stochRsi1w.length-2]
+        stoch1wprev: stochRsi1w[stochRsi1w.length-2],
+
+        openorders: openOrders
         
-        //StochasticRSI: StochasticRSI[StochasticRSI.length-1]
     })
-    //{"serverTimestamp":"1648712608125","marginBalance":"0.02738226"}
 }
 
 function writeUserData(objSendcalc) {
