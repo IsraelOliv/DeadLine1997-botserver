@@ -402,7 +402,7 @@ async function data(request, response){
         stoch1wprev: stochRsi1w[stochRsi1w.length-2],
         
         openorders: openOrders,
-        carteira: positions
+        positions: positions
 
     };
     
@@ -505,7 +505,7 @@ async function data(request, response){
         stoch1wprev: stochRsi1w[stochRsi1w.length-2],
 
         openorders: openOrders,
-        carteira: positions
+        positions: positions
         
     })
 }
