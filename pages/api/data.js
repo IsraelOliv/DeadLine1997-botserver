@@ -506,7 +506,7 @@ async function data(request, response){
 
         openorders: openOrders,
         positions: positions
-        
+                
     })
 }
 
