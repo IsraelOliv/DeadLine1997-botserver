@@ -8,8 +8,8 @@ const apiKey = process.env.API_KEY;
 const apiSecret = process.env.SECRET_KEY;
 const apiUrl = process.env.API_URL;
 //const symbol = process.env.SYMBOL;
-//const symbol = 'BTCUSDT'; 
-const symbol = 'ADAUSDT'; 
+const symbol = 'BTCUSDT'; 
+//const symbol = 'ADAUSDT'; 
  
 async function publicCall(path, data, method = 'GET', headers = {}) {
     try {
