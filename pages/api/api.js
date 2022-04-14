@@ -7,16 +7,17 @@ import crypto from 'crypto';
 const apiKey = process.env.API_KEY;
 const apiSecret = process.env.SECRET_KEY;
 const apiUrl = process.env.API_URL;
+const apiUrlFut = process.env.API_URL_FUT;
 //const symbol = process.env.SYMBOL;
-const symbol = 'BTCUSDT'; 
-//const symbol = 'ADAUSDT'; 
+const symbol = 'BTCUSDT';
+//const symbol = 'ADAUSDT';
  
 async function publicCall(path, data, method = 'GET', headers = {}) {
     try {
         const qs = data ? `?${queryString.stringify(data)}` : '';
         const result = await axios({
             method,
-            url: `${process.env.API_URL}${path}${qs}`
+            url: `${apiUrl}${path}${qs}`
         });
         return result;
     } catch (err) {
@@ -29,7 +30,7 @@ async function publicFutCall(path, data, method = 'GET', headers = {}) {
         const qs = data ? `?${queryString.stringify(data)}` : '';
         const result = await axios({
             method,
-            url: `${process.env.API_URL_FUT}${path}${qs}`
+            url: `${apiUrlFut}${path}${qs}`
         });
         return result;
     } catch (err) {
@@ -85,7 +86,7 @@ async function privateFutCall(path, timestamp, data = {}, method = 'GET') {
     try {
         const result = await axios({
             method,
-            url: `${process.env.API_URL_FUT}${path}${qs}`,
+            url: `${apiUrlFut}${path}${qs}`,
             headers: { 'X-MBX-APIKEY': apiKey }
         });
         return result.data;
