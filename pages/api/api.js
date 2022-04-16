@@ -138,7 +138,12 @@ async function openOrders(timestamp){
     return privateFutCall('/fapi/v1/openOrders',timestamp);
 }
 
-module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders }
+async function allOrders(timestamp){
+
+    return privateFutCall('/fapi/v1/allOrders',timestamp);
+}
+
+module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders, allOrders }
 
 /*
 
