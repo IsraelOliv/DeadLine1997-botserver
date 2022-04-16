@@ -188,7 +188,7 @@ async function data(request, response){
     const timestamp = timeApi.data.serverTime;
 
 
-    const neworder = await api.newOrder(timestamp, "BUY");
+    //const neworder = await api.newOrder(timestamp, "BUY");
 
     /*
     const carteira = await api.accountSnapshot(timeApi.data.serverTime);
