@@ -187,7 +187,6 @@ async function data(request, response){
     const lastUpdate = formatTime(timeApi.data.serverTime);
     const timestamp = timeApi.data.serverTime;
 
-    const income = await api.income(timestamp);
 
     //const neworder = await api.newOrder(timestamp, "BUY");
     /*
@@ -208,6 +207,11 @@ async function data(request, response){
 
     const positions = carteira.positions.filter(b => b.unrealizedProfit !== '0.00000000'); // || b.asset === 'USDT');
     console.log(`TEST:positions:  ${JSON.stringify(coin[0].availableBalance)}`);
+
+    const income = await api.income(timestamp);
+    const pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
+
+
 
     //accountFutures
 
@@ -512,7 +516,7 @@ async function data(request, response){
 
         openorders: openOrders,
         positions: positions,
-        income: income
+        pnlHist: pnlHist
                 
     })
 }
