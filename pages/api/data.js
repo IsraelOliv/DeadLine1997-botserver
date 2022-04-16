@@ -185,6 +185,10 @@ async function data(request, response){
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
     const lastUpdate = formatTime(timeApi.data.serverTime);
+    const timestamp = timeApi.data.serverTime;
+
+
+    const neworder = await api.newOrder(timestamp, "BUY");
 
     /*
     const carteira = await api.accountSnapshot(timeApi.data.serverTime);
@@ -339,7 +343,7 @@ async function data(request, response){
         dPeriod: 3
     });
 
-    const allOrders = await api.allOrders(timeApi.data.serverTime);
+    //const allOrders = await api.allOrders(timeApi.data.serverTime);
 
     const openOrders = await api.openOrders(timeApi.data.serverTime);
 
@@ -506,7 +510,6 @@ async function data(request, response){
         stoch1w: stochRsi1w[stochRsi1w.length-1],
         stoch1wprev: stochRsi1w[stochRsi1w.length-2],
 
-        allorders: allOrders,
         openorders: openOrders,
         positions: positions
                 
