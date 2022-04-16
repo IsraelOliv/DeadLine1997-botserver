@@ -187,15 +187,13 @@ async function data(request, response){
     const lastUpdate = formatTime(timeApi.data.serverTime);
     const timestamp = timeApi.data.serverTime;
 
-
     //const neworder = await api.newOrder(timestamp, "BUY");
-
     /*
     const carteira = await api.accountSnapshot(timeApi.data.serverTime);
     const coin = carteira.snapshotVos[0].data.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
     console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
-
     const carteira = await api.balance(timeApi.data.serverTime);
+
     //console.log(`TEST:  ${JSON.stringify(carteira.filter(b => b.asset === 'USDT'))}`);
     const coin = carteira.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
     console.log(`TEST:coin:  ${JSON.stringify(coin[0].availableBalance)}`);

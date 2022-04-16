@@ -143,7 +143,7 @@ async function allOrders(timestamp){
     return privateFutCall('/fapi/v1/allOrders',timestamp);
 }
 
-async function newOrder(timestamp, side, type = "TRAILING_STOP_MARKET", priceRate = "0.3"){
+async function newOrder(timestamp, side, type = 'TRAILING_STOP_MARKET', priceRate = '0.3'){
 
     return privateFutCall('/fapi/v1/order',{timestamp, symbol, side, type, priceRate});
 }
