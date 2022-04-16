@@ -148,7 +148,13 @@ async function newOrder(timestamp, side, type = 'TRAILING_STOP_MARKET', priceRat
     return privateFutCall('/fapi/v1/order',{timestamp, symbol, side, type, priceRate});
 }
 
-module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders, newOrder }
+async function income(timestamp){
+
+    return privateFutCall('/fapi/v1/income',timestamp);
+}
+
+
+module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders, newOrder, income }
 
 /*
 

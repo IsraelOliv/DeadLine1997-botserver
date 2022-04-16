@@ -187,6 +187,8 @@ async function data(request, response){
     const lastUpdate = formatTime(timeApi.data.serverTime);
     const timestamp = timeApi.data.serverTime;
 
+    const income = await api.income(timestamp);
+
     //const neworder = await api.newOrder(timestamp, "BUY");
     /*
     const carteira = await api.accountSnapshot(timeApi.data.serverTime);
@@ -509,7 +511,8 @@ async function data(request, response){
         stoch1wprev: stochRsi1w[stochRsi1w.length-2],
 
         openorders: openOrders,
-        positions: positions
+        positions: positions,
+        income: income
                 
     })
 }
