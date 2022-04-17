@@ -535,7 +535,7 @@ function makeMoneyRain(){
         
         set(ref(database, 'rsidata/getsignals/data'), data);
 
-        const order = api.newOrderBuy(timestamp);
+        const order = await api.newOrderBuy(timestamp);
 
         set(ref(database, 'rsidata/makemoney/order'), order);
 
