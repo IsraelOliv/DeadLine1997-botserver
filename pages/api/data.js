@@ -417,7 +417,7 @@ async function data(request, response){
     };
 
 
-    calcSignal(objSendcalc);
+    calcSignals(objSendcalc);
 
     
     writeUserData(objSendcalc);
@@ -530,43 +530,30 @@ async function data(request, response){
 }
 
 
-function calcSignal(objSendcalc) {
+function calcSignals(objSendcalc) {
     
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    const dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif2 = objSendcalc.stoch1mprev.k - objSendcalc.stoch1mprev.d;
-    
-    if (objSendcalc.stoch1m.k > 80 && objSendcalc.stoch1m.d > 80){          // sobrecomprado
-        if(dif > 0){                                                        // subindo
-            if(dif < dif2){                                                 // revertendo para baixo
-                if(dif < 2){
-                    // Pré-venda
-                }                                                 
-            }
-        }
-        if(dif < 0){                                                        // caindo
-            // vender
-        }
-    }
-    if (objSendcalc.stoch1m.k < 20 && objSendcalc.stoch1m.d < 20){          // sobrecomprado
-        if(dif > 0){                                                        // subindo
-            // comprar
-        }
-        if(dif < 0){                                                        // caindo
-            
-            if(dif > dif2){                                                 // revertendo para cima
-                if(dif > -2){
-                    // Pré-compra
-                }                                                 
-            }
-        }
-    }
+    const rsi1mdif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const rsi1mdif2 = objSendcalc.stoch1mprev.k - objSendcalc.stoch1mprev.d;   
+    const sig1m = calcFlag(objSendcalc.stoch1m, rsi1mdif, rsi1mdif2);
 
-    const flag1m = calcFlag(objSendcalc.stoch1m, dif, dif2);
+    set(ref(database, 'rsidata/signals/1m'), sig1m);
 
-    set(ref(database, 'rsidata/signal1m/flag1m'), flag1m);
+    const rsi3mdif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
+    const rsi3mdif2 = objSendcalc.stoch3mprev.k - objSendcalc.stoch3mprev.d;   
+    const sig3m = calcFlag(objSendcalc.stoch3m, rsi3mdif, rsi3mdif2);
+
+    set(ref(database, 'rsidata/signals/3m'), sig3m);
+
+    const rsi5mdif = objSendcalc.stoch5m.k - objSendcalc.stoch5m.d;
+    const rsi5mdif2 = objSendcalc.stoch5mprev.k - objSendcalc.stoch5mprev.d;   
+    const sig5m = calcFlag(objSendcalc.stoch5m, rsi5mdif, rsi5mdif2);
+
+    set(ref(database, 'rsidata/signals/5m'), sig5m);
+
+
 
 }
 
