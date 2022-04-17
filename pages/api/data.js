@@ -416,7 +416,7 @@ async function data(request, response){
 
     calcSignals(objSendcalc);
 
-    makeMoneyRain();
+    await makeMoneyRain();
     
     writeUserData(objSendcalc);
 
