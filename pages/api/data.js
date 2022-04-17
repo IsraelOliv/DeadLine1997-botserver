@@ -533,9 +533,12 @@ async function data(request, response){
 function calcSignal(objSendcalc) {
     
     const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);   
+    const database = getDatabase(app);
+
     const dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
     const dif2 = objSendcalc.stoch1mprev.k - objSendcalc.stoch1mprev.d;
+    
+    const flag1m = 0;
 
 
     if (objSendcalc.stoch1m.k > 80 && objSendcalc.stoch1m.d > 80){          // sobrecomprado
@@ -564,38 +567,40 @@ function calcSignal(objSendcalc) {
         }
     }
 
-    set(ref(database, 'rsidata/signal1m/dif'), dif);
+    flag1m = calcFlag(objSendcalc.stoch1m, dif, dif2);
+
+    set(ref(database, 'rsidata/signal1m/flag1m'), flag1m);
 
 }
 
 function calcFlag(item, dif, dif2){
 
-    const flag = "";
+    let flag = 0;  // 0 = neutro; 1 = comprar; 2 = vender; 3 = Pré-compra; 4 = Pré-venda
 
-    if (item.k > 80 && item.d > 80){          // sobrecomprado
+    if (item.k > 80 && item.d > 80){                                        // sobrecomprado
         if(dif > 0){                                                        // subindo
-            if(dif < dif2){                                                 // revertendo para baixo
+            if(dif < dif2){                                                 // revertendo para baixo ex.: (4 < 5) = true
                 if(dif < 2){
-                    // Pré-venda
+                    flag = 4; // Pré-venda
                 }                                                 
             }
-        }
-        if(dif < 0){                                                        // caindo
-            // vender
+        }else if(dif < 0){                                                  // caindo
+            flag = 2; // vender
         }
     }else
-    if (item.k < 20 && item.d < 20){          // sobrecomprado
+    if (item.k < 20 && item.d < 20){                                        // sobrevendido
         if(dif > 0){                                                        // subindo
-            // comprar
-        }
-        if(dif < 0){                                                        // caindo
+            flag = 1; // comprar
+        }else if(dif < 0){                                                  // caindo
             
-            if(dif > dif2){                                                 // revertendo para cima
+            if(dif > dif2){                                                 // revertendo para cima  ex.: (-4 > -5) = true
                 if(dif > -2){
-                    // Pré-compra
+                    flag = 3; // Pré-compra
                 }                                                 
             }
         }
+    }else{
+        flag = 0; // neutro
     }
 
     return flag;
