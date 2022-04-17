@@ -154,7 +154,7 @@ async function income(timestamp){
 }
 
 
-module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders, newOrder, income }
+module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders, allOrders, newOrder, income }
 
 /*
 
