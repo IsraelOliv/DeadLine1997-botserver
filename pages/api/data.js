@@ -536,7 +536,7 @@ async function makeMoneyRain(timestamp){
         
         set(ref(database, 'rsidata/getsignals/data'), data);
 
-        const order = api.newOrderBuy(timestamp);
+        //const order = api.newOrderBuy(timestamp);
 
         set(ref(database, 'rsidata/getsignals/order'), order);
 
