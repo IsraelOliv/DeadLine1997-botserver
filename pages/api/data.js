@@ -534,19 +534,29 @@ function calcSignal(objSendcalc) {
 
     
     const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-    
-    
-    
+    const database = getDatabase(app);   
     const dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif2 = objSendcalc.stoch1mprev.k - objSendcalc.stoch1mprev.d;
 
-    if (objSendcalc.stoch1m.k > 80 && objSendcalc.stoch1m.d > 80){ //sobrecomprado
 
+    if (objSendcalc.stoch1m.k > 80 && objSendcalc.stoch1m.d > 80){          // sobrecomprado
+        if(dif > 0){                                                        // subindo
+            if(dif < dif2){                                                 // revertendo para baixo
+                if(dif < 2){
+                    // Pré-venda
+                }                                                 
+            }
+        }
+        if(dif < 0){                                                        // caindo
+            // venda
+        }
     }
 
     set(ref(database, 'rsidata/signal1m/dif'), dif);
-    
 
+}
+
+function calcdifkdss(){
 
 }
 
@@ -555,46 +565,9 @@ function writeUserData(objSendcalc) {
 
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
-    //const db = getDatabase();
-    //set(ref(database, 'rsidata/' + userId), {
+
     set(ref(database, 'rsidata/obj'), objSendcalc);
 }
-
-/*
-function criarKlineObj(periodGrph){
-
-    var market = null;
-    var timestamp = [];
-    var date = [];
-    var open = [];
-    var close = [];
-    var high = [];
-    var low = [];
-    var vol = [];
-
-    const item = api.klines(periodGrph);
-
-    for (let i = 0; i < item.data.length-1; i++) {
-        //criarObj(item.data[i]);
-
-        let unix_timestamp = item.data[i][0]
-        var formattedTime = formatTime(unix_timestamp);
-    
-        dateArr.push(formattedTime);
-        timestampArr.push(unix_timestamp);
-        openArr.push(item.data[i][1]);
-        closeArr.push(item.data[i][4]);
-        highArr.push(item.data[i][2]);
-        lowArr.push(item.data[i][3]);
-        volArr.push(item.data[i][5]);
-
-    }
-
-    market = { date: date, timestamp: timestamp, open: open, close: close, high: high, low: low, volume: vol };
-
-    return market;
-}
-*/
 
 function criarObj1m(item){
 
