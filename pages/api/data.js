@@ -572,27 +572,27 @@ function calcSignal(objSendcalc) {
 
 function calcFlag(item, dif, dif2){
 
-    let flag = 0;  // 0 = neutro; 1 = comprar; 2 = vender; 3 = Pré-compra; 4 = Pré-venda
+    let flag = 0;  // 0 = neutro; 1 = Pré-compra; 2 = comprar; -1 = Pré-venda; -2 = vender
 
     if (item.k > 80 && item.d > 80){                                        // sobrecomprado
         if(dif > 0){                                                        // subindo
             if(dif < dif2){                                                 // revertendo para baixo ex.: (4 < 5) = true
                 if(dif < 2){
-                    flag = 4; // Pré-venda
+                    flag = -1; // Pré-venda
                 }                                                 
             }
         }else if(dif < 0){                                                  // caindo
-            flag = 2; // vender
+            flag = -2; // vender
         }
     }else
     if (item.k < 20 && item.d < 20){                                        // sobrevendido
         if(dif > 0){                                                        // subindo
-            flag = 1; // comprar
+            flag = 2; // comprar
         }else if(dif < 0){                                                  // caindo
             
             if(dif > dif2){                                                 // revertendo para cima  ex.: (-4 > -5) = true
                 if(dif > -2){
-                    flag = 3; // Pré-compra
+                    flag = 1; // Pré-compra
                 }                                                 
             }
         }
