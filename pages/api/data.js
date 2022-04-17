@@ -538,9 +538,6 @@ function calcSignal(objSendcalc) {
     const dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
     const dif2 = objSendcalc.stoch1mprev.k - objSendcalc.stoch1mprev.d;
     
-    const flag1m = 0;
-
-
     if (objSendcalc.stoch1m.k > 80 && objSendcalc.stoch1m.d > 80){          // sobrecomprado
         if(dif > 0){                                                        // subindo
             if(dif < dif2){                                                 // revertendo para baixo
@@ -567,7 +564,7 @@ function calcSignal(objSendcalc) {
         }
     }
 
-    flag1m = calcFlag(objSendcalc.stoch1m, dif, dif2);
+    const flag1m = calcFlag(objSendcalc.stoch1m, dif, dif2);
 
     set(ref(database, 'rsidata/signal1m/flag1m'), flag1m);
 
