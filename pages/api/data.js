@@ -416,7 +416,7 @@ async function data(request, response){
 
     calcSignals(objSendcalc);
 
-    await makeMoneyRain();
+    await makeMoneyRain(timestamp);
     
     writeUserData(objSendcalc);
 
@@ -524,13 +524,14 @@ async function data(request, response){
     })
 }
 
-async function makeMoneyRain(){
+async function makeMoneyRain(timestamp){
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
     const dbref = ref(database, 'rsidata/signals');
 
     onValue(dbref, (snapshot) => {
+
         const data = snapshot.val();
         
         set(ref(database, 'rsidata/getsignals/data'), data);
@@ -541,14 +542,7 @@ async function makeMoneyRain(){
 
 
     });
-    
-
-    //get(ref(database, 'rsidata/signals/1m'),);
-
-
 }
-
-
 
 
 function calcSignals(objSendcalc) {
