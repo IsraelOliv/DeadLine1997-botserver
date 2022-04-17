@@ -535,12 +535,13 @@ function getSignals(){
     const database = getDatabase(app);
 
     const dbref = ref(database, 'rsidata/signals');
-
+/*
     onValue(dbref, (snapshot) => {
         const data = snapshot.val();
         
         set(ref(database, 'rsidata/signals/data'), data);
     });
+    */
 
     //get(ref(database, 'rsidata/signals/1m'),);
 
