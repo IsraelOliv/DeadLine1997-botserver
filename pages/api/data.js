@@ -553,7 +553,41 @@ function calcSignals(objSendcalc) {
 
     set(ref(database, 'rsidata/signals/5m'), sig5m);
 
+    const rsi15mdif = objSendcalc.stoch15m.k - objSendcalc.stoch15m.d;
+    const rsi15mdif2 = objSendcalc.stoch15mprev.k - objSendcalc.stoch15mprev.d;   
+    const sig15m = calcFlag(objSendcalc.stoch15m, rsi15mdif, rsi15mdif2);
 
+    set(ref(database, 'rsidata/signals/15m'), sig15m);
+
+    const rsi30mdif = objSendcalc.stoch30m.k - objSendcalc.stoch30m.d;
+    const rsi30mdif2 = objSendcalc.stoch30mprev.k - objSendcalc.stoch30mprev.d;   
+    const sig30m = calcFlag(objSendcalc.stoch30m, rsi30mdif, rsi30mdif2);
+
+    set(ref(database, 'rsidata/signals/30m'), sig30m);
+
+    const rsi1hdif = objSendcalc.stoch1h.k - objSendcalc.stoch1h.d;
+    const rsi1hdif2 = objSendcalc.stoch1hprev.k - objSendcalc.stoch1hprev.d;   
+    const sig1h = calcFlag(objSendcalc.stoch1h, rsi1hdif, rsi1hdif2);
+
+    set(ref(database, 'rsidata/signals/1h'), sig1h);
+
+    const rsi4hdif = objSendcalc.stoch4h.k - objSendcalc.stoch4h.d;
+    const rsi4hdif2 = objSendcalc.stoch4hprev.k - objSendcalc.stoch4hprev.d;   
+    const sig4h = calcFlag(objSendcalc.stoch4h, rsi4hdif, rsi4hdif2);
+
+    set(ref(database, 'rsidata/signals/4h'), sig4h);
+
+    const rsi1ddif = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
+    const rsi1ddif2 = objSendcalc.stoch1dprev.k - objSendcalc.stoch1dprev.d;   
+    const sig1d = calcFlag(objSendcalc.stoch1d, rsi1ddif, rsi1ddif2);
+
+    set(ref(database, 'rsidata/signals/1d'), sig1d);
+
+    const rsi1wdif = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
+    const rsi1wdif2 = objSendcalc.stoch1wprev.k - objSendcalc.stoch1wprev.d;   
+    const sig1w = calcFlag(objSendcalc.stoch1w, rsi1wdif, rsi1wdif2);
+
+    set(ref(database, 'rsidata/signals/1w'), sig1w);
 
 }
 
