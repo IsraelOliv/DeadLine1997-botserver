@@ -537,7 +537,7 @@ function makeMoneyRain(){
 
         const order = api.newOrderBuy(timestamp);
 
-        set(ref(database, 'rsidata/makeMR/order'), order);
+        set(ref(database, 'rsidata/makemoney/order'), order);
 
 
     });
