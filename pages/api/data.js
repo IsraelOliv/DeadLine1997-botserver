@@ -1,7 +1,7 @@
 import api from './api';
 import { stochasticrsi } from 'technicalindicators';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, get } from "firebase/database";
+import { getDatabase, ref, set, get, onValue } from "firebase/database";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCCpzWIhst6gD7GHqLhIe2_N38T6cOwt6M",
@@ -535,13 +535,13 @@ function getSignals(){
     const database = getDatabase(app);
 
     const dbref = ref(database, 'rsidata/signals');
-/*
+
     onValue(dbref, (snapshot) => {
         const data = snapshot.val();
         
         set(ref(database, 'rsidata/signals/data'), data);
     });
-    */
+    
 
     //get(ref(database, 'rsidata/signals/1m'),);
 
