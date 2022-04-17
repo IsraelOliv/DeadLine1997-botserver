@@ -539,7 +539,7 @@ function getSignals(){
     onValue(dbref, (snapshot) => {
         const data = snapshot.val();
         
-        set(ref(database, 'rsidata/signals/data'), data);
+        set(ref(database, 'rsidata/getsignals/data'), data);
     });
     
 
