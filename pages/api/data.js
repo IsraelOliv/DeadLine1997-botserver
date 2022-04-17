@@ -524,7 +524,7 @@ async function data(request, response){
     })
 }
 
-function makeMoneyRain(){
+async function makeMoneyRain(){
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
