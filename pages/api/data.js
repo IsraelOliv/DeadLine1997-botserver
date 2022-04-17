@@ -533,7 +533,7 @@ function makeMoneyRain(){
     onValue(dbref, (snapshot) => {
         const data = snapshot.val();
         
-        //set(ref(database, 'rsidata/getsignals/data'), data);
+        set(ref(database, 'rsidata/getsignals/data'), data);
 
         const order = api.newOrderBuy(timestamp);
 
