@@ -347,7 +347,7 @@ async function data(request, response){
         dPeriod: 3
     });
 
-    //const allOrders = await api.allOrders(timeApi.data.serverTime);
+    const allOrders = await api.allOrders(timeApi.data.serverTime);
 
     const openOrders = await api.openOrders(timeApi.data.serverTime);
 
@@ -516,7 +516,8 @@ async function data(request, response){
 
         openorders: openOrders,
         positions: positions,
-        pnlHist: pnlHist
+        pnlHist: pnlHist,
+        allOrders: allOrders
                 
     })
 }
