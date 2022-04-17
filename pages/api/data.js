@@ -537,6 +537,7 @@ function calcSignal(objSendcalc) {
     const database = getDatabase(app);
     
     
+    /*
     const dif = objSendcalc.k - objSendcalc.d;
 
     if (objSendcalc.k > 80 && objSendcalc.d > 80){ //sobrecomprado
@@ -544,6 +545,7 @@ function calcSignal(objSendcalc) {
     }
 
     set(ref(database, 'rsidata/signal1m/dif'), dif);
+    */
 
 
 }
