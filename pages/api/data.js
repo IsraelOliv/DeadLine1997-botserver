@@ -537,15 +537,15 @@ function calcSignal(objSendcalc) {
     const database = getDatabase(app);
     
     
-    /*
-    const dif = objSendcalc.k - objSendcalc.d;
+    
+    const dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
 
-    if (objSendcalc.k > 80 && objSendcalc.d > 80){ //sobrecomprado
+    if (objSendcalc.stoch1m.k > 80 && objSendcalc.stoch1m.d > 80){ //sobrecomprado
 
     }
 
     set(ref(database, 'rsidata/signal1m/dif'), dif);
-    */
+    
 
 
 }
