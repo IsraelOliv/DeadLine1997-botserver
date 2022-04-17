@@ -211,8 +211,6 @@ async function data(request, response){
     const income = await api.income(timestamp);
     const pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
 
-
-
     //accountFutures
 
     const availableBalance = coin[0].availableBalance;
@@ -229,7 +227,6 @@ async function data(request, response){
     const result4h = await api.klines("4h");
     const result1d = await api.klines("1d");
     const result1w = await api.klines("1w");
-
 
     for (let i = 0; i < result1m.data.length; i++) {
         criarObj1m(result1m.data[i]);
@@ -363,6 +360,9 @@ async function data(request, response){
         dPeriod: 3
     }));
     */
+
+
+
     
     let objSendcalc = {
 
@@ -415,8 +415,15 @@ async function data(request, response){
         positions: positions
 
     };
+
+
+    calcSignal(objSendcalc);
+
     
     writeUserData(objSendcalc);
+
+
+
 
     //console.log(await api.exchangeInfo());
 /*
@@ -522,6 +529,26 @@ async function data(request, response){
     })
 }
 
+
+function calcSignal(objSendcalc) {
+
+    
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    
+    
+    const dif = objSendcalc.k - objSendcalc.d;
+
+    if (objSendcalc.k > 80 && objSendcalc.d > 80){ //sobrecomprado
+
+    }
+
+    set(ref(database, 'rsidata/signal1m/dif'), dif);
+
+
+}
+
+
 function writeUserData(objSendcalc) {
 
     const app = initializeApp(firebaseConfig);
@@ -530,7 +557,6 @@ function writeUserData(objSendcalc) {
     //set(ref(database, 'rsidata/' + userId), {
     set(ref(database, 'rsidata/obj'), objSendcalc);
 }
-
 
 /*
 function criarKlineObj(periodGrph){
