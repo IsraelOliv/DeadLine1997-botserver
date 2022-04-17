@@ -531,7 +531,6 @@ async function data(request, response){
 
 
 function calcSignal(objSendcalc) {
-
     
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);   
@@ -548,7 +547,20 @@ function calcSignal(objSendcalc) {
             }
         }
         if(dif < 0){                                                        // caindo
-            // venda
+            // vender
+        }
+    }
+    if (objSendcalc.stoch1m.k < 20 && objSendcalc.stoch1m.d < 20){          // sobrecomprado
+        if(dif > 0){                                                        // subindo
+            // comprar
+        }
+        if(dif < 0){                                                        // caindo
+            
+            if(dif > dif2){                                                 // revertendo para cima
+                if(dif > -2){
+                    // Pré-compra
+                }                                                 
+            }
         }
     }
 
@@ -556,7 +568,37 @@ function calcSignal(objSendcalc) {
 
 }
 
-function calcdifkdss(){
+function calcFlag(item, dif, dif2){
+
+    const flag = "";
+
+    if (item.k > 80 && item.d > 80){          // sobrecomprado
+        if(dif > 0){                                                        // subindo
+            if(dif < dif2){                                                 // revertendo para baixo
+                if(dif < 2){
+                    // Pré-venda
+                }                                                 
+            }
+        }
+        if(dif < 0){                                                        // caindo
+            // vender
+        }
+    }else
+    if (item.k < 20 && item.d < 20){          // sobrecomprado
+        if(dif > 0){                                                        // subindo
+            // comprar
+        }
+        if(dif < 0){                                                        // caindo
+            
+            if(dif > dif2){                                                 // revertendo para cima
+                if(dif > -2){
+                    // Pré-compra
+                }                                                 
+            }
+        }
+    }
+
+    return flag;
 
 }
 
