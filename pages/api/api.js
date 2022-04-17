@@ -94,6 +94,34 @@ async function privateFutCall(path, timestamp, data = {}, method = 'GET') {
         console.log(err);
     }
 }
+
+async function privateFutCall2(path, timestamp, data = {}, method = 'GET') {
+    if (!apiKey || !apiSecret){
+        throw new Error('Preencha corretamente sua API KEY e SECRET KEY');
+    }
+    //const type = "FUTURES";
+    //const timestamp = (Date.now())-1000;
+    const recvWindow = 60000;//máximo permitido, default 5000
+    
+    const signature = crypto
+        .createHmac('sha256', apiSecret)
+        .update(`${queryString.stringify({ ...data, recvWindow, timestamp })}`)
+        .digest('hex');
+ 
+    const newData = { ...data, recvWindow, timestamp, signature };
+    const qs = `?${queryString.stringify(newData)}`;
+ 
+    try {
+        const result = await axios({
+            method,
+            url: `${apiUrlFut}${path}${qs}`,
+            headers: { 'X-MBX-APIKEY': apiKey }
+        });
+        return result.data;
+    } catch (err) {
+        console.log(err);
+    }
+}
  
 async function time() {
     return publicCall('/api/v3/time');
@@ -143,10 +171,29 @@ async function allOrders(timestamp){
     return privateFutCall('/fapi/v1/allOrders',timestamp);
 }
 
-async function newOrder(timestamp, side, type = 'TRAILING_STOP_MARKET', priceRate = '0.5'){
+/*
+async function newOrder(timestamp, side, type = "TRAILING_STOP_MARKET", quantity = 0.003, callbackRate = 0.3){
 
-    return privateFutCall('/fapi/v1/order',{timestamp, symbol, side, type, priceRate});
+    return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity, callbackRate}, "POST");
 }
+*/
+
+async function newOrderBuy(timestamp){
+    const side = "BUY";
+    const type = "MARKET";
+    const quantity = 0.003;
+
+    return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
+}
+
+async function newOrderSell(timestamp){
+    const side = "SELL";
+    const type = "MARKET";
+    const quantity = 0.003;
+
+    return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
+}
+
 
 async function income(timestamp){
 
@@ -154,7 +201,7 @@ async function income(timestamp){
 }
 
 
-module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders, allOrders, newOrder, income }
+module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders, allOrders, newOrderBuy, newOrderSell, income }
 
 /*
 
