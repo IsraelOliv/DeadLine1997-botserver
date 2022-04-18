@@ -539,14 +539,22 @@ async function makeMoneyRain(timestamp){
         const order = null;
 
         if (data.rsi1m > 0){
-            order = api.newOrderBuy(timestamp);
+            const orderBuy = api.newOrderBuy(timestamp);
+            order = orderBuy;
+
         }else{
-            order = api.newOrderSell(timestamp);
+            const orderSell = api.newOrderSell(timestamp);
+            order = orderSell;
         }
+/*
+        if(orderBuy){
+            order = orderBuy;
+        }else if(orderSell){
+            order = orderSell;
+        }
+        */
             
         set(ref(database, 'rsidata/getsignals/order'), order);
-
-
     });
 }
 
