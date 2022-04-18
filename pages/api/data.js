@@ -549,7 +549,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
             if (data.rsi1m == 2){
 
                 if (position){
-                    api.closeAllOrderSell(timestamp, objSendcalc.tick)
+                    api.closePositionSell(timestamp)
                 } 
 
                 const orderBuy = api.newOrderBuy(timestamp);
@@ -558,7 +558,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
             }else if (data.rsi1m == -2){
 
                 if (position){
-                    api.closeAllOrderBuy(timestamp, objSendcalc.tick)
+                    api.closePositionBuy(timestamp)
                 } 
 
                 const orderSell = api.newOrderSell(timestamp);

@@ -194,20 +194,23 @@ async function newOrderSell(timestamp){
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
 }
 
-async function closeAllOrderBuy(timestamp, stopPrice){
+async function closePositionBuy(timestamp, quantity = 1000){
     const side = "SELL";
-    const type = "STOP_MARKET";
+    const type = "MARKET";
+    //const quantity = 1;
+    const reduceOnly = "true";
 
-    return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, stopPrice}, "POST");
+    return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity, reduceOnly}, "POST");
 }
 
-async function closeAllOrderSell(timestamp, stopPrice){
+async function closePositionSell(timestamp, quantity = 1000){
     const side = "BUY";
-    const type = "STOP_MARKET";
+    const type = "MARKET";
+    //const quantity = 1;
+    const reduceOnly = "true";
 
-    return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, stopPrice}, "POST");
+    return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity, reduceOnly}, "POST");
 }
-
 
 async function income(timestamp){
 
@@ -215,7 +218,7 @@ async function income(timestamp){
 }
 
 
-module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders, allOrders, newOrderBuy, newOrderSell, income, closeAllOrderSell, closeAllOrderBuy }
+module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders, allOrders, newOrderBuy, newOrderSell, closePositionSell, closePositionBuy, income }
 
 /*
 
