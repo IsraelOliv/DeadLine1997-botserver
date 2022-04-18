@@ -528,13 +528,15 @@ async function makeMoneyRain(timestamp){
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    const dbref = ref(database, 'rsidata/signals');
+    //const dbref = ref(database, 'rsidata/signals');
 
 
-    //const dbRef = ref(getDatabase());
+    const dbRef = ref(getDatabase(app));
     //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
+    
+    get(child(dbRef, 'rsidata/signals')).then((snapshot) => {    
 
-    get(child(dbref)).then((snapshot) => {
+    //get(child(dbRef)).then((snapshot) => {
 
         if (snapshot.exists()) {
             //console.log(snapshot.val());
