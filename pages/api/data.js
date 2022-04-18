@@ -530,6 +530,35 @@ async function makeMoneyRain(timestamp){
 
     const dbref = ref(database, 'rsidata/signals');
 
+
+    //const dbRef = ref(getDatabase());
+    get(child(dbref)).then((snapshot) => {
+
+        //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
+        if (snapshot.exists()) {
+            //console.log(snapshot.val());
+            const data = snapshot.val();
+            set(ref(database, 'rsidata/getsignals/data'), data);
+
+            //const order = null;
+
+            if (data.rsi1m == 2){
+                const orderBuy = api.newOrderBuy(timestamp);
+                set(ref(database, 'rsidata/getsignals/order'), orderBuy);
+
+            }else if (data.rsi1m == -2){
+                const orderSell = api.newOrderSell(timestamp);
+                set(ref(database, 'rsidata/getsignals/order'), orderSell);
+            }
+        } else {
+            console.log("No data available");
+        }
+
+    }).catch((error) => {
+        console.error(error);
+    });
+    
+    /*
     onValue(dbref, (snapshot) => {
 
         const data = snapshot.val();
@@ -546,16 +575,17 @@ async function makeMoneyRain(timestamp){
             const orderSell = api.newOrderSell(timestamp);
             set(ref(database, 'rsidata/getsignals/order'), orderSell);
         }
-/*
+        /*
         if(orderBuy){
             order = orderBuy;
         }else if(orderSell){
             order = orderSell;
         }
-        */
+        *
             
         //set(ref(database, 'rsidata/getsignals/order'), order);
     });
+    */
 }
 
 
