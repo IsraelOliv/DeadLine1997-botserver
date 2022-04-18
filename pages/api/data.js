@@ -536,15 +536,15 @@ async function makeMoneyRain(timestamp){
         
         set(ref(database, 'rsidata/getsignals/data'), data);
 
-        const order = null;
+        //const order = null;
 
         if (data.rsi1m > 0){
             const orderBuy = api.newOrderBuy(timestamp);
-            order = orderBuy;
+            set(ref(database, 'rsidata/getsignals/order'), orderBuy);
 
         }else{
             const orderSell = api.newOrderSell(timestamp);
-            order = orderSell;
+            set(ref(database, 'rsidata/getsignals/order'), orderSell);
         }
 /*
         if(orderBuy){
@@ -554,7 +554,7 @@ async function makeMoneyRain(timestamp){
         }
         */
             
-        set(ref(database, 'rsidata/getsignals/order'), order);
+        //set(ref(database, 'rsidata/getsignals/order'), order);
     });
 }
 
