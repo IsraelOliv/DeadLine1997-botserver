@@ -416,7 +416,7 @@ async function data(request, response){
 
     calcSignals(objSendcalc);
 
-    await makeMoneyRain(timestamp);
+    await makeMoneyRain(timestamp, objSendcalc);
     
     writeUserData(objSendcalc);
 
@@ -524,7 +524,7 @@ async function data(request, response){
     })
 }
 
-async function makeMoneyRain(timestamp){
+async function makeMoneyRain(timestamp, objSendcalc){
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
@@ -544,14 +544,26 @@ async function makeMoneyRain(timestamp){
             set(ref(database, 'rsidata/getsignals/data'), data);
 
             //const order = null;
+            const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
 
             if (data.rsi1m == 2){
+
+                if (position){
+                    await api.closeAllOrderSell(timestamp, objSendcalc.tick)
+                } 
+
                 const orderBuy = api.newOrderBuy(timestamp);
-                set(ref(database, 'rsidata/getsignals/order'), orderBuy);
+                set(ref(database, 'rsidata/getsignals/orderBuy'), orderBuy);
 
             }else if (data.rsi1m == -2){
+
+                if (position){
+                    await api.closeAllOrderBuy(timestamp, objSendcalc.tick)
+                } 
+
                 const orderSell = api.newOrderSell(timestamp);
-                set(ref(database, 'rsidata/getsignals/order'), orderSell);
+                set(ref(database, 'rsidata/getsignals/orderSell'), orderSell);
+
             }
         } else {
             console.log("No data available");
