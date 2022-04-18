@@ -1,7 +1,7 @@
 import api from './api';
 import { stochasticrsi } from 'technicalindicators';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, get } from "firebase/database";
+import { getDatabase, ref, set, child, get } from "firebase/database";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCCpzWIhst6gD7GHqLhIe2_N38T6cOwt6M",
