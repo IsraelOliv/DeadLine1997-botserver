@@ -548,7 +548,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
             if (data.rsi1m >= 2 /* && data.rsi3m >= 1 && data.rsi5m >= 2 && data.rsi15m >= 1 && data.rsi15m >= 1 */ ){
 
-                if (position){
+                if (position[0]){
 
                     const flag = {
                         updateTime: position[0].updateTime,
@@ -562,7 +562,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                         api.closePositionSell(timestamp);
                     //}
                 } 
-                if(!position){
+                if(!position[0]){
 
                     const orderBuy = api.newOrderBuy(timestamp);
                     set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
@@ -573,7 +573,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
             }else if (data.rsi1m == -2){
                 
 
-                if (position){
+                if (position[0]){
 
                     const flag = {
                         updateTime: position[0].updateTime,
@@ -587,7 +587,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     //}
                 }
 
-                if(!position){
+                if(!position[0]){
 
                     const orderSell = api.newOrderSell(timestamp);
                     set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
