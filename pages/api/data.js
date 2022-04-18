@@ -538,11 +538,11 @@ async function makeMoneyRain(timestamp){
 
         //const order = null;
 
-        if (data.rsi1m > 0){
+        if (data.rsi1m == 2){
             const orderBuy = api.newOrderBuy(timestamp);
             set(ref(database, 'rsidata/getsignals/order'), orderBuy);
 
-        }else{
+        }else if (data.rsi1m == -2){
             const orderSell = api.newOrderSell(timestamp);
             set(ref(database, 'rsidata/getsignals/order'), orderSell);
         }
