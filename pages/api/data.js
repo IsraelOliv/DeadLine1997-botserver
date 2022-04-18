@@ -549,6 +549,15 @@ async function makeMoneyRain(timestamp, objSendcalc){
             if (data.rsi1m >= 2 /* && data.rsi3m >= 1 && data.rsi5m >= 2 && data.rsi15m >= 1 && data.rsi15m >= 1 */ ){
 
                 if (position){
+
+                    const flag = {
+                        updateTime: position[0].updateTime,
+                        timestamp: timestamp
+                    }
+    
+                    set(ref(database, 'rsidata/signals/flag'), flag);
+
+
                     if((position[0].updateTime + 120000) <= timestamp ){
                         api.closePositionSell(timestamp);
                     }
@@ -562,18 +571,28 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 }
 
             }else if (data.rsi1m == -2){
+                
 
                 if (position){
+
+                    const flag = {
+                        updateTime: position[0].updateTime,
+                        timestamp: timestamp
+                    }
+    
+                    set(ref(database, 'rsidata/signals/flag'), flag);
+
                     if((position[0].updateTime + 120000) <= timestamp ){
                         api.closePositionBuy(timestamp);
                     }
-                } 
+                }
+
                 if(!position){
 
                     const orderSell = api.newOrderSell(timestamp);
                     set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
 
-                    set(ref(database, 'rsidata/signals/flag'), "orderSell");
+                    //set(ref(database, 'rsidata/signals/flag'), "orderSell");
                 }
 
             }
