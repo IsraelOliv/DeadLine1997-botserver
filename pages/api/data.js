@@ -554,7 +554,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     }
                 } 
                 if(!position){
-                    
+
                     const orderBuy = api.newOrderBuy(timestamp);
                     set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
 
@@ -564,7 +564,9 @@ async function makeMoneyRain(timestamp, objSendcalc){
             }else if (data.rsi1m == -2){
 
                 if (position){
-                    api.closePositionBuy(timestamp);
+                    if((position[0].updateTime + 120000) <= timestamp ){
+                        api.closePositionBuy(timestamp);
+                    }
                 } 
                 if(!position){
 
