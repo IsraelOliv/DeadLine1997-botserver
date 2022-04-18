@@ -530,7 +530,7 @@ async function makeMoneyRain(timestamp){
 
     const dbref = ref(database, 'rsidata/signals');
 
-    onValue(dbref, (snapshot) => {
+    /onValue(dbref, (snapshot) => {
 
         const data = snapshot.val();
         
