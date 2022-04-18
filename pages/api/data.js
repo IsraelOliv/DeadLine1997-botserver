@@ -558,9 +558,9 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     set(ref(database, 'rsidata/signals/flag'), flag);
 
 
-                    if((position[0].updateTime + 120000) <= timestamp ){
+                    //if((position[0].updateTime + 120000) <= timestamp ){
                         api.closePositionSell(timestamp);
-                    }
+                    //}
                 } 
                 if(!position){
 
@@ -582,9 +582,9 @@ async function makeMoneyRain(timestamp, objSendcalc){
     
                     set(ref(database, 'rsidata/signals/flag'), flag);
 
-                    if((position[0].updateTime + 120000) <= timestamp ){
+                    //if((position[0].updateTime + 120000) <= timestamp ){
                         api.closePositionBuy(timestamp);
-                    }
+                    //}
                 }
 
                 if(!position){
