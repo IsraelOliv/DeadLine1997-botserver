@@ -546,23 +546,33 @@ async function makeMoneyRain(timestamp, objSendcalc){
             //const order = null;
             const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
 
-            if (data.rsi1m == 2){
+            if (data.rsi1m >= 2 /* && data.rsi3m >= 1 && data.rsi5m >= 2 && data.rsi15m >= 1 && data.rsi15m >= 1 */ ){
 
                 if (position){
-                    api.closePositionSell(timestamp)
+                    if((position[0].updateTime + 120000) <= timestamp ){
+                        api.closePositionSell(timestamp);
+                    }
                 } 
+                if(!position){
+                    
+                    const orderBuy = api.newOrderBuy(timestamp);
+                    set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
 
-                const orderBuy = api.newOrderBuy(timestamp);
-                set(ref(database, 'rsidata/getsignals/orderBuy'), orderBuy);
+                    set(ref(database, 'rsidata/signals/flag'), "orderBuy");
+                }
 
             }else if (data.rsi1m == -2){
 
                 if (position){
-                    api.closePositionBuy(timestamp)
+                    api.closePositionBuy(timestamp);
                 } 
+                if(!position){
 
-                const orderSell = api.newOrderSell(timestamp);
-                set(ref(database, 'rsidata/getsignals/orderSell'), orderSell);
+                    const orderSell = api.newOrderSell(timestamp);
+                    set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
+
+                    set(ref(database, 'rsidata/signals/flag'), "orderSell");
+                }
 
             }
         } else {
