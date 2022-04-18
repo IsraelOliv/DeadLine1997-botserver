@@ -1,7 +1,7 @@
 import api from './api';
 import { stochasticrsi } from 'technicalindicators';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, onValue } from "firebase/database";
+import { getDatabase, ref, set, get } from "firebase/database";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCCpzWIhst6gD7GHqLhIe2_N38T6cOwt6M",
@@ -532,9 +532,10 @@ async function makeMoneyRain(timestamp){
 
 
     //const dbRef = ref(getDatabase());
+    //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
+
     get(child(dbref)).then((snapshot) => {
 
-        //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
         if (snapshot.exists()) {
             //console.log(snapshot.val());
             const data = snapshot.val();
@@ -557,7 +558,7 @@ async function makeMoneyRain(timestamp){
     }).catch((error) => {
         console.error(error);
     });
-    
+
     /*
     onValue(dbref, (snapshot) => {
 
