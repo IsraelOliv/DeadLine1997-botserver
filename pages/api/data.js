@@ -530,7 +530,7 @@ async function makeMoneyRain(timestamp){
 
     const dbref = ref(database, 'rsidata/signals');
 
-    /onValue(dbref, (snapshot) => {
+    onValue(dbref, (snapshot) => {
 
         const data = snapshot.val();
         
@@ -539,11 +539,11 @@ async function makeMoneyRain(timestamp){
         //const order = null;
 
         if (data.rsi1m == 2){
-            const orderBuy = api.newOrderBuy(timestamp);
+            const orderBuy = await api.newOrderBuy(timestamp);
             set(ref(database, 'rsidata/getsignals/order'), orderBuy);
 
         }else if (data.rsi1m == -2){
-            const orderSell = api.newOrderSell(timestamp);
+            const orderSell = await api.newOrderSell(timestamp);
             set(ref(database, 'rsidata/getsignals/order'), orderSell);
         }
 /*
