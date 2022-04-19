@@ -419,8 +419,9 @@ async function data(request, response){
     };
 
     const signals = calcSignals(objSendcalc);
+    objSendcalc.signals = signals;
     const objSend = await makeMoneyRain(timestamp, objSendcalc);
-    objSend.signals = signals;
+    //objSend.signals = signals;
     writeUserData(objSend);
 
     //console.log(await api.exchangeInfo());
