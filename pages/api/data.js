@@ -531,6 +531,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     //const dbref = ref(database, 'rsidata/signals');
     const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
     let dif = null; 
+    let flag = null;
 
 
 
@@ -539,18 +540,26 @@ async function makeMoneyRain(timestamp, objSendcalc){
     get(child(dbRef, 'rsidata/signals/flag')).then((snapshot) => {    
         if (snapshot.exists()) {
             const data = snapshot.val();
-            if (position[0] != null && data.flag == "1mC"){
+            if (data == "1mC"){
                 dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+                flag = data.flag;
+
                 if (dif < 0){
                     api.closePositionBuy(timestamp);
+                    flag = null;
+                    set(ref(database, 'rsidata/signals/flag'), flag);
 
                 }
 
             }
-            if (position[0] != null && data.flag == "1mV"){
+            if (data == "1mV"){
                 dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+                flag = data.flag;
+
                 if (dif > 0){
                     api.closePositionSell(timestamp);
+                    flag = null;
+                    set(ref(database, 'rsidata/signals/flag'), flag);
 
                 }
 
@@ -576,59 +585,28 @@ async function makeMoneyRain(timestamp, objSendcalc){
             set(ref(database, 'rsidata/getsignals/data'), data);
 
             //const order = null;
+            if(flag == null){
+            
+                if (data.rsi1m >= 2 /*&& data.rsi3m >= 1 && data.rsi5m >= 2 && data.rsi15m >= 1 && data.rsi15m >= 1 */ ){
+                    flag = "1mC";
 
-            if (data.rsi1m >= 2 /*&& data.rsi3m >= 1 && data.rsi5m >= 2 && data.rsi15m >= 1 && data.rsi15m >= 1 */ ){
-                const flag = "1mC";
-                if (position[0]){
-
-                    const flagObj = {
-                        updateTime: position[0].updateTime,
-                        timestamp: timestamp,
-                        flag: flag
-                    }
-    
-                    set(ref(database, 'rsidata/signals/flag'), flagObj);
-
-
-                    //if((position[0].updateTime + 120000) <= timestamp ){
-                        //api.closePositionSell(timestamp);
-                    //}
-                } 
-
-                if(!position[0]){
 
                     const orderBuy = api.newOrderBuy(timestamp);
                     set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
 
-                    set(ref(database, 'rsidata/signals/flag'), "orderBuy");
-                }
+                    set(ref(database, 'rsidata/signals/flag'), flag);
 
-            }else if (data.rsi1m == -2){
-                const flag = "1mV";
 
-                if (position[0]){
+                }else if (data.rsi1m == -2){
+                    flag = "1mV";
 
-                    const flagObj = {
-                        updateTime: position[0].updateTime,
-                        timestamp: timestamp,
-                        flag: flag
-                    }
-    
-                    set(ref(database, 'rsidata/signals/flag'), flagObj);
-
-                    //if((position[0].updateTime + 120000) <= timestamp ){
-                        //api.closePositionBuy(timestamp);
-                    //}
-                }
-
-                if(!position[0]){
 
                     const orderSell = api.newOrderSell(timestamp);
                     set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
 
-                    //set(ref(database, 'rsidata/signals/flag'), "orderSell");
-                }
+                    set(ref(database, 'rsidata/signals/flag'), flag);
 
+                }
             }
         } else {
             console.log("No data available");
