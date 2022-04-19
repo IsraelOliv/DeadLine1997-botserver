@@ -529,9 +529,41 @@ async function makeMoneyRain(timestamp, objSendcalc){
     const database = getDatabase(app);
 
     //const dbref = ref(database, 'rsidata/signals');
+    const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
+    let dif = null; 
+
 
 
     const dbRef = ref(getDatabase(app));
+
+    get(child(dbRef, 'rsidata/signals/flag')).then((snapshot) => {    
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            if (position[0] != null && data.flag == "1mC"){
+                dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+                if (dif < 0){
+                    api.closePositionBuy(timestamp);
+
+                }
+
+            }
+            if (position[0] != null && data.flag == "1mV"){
+                dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+                if (dif > 0){
+                    api.closePositionSell(timestamp);
+
+                }
+
+            }
+        } else {
+            console.log("No data available");
+        }
+    }).catch((error) => {
+        console.error(error);
+    })
+
+
+
     //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
     
     get(child(dbRef, 'rsidata/signals')).then((snapshot) => {    
@@ -544,7 +576,6 @@ async function makeMoneyRain(timestamp, objSendcalc){
             set(ref(database, 'rsidata/getsignals/data'), data);
 
             //const order = null;
-            const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
 
             if (data.rsi1m >= 2 /*&& data.rsi3m >= 1 && data.rsi5m >= 2 && data.rsi15m >= 1 && data.rsi15m >= 1 */ ){
                 const flag = "1mC";
@@ -560,9 +591,10 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
 
                     //if((position[0].updateTime + 120000) <= timestamp ){
-                        api.closePositionSell(timestamp);
+                        //api.closePositionSell(timestamp);
                     //}
                 } 
+
                 if(!position[0]){
 
                     const orderBuy = api.newOrderBuy(timestamp);
@@ -585,7 +617,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     set(ref(database, 'rsidata/signals/flag'), flagObj);
 
                     //if((position[0].updateTime + 120000) <= timestamp ){
-                        api.closePositionBuy(timestamp);
+                        //api.closePositionBuy(timestamp);
                     //}
                 }
 
