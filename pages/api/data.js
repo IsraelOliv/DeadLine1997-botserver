@@ -420,7 +420,7 @@ async function data(request, response){
 
     const signals = calcSignals(objSendcalc);
     const objSend = await makeMoneyRain(timestamp, objSendcalc);
-    
+    objSend.signals = signals;
     writeUserData(objSend);
 
     //console.log(await api.exchangeInfo());
