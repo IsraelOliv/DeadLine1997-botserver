@@ -546,16 +546,17 @@ async function makeMoneyRain(timestamp, objSendcalc){
             //const order = null;
             const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
 
-            if (data.rsi1m >= 2 /* && data.rsi3m >= 1 && data.rsi5m >= 2 && data.rsi15m >= 1 && data.rsi15m >= 1 */ ){
-
+            if (data.rsi1m >= 2 /*&& data.rsi3m >= 1 && data.rsi5m >= 2 && data.rsi15m >= 1 && data.rsi15m >= 1 */ ){
+                const flag = "1mC";
                 if (position[0]){
 
-                    const flag = {
+                    const flagObj = {
                         updateTime: position[0].updateTime,
-                        timestamp: timestamp
+                        timestamp: timestamp,
+                        flag: flag
                     }
     
-                    set(ref(database, 'rsidata/signals/flag'), flag);
+                    set(ref(database, 'rsidata/signals/flag'), flagObj);
 
 
                     //if((position[0].updateTime + 120000) <= timestamp ){
@@ -571,16 +572,17 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 }
 
             }else if (data.rsi1m == -2){
-                
+                const flag = "1mV";
 
                 if (position[0]){
 
-                    const flag = {
+                    const flagObj = {
                         updateTime: position[0].updateTime,
-                        timestamp: timestamp
+                        timestamp: timestamp,
+                        flag: flag
                     }
     
-                    set(ref(database, 'rsidata/signals/flag'), flag);
+                    set(ref(database, 'rsidata/signals/flag'), flagObj);
 
                     //if((position[0].updateTime + 120000) <= timestamp ){
                         api.closePositionBuy(timestamp);
