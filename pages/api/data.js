@@ -530,6 +530,7 @@ async function data(request, response){
 async function makeMoneyRain(timestamp, objSendcalc){
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
+    let obj = objSendcalc;
 
     //const dbref = ref(database, 'rsidata/obj/signals');
     const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
@@ -549,7 +550,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif < 0){
                     const result = api.closePositionBuy(timestamp);
                     flag = "";
-                    objSendcalc.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -563,7 +564,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif > 0){
                     const result = api.closePositionSell(timestamp);
                     flag = "";
-                    objSendcalc.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -577,7 +578,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif < 0){
                     const result = api.closePositionBuy(timestamp);
                     flag = "";
-                    objSendcalc.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -591,7 +592,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif > 0){
                     const result = api.closePositionSell(timestamp);
                     flag = "";
-                    objSendcalc.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -625,7 +626,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                     const orderBuy = api.newOrderBuy(timestamp);
                     //set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
-                    objSendcalc.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -635,7 +636,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                     const orderSell = api.newOrderSell(timestamp);
                     //set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
-                    objSendcalc.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -645,7 +646,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                     const orderBuy = api.newOrderBuy(timestamp);
                     //set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
-                    objSendcalc.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -655,7 +656,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                     const orderSell = api.newOrderSell(timestamp);
                     //set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
-                    objSendcalc.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -698,7 +699,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     });
     */
 
-    return objSendcalc;
+    return obj;
 }
 
 
