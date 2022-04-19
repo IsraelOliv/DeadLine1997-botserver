@@ -469,8 +469,9 @@ async function data(request, response){
 */
     response.setHeader('Cache-Control', 's-maxage=3', 'stale-while-revalidate');
 
-    
+    response.json(objSend);
 
+    /*
     response.json({
         //serverTimestamp: dynamicDate,
         //marginBalance: "0.02"
@@ -527,6 +528,7 @@ async function data(request, response){
         //allOrders: allOrders
                 
     })
+    */
 }
 
 async function makeMoneyRain(timestamp, objSendcalc){
