@@ -412,7 +412,9 @@ async function data(request, response){
         stoch1wprev: stochRsi1w[stochRsi1w.length-2],
         
         openorders: openOrders,
-        positions: positions
+        positions: positions,
+        pnlHist: pnlHist
+        //allOrders: allOrders
 
     };
 
@@ -467,77 +469,20 @@ async function data(request, response){
     console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
     //coin:  [{"asset":"USDT","marginBalance":"0.02738226","walletBalance":"0.02738226"}]
 */
+
     response.setHeader('Cache-Control', 's-maxage=3', 'stale-while-revalidate');
 
     response.json(objSend);
-
-    /*
-    response.json({
-        //serverTimestamp: dynamicDate,
-        //marginBalance: "0.02"
-        lastUpdate: lastUpdate,
-        balance: balance,
-        availableBalance: availableBalance,
-        marginBalance: marginBalance,
-        unrealizedProfit: unrealizedProfit,
-        serverTimestamp: timeApi.data.serverTime,
-        tick: marketData1m.close[marketData1m.close.length-1],
-        tickprev: marketData1m.close[marketData1m.close.length-2],
-        //flag: "",
-        //signals: signals,
-
-        lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
-        stoch1m: stochRsi1m[stochRsi1m.length-1],
-        stoch1mprev: stochRsi1m[stochRsi1m.length-2],
-
-        lastUpdtMarket3m: marketData3m.date[marketData3m.date.length-1],
-        stoch3m: stochRsi3m[stochRsi3m.length-1],
-        stoch3mprev: stochRsi3m[stochRsi3m.length-2],
-
-        lastUpdtMarket5m: marketData5m.date[marketData5m.date.length-1],
-        stoch5m: stochRsi5m[stochRsi5m.length-1],
-        stoch5mprev: stochRsi5m[stochRsi5m.length-2],
-
-        lastUpdtMarket15m: marketData15m.date[marketData15m.date.length-1],
-        stoch15m: stochRsi15m[stochRsi15m.length-1],
-        stoch15mprev: stochRsi15m[stochRsi15m.length-2],
-
-        lastUpdtMarket30m: marketData30m.date[marketData30m.date.length-1],
-        stoch30m: stochRsi30m[stochRsi30m.length-1],
-        stoch30mprev: stochRsi30m[stochRsi30m.length-2],
-
-        lastUpdtMarket1h: marketData1h.date[marketData1h.date.length-1],
-        stoch1h: stochRsi1h[stochRsi1h.length-1],
-        stoch1hprev: stochRsi1h[stochRsi1h.length-2],
-
-        lastUpdtMarket4h: marketData4h.date[marketData4h.date.length-1],
-        stoch4h: stochRsi4h[stochRsi4h.length-1],
-        stoch4hprev: stochRsi4h[stochRsi4h.length-2],
-        
-        lastUpdtMarket1d: marketData1d.date[marketData1d.date.length-1],
-        stoch1d: stochRsi1d[stochRsi1d.length-1],
-        stoch1dprev: stochRsi1d[stochRsi1d.length-2],
-
-        lastUpdtMarket1w: marketData1w.date[marketData1w.date.length-1],
-        stoch1w: stochRsi1w[stochRsi1w.length-1],
-        stoch1wprev: stochRsi1w[stochRsi1w.length-2],
-
-        openorders: openOrders,
-        positions: positions,
-        pnlHist: pnlHist,
-        //allOrders: allOrders
-                
-    })
-    */
 }
 
 async function makeMoneyRain(timestamp, objSendcalc){
+
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
     let obj = objSendcalc;
 
     //const dbref = ref(database, 'rsidata/obj/signals');
-    const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
+    //const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
     let dif = null; 
     let flag = "";
 
@@ -611,10 +556,9 @@ async function makeMoneyRain(timestamp, objSendcalc){
     })
 
     //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
-    
+    //get(child(dbRef)).then((snapshot) => {
     get(child(dbRef, 'rsidata/obj/signals')).then((snapshot) => {    
 
-    //get(child(dbRef)).then((snapshot) => {
 
         if (snapshot.exists()) {
             //console.log(snapshot.val());
@@ -669,35 +613,6 @@ async function makeMoneyRain(timestamp, objSendcalc){
     }).catch((error) => {
         console.error(error);
     });
-
-    /*
-    onValue(dbref, (snapshot) => {
-
-        const data = snapshot.val();
-        
-        set(ref(database, 'rsidata/getsignals/data'), data);
-
-        //const order = null;
-
-        if (data.rsi1m == 2){
-            const orderBuy = api.newOrderBuy(timestamp);
-            set(ref(database, 'rsidata/getsignals/order'), orderBuy);
-
-        }else if (data.rsi1m == -2){
-            const orderSell = api.newOrderSell(timestamp);
-            set(ref(database, 'rsidata/getsignals/order'), orderSell);
-        }
-        /*
-        if(orderBuy){
-            order = orderBuy;
-        }else if(orderSell){
-            order = orderSell;
-        }
-        *
-            
-        //set(ref(database, 'rsidata/getsignals/order'), order);
-    });
-    */
 
     return obj;
 }
@@ -776,7 +691,6 @@ function calcSignals(objSendcalc) {
     }
 
     return sig;
-
 }
 
 function calcFlag(item, dif, dif2){
@@ -810,7 +724,6 @@ function calcFlag(item, dif, dif2){
     }
 
     return flag;
-
 }
 
 
