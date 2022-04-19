@@ -489,7 +489,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
     const dbRef = ref(getDatabase(app));
 
-    get(child(dbRef, 'rsidata/obj/signals/flag')).then((snapshot) => {    
+    get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
         if (snapshot.exists()) {
             const data = snapshot.val();
 
@@ -558,13 +558,17 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
     //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
     //get(child(dbRef)).then((snapshot) => {
+        /*
     get(child(dbRef, 'rsidata/obj/signals')).then((snapshot) => {    
 
 
         if (snapshot.exists()) {
-            //console.log(snapshot.val());
-            const data = snapshot.val();
 
+            */
+            //console.log(snapshot.val());
+            //const data = snapshot.val();
+            const data = objSendcalc.signals;
+            
             //set(ref(database, 'rsidata/getsignals/data'), data);
 
             //const order = null;
@@ -574,7 +578,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "1mC";
 
                     const orderBuy = api.newOrderBuy(timestamp);
-                    obj.flag = flag;
+                    //obj.flag = flag;
                     //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -583,7 +587,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "1mV";
 
                     const orderSell = api.newOrderSell(timestamp);
-                    obj.flag = flag;
+                    //obj.flag = flag;
                     //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -592,7 +596,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "5mC";
 
                     const orderBuy = api.newOrderBuy(timestamp);
-                    obj.flag = flag;
+                    //obj.flag = flag;
                     //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -601,12 +605,16 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "5mV";
 
                     const orderSell = api.newOrderSell(timestamp);
-                    obj.flag = flag;
+                    //obj.flag = flag;
                     //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
 
             }
+
+            obj.flag = flag;
+
+            /*
         } else {
             console.log("No data available");
         }
@@ -614,6 +622,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     }).catch((error) => {
         console.error(error);
     });
+    */
 
     return obj;
 }
