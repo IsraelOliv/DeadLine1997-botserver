@@ -545,7 +545,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 flag = data.flag;
 
                 if (dif < 0){
-                    await api.closePositionBuy(timestamp);
+                    const result = api.closePositionBuy(timestamp);
                     flag = "";
                     set(ref(database, 'rsidata/signals/flag'), flag);
 
@@ -557,7 +557,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 flag = data.flag;
 
                 if (dif > 0){
-                    await api.closePositionSell(timestamp);
+                    const result = api.closePositionSell(timestamp);
                     flag = "";
                     set(ref(database, 'rsidata/signals/flag'), flag);
 
