@@ -486,7 +486,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     //const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
     let dif = null; 
     const flag = "";
-
+    obj.flag = "";
     const dbRef = ref(getDatabase(app));
 
     get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
@@ -548,16 +548,15 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 }
 
             }
-            obj.flag = data;
+            
+            obj.flag = flag;
 
         } else {
             console.log("No data available");
         }
     }).catch((error) => {
         console.error(error);
-    })
-
-    
+    })    
 
     //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
     //get(child(dbRef)).then((snapshot) => {
