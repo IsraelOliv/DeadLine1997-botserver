@@ -531,7 +531,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     //const dbref = ref(database, 'rsidata/signals');
     const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
     let dif = null; 
-    let flag = null;
+    let flag = "";
 
 
 
@@ -546,7 +546,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                 if (dif < 0){
                     api.closePositionBuy(timestamp);
-                    flag = null;
+                    flag = "";
                     set(ref(database, 'rsidata/signals/flag'), flag);
 
                 }
@@ -558,7 +558,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                 if (dif > 0){
                     api.closePositionSell(timestamp);
-                    flag = null;
+                    flag = "";
                     set(ref(database, 'rsidata/signals/flag'), flag);
 
                 }
@@ -585,7 +585,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
             set(ref(database, 'rsidata/getsignals/data'), data);
 
             //const order = null;
-            if(flag == null){
+            if(flag == ""){
             
                 if (data.rsi1m >= 2 /*&& data.rsi3m >= 1 && data.rsi5m >= 2 && data.rsi15m >= 1 && data.rsi15m >= 1 */ ){
                     flag = "1mC";
