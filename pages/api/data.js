@@ -564,7 +564,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif > 0){
                     const result = api.closePositionSell(timestamp);
                     flag = "";
-                    //obj.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -578,7 +578,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif < 0){
                     const result = api.closePositionBuy(timestamp);
                     flag = "";
-                    //obj.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -592,7 +592,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif > 0){
                     const result = api.closePositionSell(timestamp);
                     flag = "";
-                    //obj.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -625,7 +625,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "1mC";
 
                     const orderBuy = api.newOrderBuy(timestamp);
-                    //obj.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -634,7 +634,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "1mV";
 
                     const orderSell = api.newOrderSell(timestamp);
-                    //obj.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -643,7 +643,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "5mC";
 
                     const orderBuy = api.newOrderBuy(timestamp);
-                    //obj.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -652,7 +652,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "5mV";
 
                     const orderSell = api.newOrderSell(timestamp);
-                    //obj.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
