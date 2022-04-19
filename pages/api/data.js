@@ -528,14 +528,14 @@ async function makeMoneyRain(timestamp, objSendcalc){
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    //const dbref = ref(database, 'rsidata/signals');
+    //const dbref = ref(database, 'rsidata/obj/signals');
     const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
     let dif = null; 
     let flag = "";
 
     const dbRef = ref(getDatabase(app));
 
-    get(child(dbRef, 'rsidata/signals/flag')).then((snapshot) => {    
+    get(child(dbRef, 'rsidata/obj/signals/flag')).then((snapshot) => {    
         if (snapshot.exists()) {
             const data = snapshot.val();
 
@@ -546,7 +546,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif < 0){
                     const result = api.closePositionBuy(timestamp);
                     flag = "";
-                    set(ref(database, 'rsidata/signals/flag'), flag);
+                    set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
 
@@ -559,7 +559,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif > 0){
                     const result = api.closePositionSell(timestamp);
                     flag = "";
-                    set(ref(database, 'rsidata/signals/flag'), flag);
+                    set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
 
@@ -572,7 +572,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif < 0){
                     const result = api.closePositionBuy(timestamp);
                     flag = "";
-                    set(ref(database, 'rsidata/signals/flag'), flag);
+                    set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
 
@@ -585,7 +585,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif > 0){
                     const result = api.closePositionSell(timestamp);
                     flag = "";
-                    set(ref(database, 'rsidata/signals/flag'), flag);
+                    set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
 
@@ -599,7 +599,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
     //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
     
-    get(child(dbRef, 'rsidata/signals')).then((snapshot) => {    
+    get(child(dbRef, 'rsidata/obj/signals')).then((snapshot) => {    
 
     //get(child(dbRef)).then((snapshot) => {
 
@@ -617,7 +617,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     const orderBuy = api.newOrderBuy(timestamp);
                     set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
 
-                    set(ref(database, 'rsidata/signals/flag'), flag);
+                    set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
 
@@ -627,7 +627,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     const orderSell = api.newOrderSell(timestamp);
                     set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
 
-                    set(ref(database, 'rsidata/signals/flag'), flag);
+                    set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
 
@@ -637,7 +637,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     const orderBuy = api.newOrderBuy(timestamp);
                     set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
 
-                    set(ref(database, 'rsidata/signals/flag'), flag);
+                    set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
 
@@ -647,7 +647,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     const orderSell = api.newOrderSell(timestamp);
                     set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
 
-                    set(ref(database, 'rsidata/signals/flag'), flag);
+                    set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
 
@@ -700,55 +700,55 @@ function calcSignals(objSendcalc) {
     const rsi1mdif2 = objSendcalc.stoch1mprev.k - objSendcalc.stoch1mprev.d;   
     const sig1m = calcFlag(objSendcalc.stoch1m, rsi1mdif, rsi1mdif2);
 
-    set(ref(database, 'rsidata/signals/rsi1m'), sig1m);
+    set(ref(database, 'rsidata/obj/signals/rsi1m'), sig1m);
 
     const rsi3mdif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
     const rsi3mdif2 = objSendcalc.stoch3mprev.k - objSendcalc.stoch3mprev.d;   
     const sig3m = calcFlag(objSendcalc.stoch3m, rsi3mdif, rsi3mdif2);
 
-    set(ref(database, 'rsidata/signals/rsi3m'), sig3m);
+    set(ref(database, 'rsidata/obj/signals/rsi3m'), sig3m);
 
     const rsi5mdif = objSendcalc.stoch5m.k - objSendcalc.stoch5m.d;
     const rsi5mdif2 = objSendcalc.stoch5mprev.k - objSendcalc.stoch5mprev.d;   
     const sig5m = calcFlag(objSendcalc.stoch5m, rsi5mdif, rsi5mdif2);
 
-    set(ref(database, 'rsidata/signals/rsi5m'), sig5m);
+    set(ref(database, 'rsidata/obj/signals/rsi5m'), sig5m);
 
     const rsi15mdif = objSendcalc.stoch15m.k - objSendcalc.stoch15m.d;
     const rsi15mdif2 = objSendcalc.stoch15mprev.k - objSendcalc.stoch15mprev.d;   
     const sig15m = calcFlag(objSendcalc.stoch15m, rsi15mdif, rsi15mdif2);
 
-    set(ref(database, 'rsidata/signals/rsi15m'), sig15m);
+    set(ref(database, 'rsidata/obj/signals/rsi15m'), sig15m);
 
     const rsi30mdif = objSendcalc.stoch30m.k - objSendcalc.stoch30m.d;
     const rsi30mdif2 = objSendcalc.stoch30mprev.k - objSendcalc.stoch30mprev.d;   
     const sig30m = calcFlag(objSendcalc.stoch30m, rsi30mdif, rsi30mdif2);
 
-    set(ref(database, 'rsidata/signals/rsi30m'), sig30m);
+    set(ref(database, 'rsidata/obj/signals/rsi30m'), sig30m);
 
     const rsi1hdif = objSendcalc.stoch1h.k - objSendcalc.stoch1h.d;
     const rsi1hdif2 = objSendcalc.stoch1hprev.k - objSendcalc.stoch1hprev.d;   
     const sig1h = calcFlag(objSendcalc.stoch1h, rsi1hdif, rsi1hdif2);
 
-    set(ref(database, 'rsidata/signals/rsi1h'), sig1h);
+    set(ref(database, 'rsidata/obj/signals/rsi1h'), sig1h);
 
     const rsi4hdif = objSendcalc.stoch4h.k - objSendcalc.stoch4h.d;
     const rsi4hdif2 = objSendcalc.stoch4hprev.k - objSendcalc.stoch4hprev.d;   
     const sig4h = calcFlag(objSendcalc.stoch4h, rsi4hdif, rsi4hdif2);
 
-    set(ref(database, 'rsidata/signals/rsi4h'), sig4h);
+    set(ref(database, 'rsidata/obj/signals/rsi4h'), sig4h);
 
     const rsi1ddif = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const rsi1ddif2 = objSendcalc.stoch1dprev.k - objSendcalc.stoch1dprev.d;   
     const sig1d = calcFlag(objSendcalc.stoch1d, rsi1ddif, rsi1ddif2);
 
-    set(ref(database, 'rsidata/signals/rsi1d'), sig1d);
+    set(ref(database, 'rsidata/obj/signals/rsi1d'), sig1d);
 
     const rsi1wdif = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
     const rsi1wdif2 = objSendcalc.stoch1wprev.k - objSendcalc.stoch1wprev.d;   
     const sig1w = calcFlag(objSendcalc.stoch1w, rsi1wdif, rsi1wdif2);
 
-    set(ref(database, 'rsidata/signals/rsi1w'), sig1w);
+    set(ref(database, 'rsidata/obj/signals/rsi1w'), sig1w);
 
 }
 
