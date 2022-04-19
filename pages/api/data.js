@@ -606,7 +606,8 @@ async function makeMoneyRain(timestamp, objSendcalc){
         if (snapshot.exists()) {
             //console.log(snapshot.val());
             const data = snapshot.val();
-            set(ref(database, 'rsidata/getsignals/data'), data);
+
+            //set(ref(database, 'rsidata/getsignals/data'), data);
 
             //const order = null;
             if(flag == ""){
@@ -615,7 +616,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "1mC";
 
                     const orderBuy = api.newOrderBuy(timestamp);
-                    set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
+                    //set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
 
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
@@ -625,7 +626,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "1mV";
 
                     const orderSell = api.newOrderSell(timestamp);
-                    set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
+                    //set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
 
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
@@ -635,7 +636,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "5mC";
 
                     const orderBuy = api.newOrderBuy(timestamp);
-                    set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
+                    //set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
 
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
@@ -645,7 +646,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "5mV";
 
                     const orderSell = api.newOrderSell(timestamp);
-                    set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
+                    //set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
 
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
