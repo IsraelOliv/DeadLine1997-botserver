@@ -414,7 +414,7 @@ async function data(request, response){
     };
 
 
-    calcSignals(objSendcalc);
+    const signals = calcSignals(objSendcalc);
 
     await makeMoneyRain(timestamp, objSendcalc);
     
@@ -479,6 +479,8 @@ async function data(request, response){
         serverTimestamp: timeApi.data.serverTime,
         tick: marketData1m.close[marketData1m.close.length-1],
         tickprev: marketData1m.close[marketData1m.close.length-2],
+        signals: signals,
+
 
         lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
         stoch1m: stochRsi1m[stochRsi1m.length-1],
@@ -590,6 +592,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 }
 
             }
+
         } else {
             console.log("No data available");
         }
@@ -750,6 +753,21 @@ function calcSignals(objSendcalc) {
     const sig1w = calcFlag(objSendcalc.stoch1w, rsi1wdif, rsi1wdif2);
 
     set(ref(database, 'rsidata/obj/signals/rsi1w'), sig1w);
+
+    const sig = {
+
+        rsi1m: sig1m,
+        rsi3m: sig3m,
+        rsi5m: sig5m,
+        rsi15m: sig15m,
+        rsi30m: sig30m,
+        rsi1h: sig1h,
+        rsi4h: sig4h,
+        rsi1d: sig1d,
+        rsi1w: sig1w        
+    }
+
+    return sig;
 
 }
 
