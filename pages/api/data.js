@@ -699,7 +699,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     });
     */
 
-    return obj;
+    return objSendcalc;
 }
 
 
