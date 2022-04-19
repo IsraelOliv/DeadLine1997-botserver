@@ -487,7 +487,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     let dif = null; 
     let flag = "";
 
-    const dbRef = reeef(getDatabase(app));
+    const dbRef = ref(getDatabase(app));
 
     get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
         if (snapshot.exists()) {
@@ -500,7 +500,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif < 0){
                     const result = api.closePositionBuy(timestamp);
                     flag = "";
-                    obj.flag = flag;
+                    //obj.flag = flag;
                     //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -514,7 +514,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif > 0){
                     const result = api.closePositionSell(timestamp);
                     flag = "";
-                    obj.flag = flag;
+                    //obj.flag = flag;
                     //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -528,7 +528,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif < 0){
                     const result = api.closePositionBuy(timestamp);
                     flag = "";
-                    obj.flag = flag;
+                    //obj.flag = flag;
                     //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -542,12 +542,14 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif > 0){
                     const result = api.closePositionSell(timestamp);
                     flag = "";
-                    obj.flag = flag;
+                    //obj.flag = flag;
                     //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
 
             }
+
+            obj.flag = data;
 
         } else {
             console.log("No data available");
@@ -555,6 +557,8 @@ async function makeMoneyRain(timestamp, objSendcalc){
     }).catch((error) => {
         console.error(error);
     })
+
+    
 
     //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
     //get(child(dbRef)).then((snapshot) => {
@@ -572,7 +576,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
             //set(ref(database, 'rsidata/getsignals/data'), data);
 
             //const order = null;
-            if(flag == ""){
+            if(obj.flag == ""){
             
                 if (data.rsi1m == 2 /* && data.rsi3m >= 1 && data.rsi5m >= 2 && data.rsi15m >= 1 && data.rsi15m >= 1 */ ){
                     flag = "1mC";
