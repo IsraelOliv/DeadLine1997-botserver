@@ -541,7 +541,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
             if (data == "1mC"){
                 dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-                flag = data.flag;
+                flag = data;
 
                 if (dif < 0){
                     const result = api.closePositionBuy(timestamp);
@@ -554,7 +554,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
             if (data == "1mV"){
                 dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-                flag = data.flag;
+                flag = data;
 
                 if (dif > 0){
                     const result = api.closePositionSell(timestamp);
@@ -567,7 +567,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
             if (data == "5mC"){
                 dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
-                flag = data.flag;
+                flag = data;
 
                 if (dif < 0){
                     const result = api.closePositionBuy(timestamp);
@@ -580,7 +580,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
             if (data == "5mV"){
                 dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
-                flag = data.flag;
+                flag = data;
 
                 if (dif > 0){
                     const result = api.closePositionSell(timestamp);
