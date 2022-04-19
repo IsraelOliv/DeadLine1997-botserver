@@ -360,6 +360,8 @@ async function data(request, response){
         dPeriod: 3
     }));
     */
+
+    const signals = calcSignals(objSendcalc);
     
     let objSendcalc = {
 
@@ -371,6 +373,8 @@ async function data(request, response){
         serverTimestamp: timeApi.data.serverTime,
         tick: marketData1m.close[marketData1m.close.length-1],
         tickprev: marketData1m.close[marketData1m.close.length-2],
+        flag: "",
+        signals: signals,
 
         lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
         stoch1m: stochRsi1m[stochRsi1m.length-1],
@@ -413,12 +417,9 @@ async function data(request, response){
 
     };
 
-
-    const signals = calcSignals(objSendcalc);
-
-    await makeMoneyRain(timestamp, objSendcalc);
+    const objSend = await makeMoneyRain(timestamp, objSendcalc);
     
-    writeUserData(objSendcalc);
+    writeUserData(objSend);
 
     //console.log(await api.exchangeInfo());
 /*
@@ -479,8 +480,8 @@ async function data(request, response){
         serverTimestamp: timeApi.data.serverTime,
         tick: marketData1m.close[marketData1m.close.length-1],
         tickprev: marketData1m.close[marketData1m.close.length-2],
+        flag: "",
         signals: signals,
-
 
         lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
         stoch1m: stochRsi1m[stochRsi1m.length-1],
@@ -548,6 +549,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif < 0){
                     const result = api.closePositionBuy(timestamp);
                     flag = "";
+                    objSendcalc.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -561,6 +563,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif > 0){
                     const result = api.closePositionSell(timestamp);
                     flag = "";
+                    objSendcalc.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -574,6 +577,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif < 0){
                     const result = api.closePositionBuy(timestamp);
                     flag = "";
+                    objSendcalc.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -587,6 +591,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif > 0){
                     const result = api.closePositionSell(timestamp);
                     flag = "";
+                    objSendcalc.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -620,7 +625,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                     const orderBuy = api.newOrderBuy(timestamp);
                     //set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
-
+                    objSendcalc.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -630,7 +635,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                     const orderSell = api.newOrderSell(timestamp);
                     //set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
-
+                    objSendcalc.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -640,7 +645,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                     const orderBuy = api.newOrderBuy(timestamp);
                     //set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
-
+                    objSendcalc.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -650,7 +655,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                     const orderSell = api.newOrderSell(timestamp);
                     //set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
-
+                    objSendcalc.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
@@ -692,6 +697,8 @@ async function makeMoneyRain(timestamp, objSendcalc){
         //set(ref(database, 'rsidata/getsignals/order'), order);
     });
     */
+
+    return objSendcalc;
 }
 
 
