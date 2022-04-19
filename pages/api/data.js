@@ -625,7 +625,6 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "1mC";
 
                     const orderBuy = api.newOrderBuy(timestamp);
-                    //set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
                     //obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
@@ -635,7 +634,6 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "1mV";
 
                     const orderSell = api.newOrderSell(timestamp);
-                    //set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
                     //obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
@@ -645,7 +643,6 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "5mC";
 
                     const orderBuy = api.newOrderBuy(timestamp);
-                    //set(ref(database, 'rsidata/getsignals/orderbuy'), orderBuy);
                     //obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
@@ -655,7 +652,6 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = "5mV";
 
                     const orderSell = api.newOrderSell(timestamp);
-                    //set(ref(database, 'rsidata/getsignals/ordersell'), orderSell);
                     //obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
