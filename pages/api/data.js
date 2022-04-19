@@ -485,7 +485,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     //const dbref = ref(database, 'rsidata/obj/signals');
     //const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
     let dif = null; 
-    let flag = "";
+    const flag = "";
 
     const dbRef = ref(getDatabase(app));
 
