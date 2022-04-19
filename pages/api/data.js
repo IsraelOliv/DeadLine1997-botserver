@@ -550,7 +550,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (dif < 0){
                     const result = api.closePositionBuy(timestamp);
                     flag = "";
-                    //obj.flag = flag;
+                    obj.flag = flag;
                     set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
                 }
