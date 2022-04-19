@@ -469,6 +469,8 @@ async function data(request, response){
 */
     response.setHeader('Cache-Control', 's-maxage=3', 'stale-while-revalidate');
 
+    
+
     response.json({
         //serverTimestamp: dynamicDate,
         //marginBalance: "0.02"
