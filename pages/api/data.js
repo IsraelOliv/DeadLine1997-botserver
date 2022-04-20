@@ -858,11 +858,10 @@ function calcSignals(objSendcalc) {
     const sig1w = calcFlag(objSendcalc.stoch1w, rsi1wdif, rsi1wdif2);
 
     //set(ref(database, 'rsidata/obj/signals/rsi1w'), sig1w);
-
+    sig1m = -2;
     const sig = {
 
-        //rsi1m: sig1m,
-        rsi1m: -2,
+        rsi1m: sig1m,
         rsi3m: sig3m,
         rsi5m: sig5m,
         rsi15m: sig15m,
