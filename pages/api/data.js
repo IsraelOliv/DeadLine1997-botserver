@@ -700,51 +700,43 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
 async function calcClosePosition(objSendcalc, flag){
     let dif = 0.0;
-    if (data == "1mC"){
+    if (flag == "1mC"){
         dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-        flag = data;
 
         if (dif < 0){
             const result = await api.closePositionBuy(timestamp);
             flag = "";
             //obj.flag = flag;
-            //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
         }
 
-    }else if (data == "1mV"){
+    }else if (flag == "1mV"){
         dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-        flag = data;
 
         if (dif > 0){
             const result = await api.closePositionSell(timestamp);
             flag = "";
             //obj.flag = flag;
-            //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
         }
 
-    }else if (data == "5mC"){
+    }else if (flag == "5mC"){
         dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
-        flag = data;
 
         if (dif < 0){
             const result = await api.closePositionBuy(timestamp);
             flag = "";
             //obj.flag = flag;
-            //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
         }
 
-    }else if (data == "5mV"){
+    }else if (flag == "5mV"){
         dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
-        flag = data;
 
         if (dif > 0){
             const result = await api.closePositionSell(timestamp);
             flag = "";
             //obj.flag = flag;
-            //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
         }
 
