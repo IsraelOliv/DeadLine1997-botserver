@@ -556,7 +556,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 //const order = null;
                 if(flag == ""){
 
-                    flag = await calcOpenPosition(sig, flag);
+                    flag = calcOpenPosition(sig, flag);
                 
                     /*
                     if (sig.rsi1m == 2){
