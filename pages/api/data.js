@@ -705,7 +705,7 @@ async function calcClosePosition(objSendcalc, flag){
         flag = data;
 
         if (dif < 0){
-            const result = api.closePositionBuy(timestamp);
+            const result = await api.closePositionBuy(timestamp);
             flag = "";
             //obj.flag = flag;
             //set(ref(database, 'rsidata/obj/signals/flag'), flag);
@@ -717,7 +717,7 @@ async function calcClosePosition(objSendcalc, flag){
         flag = data;
 
         if (dif > 0){
-            const result = api.closePositionSell(timestamp);
+            const result = await api.closePositionSell(timestamp);
             flag = "";
             //obj.flag = flag;
             //set(ref(database, 'rsidata/obj/signals/flag'), flag);
@@ -729,7 +729,7 @@ async function calcClosePosition(objSendcalc, flag){
         flag = data;
 
         if (dif < 0){
-            const result = api.closePositionBuy(timestamp);
+            const result = await api.closePositionBuy(timestamp);
             flag = "";
             //obj.flag = flag;
             //set(ref(database, 'rsidata/obj/signals/flag'), flag);
@@ -741,7 +741,7 @@ async function calcClosePosition(objSendcalc, flag){
         flag = data;
 
         if (dif > 0){
-            const result = api.closePositionSell(timestamp);
+            const result = await api.closePositionSell(timestamp);
             flag = "";
             //obj.flag = flag;
             //set(ref(database, 'rsidata/obj/signals/flag'), flag);
