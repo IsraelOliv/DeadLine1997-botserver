@@ -807,7 +807,7 @@ function calcSignals(objSendcalc) {
 
     const rsi1mdif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
     const rsi1mdif2 = objSendcalc.stoch1mprev.k - objSendcalc.stoch1mprev.d;   
-    const sig1m = calcFlag(objSendcalc.stoch1m, rsi1mdif, rsi1mdif2);
+    let sig1m = calcFlag(objSendcalc.stoch1m, rsi1mdif, rsi1mdif2);
 
     //set(ref(database, 'rsidata/obj/signals/rsi1m'), sig1m);
 
