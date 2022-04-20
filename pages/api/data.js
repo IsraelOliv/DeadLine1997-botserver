@@ -372,7 +372,7 @@ async function data(request, response){
         serverTimestamp: timeApi.data.serverTime,
         tick: marketData1m.close[marketData1m.close.length-1],
         tickprev: marketData1m.close[marketData1m.close.length-2],
-        //flag: "",
+        flag: "",
         signals: {},
 
         lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
