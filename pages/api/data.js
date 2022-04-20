@@ -486,6 +486,9 @@ async function makeMoneyRain(timestamp, objSendcalc){
     let dif = null; 
     let flag = "";
     //obj.flag = "";
+
+    const sig = objSendcalc.signals;
+
     const dbRef = ref(getDatabase(app));
 
     //const data = "";
@@ -549,7 +552,6 @@ async function makeMoneyRain(timestamp, objSendcalc){
                
             }else if(data == ""){
                 
-                const sig = objSendcalc.signals;
             
                 //set(ref(database, 'rsidata/getsignals/data'), data);
     
