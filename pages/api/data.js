@@ -489,7 +489,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     //obj.flag = "";
     const dbRef = ref(getDatabase(app));
 
-    get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
+    await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
         if (snapshot.exists()) {
             const data = snapshot.val();
             
