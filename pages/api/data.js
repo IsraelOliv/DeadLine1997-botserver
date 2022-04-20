@@ -692,6 +692,8 @@ async function calcOpenPosition(sig, flag){
         //obj.flag = flag;
         //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
+        return "1mC";
+
     }
 
     if (sig.rsi1m == -2){
@@ -700,6 +702,8 @@ async function calcOpenPosition(sig, flag){
         const orderSell = await api.newOrderSell(timestamp);
         //obj.flag = flag;
         //set(ref(database, 'rsidata/obj/signals/flag'), flag);
+
+        return "1mV";
 
     }
 
@@ -721,7 +725,7 @@ async function calcOpenPosition(sig, flag){
 
     }
 
-    return flag;
+    return "";
 }
 
 
