@@ -508,9 +508,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                     }
 
-                }
-
-                if (data == "1mV"){
+                }else if (data == "1mV"){
                     dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
                     flag = data;
 
@@ -522,9 +520,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                     }
 
-                }
-
-                if (data == "5mC"){
+                }else if (data == "5mC"){
                     dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
                     flag = data;
 
@@ -536,9 +532,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                     }
 
-                }
-
-                if (data == "5mV"){
+                }else if (data == "5mV"){
                     dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
                     flag = data;
 
