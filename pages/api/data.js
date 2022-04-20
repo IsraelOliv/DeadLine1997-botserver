@@ -583,7 +583,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (sig.rsi1m == 2 /* && sig.rsi3m >= 1 && sig.rsi5m >= 2 && sig.rsi15m >= 1 && sig.rsi15m >= 1 */ ){
                     flag = "1mC";
 
-                    const orderBuy = api.newOrderBuy(timestamp);
+                    const orderBuy = await api.newOrderBuy(timestamp);
                     //obj.flag = flag;
                     //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
@@ -592,7 +592,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 if (sig.rsi1m == -2){
                     flag = "1mV";
 
-                    const orderSell = api.newOrderSell(timestamp);
+                    const orderSell = await api.newOrderSell(timestamp);
                     //obj.flag = flag;
                     //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
