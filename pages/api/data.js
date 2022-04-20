@@ -862,7 +862,7 @@ function calcSignals(objSendcalc) {
     const sig = {
 
         //rsi1m: sig1m,
-        rsi1m: "-2",
+        rsi1m: -2,
         rsi3m: sig3m,
         rsi5m: sig5m,
         rsi15m: sig15m,
