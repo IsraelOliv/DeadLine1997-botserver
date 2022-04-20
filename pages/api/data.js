@@ -551,8 +551,9 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
                 }
 
-                obj.flag = flag;
+               
             }
+            //obj.flag = flag;
 
         } else {
             console.log("No data available");
@@ -577,7 +578,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
             //set(ref(database, 'rsidata/getsignals/data'), data);
 
             //const order = null;
-            if(obj.flag == ""){
+            if(flag == ""){
             
                 if (sig.rsi1m == 2 /* && sig.rsi3m >= 1 && sig.rsi5m >= 2 && sig.rsi15m >= 1 && sig.rsi15m >= 1 */ ){
                     flag = "1mC";
