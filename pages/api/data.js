@@ -619,10 +619,10 @@ async function makeMoneyRain(timestamp, objSendcalc){
     })
     
     if(flag != ""){
-        flag = await calcClosePosition(objSendcalc, flag);
+        flag = await calcClosePosition(timestamp, objSendcalc, flag);
     }
     if(flag == ""){
-        flag = await calcOpenPosition(objSendcalc, sig, flag);
+        flag = await calcOpenPosition(timestamp, objSendcalc, sig, flag);
     }
     obj.flag = flag;
 
@@ -698,7 +698,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     return obj;
 }
 
-async function calcClosePosition(objSendcalc, flag){
+async function calcClosePosition(timestamp, objSendcalc, flag){
     let dif = 0.0;
     if (flag == "1mC"){
         dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
@@ -745,7 +745,7 @@ async function calcClosePosition(objSendcalc, flag){
     return flag;
 
 }
-async function calcOpenPosition(objSendcalc, sig, flag){
+async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
 
     const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
 
