@@ -496,8 +496,12 @@ async function makeMoneyRain(timestamp, objSendcalc){
     await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
         if (snapshot.exists()) {
             const data = snapshot.val();
+
+            flag = data;
             
             if(data.exists && data != ""){
+
+                /*
 
                 if (data == "1mC"){
                     dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
@@ -548,6 +552,8 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     }
 
                 }
+
+                */
 
                
             }else if(data == ""){
@@ -610,8 +616,11 @@ async function makeMoneyRain(timestamp, objSendcalc){
         }
     }).catch((error) => {
         console.error(error);
-    })   
-
+    })
+    
+    if(flag != ""){
+        flag = await calcClosePosition(objSendcalc, flag);
+    }else
     if(flag == ""){
         flag = await calcOpenPosition(sig, flag);
     }
@@ -689,6 +698,61 @@ async function makeMoneyRain(timestamp, objSendcalc){
     return obj;
 }
 
+async function calcClosePosition(objSendcalc, flag){
+
+    if (data == "1mC"){
+        dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+        flag = data;
+
+        if (dif < 0){
+            const result = api.closePositionBuy(timestamp);
+            flag = "";
+            //obj.flag = flag;
+            //set(ref(database, 'rsidata/obj/signals/flag'), flag);
+
+        }
+
+    }else if (data == "1mV"){
+        dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+        flag = data;
+
+        if (dif > 0){
+            const result = api.closePositionSell(timestamp);
+            flag = "";
+            //obj.flag = flag;
+            //set(ref(database, 'rsidata/obj/signals/flag'), flag);
+
+        }
+
+    }else if (data == "5mC"){
+        dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
+        flag = data;
+
+        if (dif < 0){
+            const result = api.closePositionBuy(timestamp);
+            flag = "";
+            //obj.flag = flag;
+            //set(ref(database, 'rsidata/obj/signals/flag'), flag);
+
+        }
+
+    }else if (data == "5mV"){
+        dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
+        flag = data;
+
+        if (dif > 0){
+            const result = api.closePositionSell(timestamp);
+            flag = "";
+            //obj.flag = flag;
+            //set(ref(database, 'rsidata/obj/signals/flag'), flag);
+
+        }
+
+    }
+
+    return flag;
+
+}
 async function calcOpenPosition(sig, flag){
 
     if (sig.rsi1m == 2){
