@@ -494,7 +494,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
         if (snapshot.exists()) {
             const data = snapshot.val();
             
-            if(data != ""){
+            if(data.exists && data != ""){
 
                 if (data == "1mC"){
                     dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
