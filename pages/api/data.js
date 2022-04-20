@@ -609,7 +609,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     
                 //obj.flag = flag;
             }
-            obj.flag = flag;
+            //obj.flag = flag;
 
         } else {
             console.log("No data available");
