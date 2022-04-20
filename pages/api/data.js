@@ -499,7 +499,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = data;
 
                     if (dif < 0){
-                        const result = await api.closePositionBuy(timestamp);
+                        const result = api.closePositionBuy(timestamp);
                         flag = "";
                         //obj.flag = flag;
                         //set(ref(database, 'rsidata/obj/signals/flag'), flag);
@@ -513,7 +513,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                     flag = data;
 
                     if (dif > 0){
-                        const result = await api.closePositionSell(timestamp);
+                        const result = api.closePositionSell(timestamp);
                         flag = "";
                         //obj.flag = flag;
                         //set(ref(database, 'rsidata/obj/signals/flag'), flag);
@@ -551,6 +551,55 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 }
 
                
+            }else if(data == ""){
+                
+                const sig = objSendcalc.signals;
+            
+                //set(ref(database, 'rsidata/getsignals/data'), data);
+    
+                //const order = null;
+                if(flag == ""){
+                
+                    if (sig.rsi1m == 2){
+                        flag = "1mC";
+    
+                        const orderBuy = await api.newOrderBuy(timestamp);
+    
+                        //obj.flag = flag;
+                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
+    
+                    }
+    
+                    if (sig.rsi1m == -2){
+                        flag = "1mV";
+    
+                        const orderSell = await api.newOrderSell(timestamp);
+                        //obj.flag = flag;
+                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
+    
+                    }
+    
+                    if (sig.rsi1m == 2 && sig.rsi3m >= 1 && sig.rsi5m == 2 ){
+                        flag = "5mC";
+    
+                        const orderBuy = api.newOrderBuy(timestamp);
+                        //obj.flag = flag;
+                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
+    
+                    }
+    
+                    if (sig.rsi1m == -2 && sig.rsi3m <= -1 && sig.rsi5m == -2){
+                        flag = "5mV";
+    
+                        const orderSell = api.newOrderSell(timestamp);
+                        //obj.flag = flag;
+                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
+    
+                    }
+    
+                }
+    
+                obj.flag = flag;
             }
             //obj.flag = flag;
 
@@ -569,7 +618,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
         if (snapshot.exists()) {
 
-            */
+            *
             //console.log(snapshot.val());
             //const data = snapshot.val();
             const sig = objSendcalc.signals;
