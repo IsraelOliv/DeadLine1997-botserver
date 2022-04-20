@@ -699,7 +699,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 }
 
 async function calcClosePosition(objSendcalc, flag){
-
+    let dif = 0.0;
     if (data == "1mC"){
         dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
         flag = data;
