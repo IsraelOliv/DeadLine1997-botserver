@@ -556,7 +556,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
                 //const order = null;
                 if(flag == ""){
 
-                    flag = calcOpenPosition(sig, flag);
+                    //flag = calcOpenPosition(sig, flag);
                 
                     /*
                     if (sig.rsi1m == 2){
@@ -608,7 +608,12 @@ async function makeMoneyRain(timestamp, objSendcalc){
         }
     }).catch((error) => {
         console.error(error);
-    })    
+    })   
+
+    if(flag == ""){
+        flag = await calcOpenPosition(sig, flag);
+    }
+    obj.flag = flag;
 
     //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
     //get(child(dbRef)).then((snapshot) => {
