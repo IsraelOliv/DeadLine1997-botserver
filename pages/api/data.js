@@ -699,6 +699,11 @@ async function makeMoneyRain(timestamp, objSendcalc){
 }
 
 async function calcClosePosition(timestamp, objSendcalc, flag){
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+
     let dif = 0.0;
     if (flag == "1mC"){
         dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
@@ -706,6 +711,11 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
         if (dif < 0){
             const result = await api.closePositionBuy(timestamp);
             flag = "";
+
+            if (result.orderId){
+                set(ref(database, `rsidata/hist/${result.orderId}`), result);
+
+            }
             //obj.flag = flag;
 
         }
@@ -716,6 +726,12 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
         if (dif > 0){
             const result = await api.closePositionSell(timestamp);
             flag = "";
+
+            if (result.orderId){
+                set(ref(database, `rsidata/hist/${result.orderId}`), result);
+
+            }
+
             //obj.flag = flag;
 
         }
