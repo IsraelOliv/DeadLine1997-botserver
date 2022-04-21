@@ -96,8 +96,6 @@ let lowArr1w = [];
 let volArr1w = [];
 let marketData1w = null;
 
-let openOrders = null;
-
 async function data(request, response){ 
     //const dynamicDate = new Date();
 
@@ -346,7 +344,7 @@ async function data(request, response){
 
     //const allOrders = await api.allOrders(timeApi.data.serverTime);
 
-    const openOrders = await api.openOrders(timeApi.data.serverTime);
+    //const openOrders = await api.openOrders(timeApi.data.serverTime);
 
     /*
     //console.log('SMA: ');
@@ -410,7 +408,7 @@ async function data(request, response){
         stoch1w: stochRsi1w[stochRsi1w.length-1],
         stoch1wprev: stochRsi1w[stochRsi1w.length-2],
         
-        openorders: openOrders,
+        //openorders: openOrders,
         positions: positions,
         pnlHist: pnlHist
         //allOrders: allOrders
@@ -493,127 +491,19 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
     //const data = "";
 
-    await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
+    await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {
+
         if (snapshot.exists()) {
             const data = snapshot.val();
 
             flag = data;
             
-            if(data.exists && data != ""){
-
-                /*
-
-                if (data == "1mC"){
-                    dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-                    flag = data;
-
-                    if (dif < 0){
-                        const result = api.closePositionBuy(timestamp);
-                        flag = "";
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                    }
-
-                }else if (data == "1mV"){
-                    dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-                    flag = data;
-
-                    if (dif > 0){
-                        const result = api.closePositionSell(timestamp);
-                        flag = "";
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                    }
-
-                }else if (data == "5mC"){
-                    dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
-                    flag = data;
-
-                    if (dif < 0){
-                        const result = api.closePositionBuy(timestamp);
-                        flag = "";
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                    }
-
-                }else if (data == "5mV"){
-                    dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
-                    flag = data;
-
-                    if (dif > 0){
-                        const result = api.closePositionSell(timestamp);
-                        flag = "";
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                    }
-
-                }
-
-                */
-
-               
-            }else if(data == ""){
-                
-            
-                //set(ref(database, 'rsidata/getsignals/data'), data);
-    
-                //const order = null;
-                if(flag == ""){
-
-                    //flag = calcOpenPosition(sig, flag);
-                
-                    /*
-                    if (sig.rsi1m == 2){
-                        flag = "1mC";
-    
-                        const orderBuy = api.newOrderBuy(timestamp);
-    
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-    
-                    }
-    
-                    if (sig.rsi1m == -2){
-                        flag = "1mV";
-    
-                        const orderSell = api.newOrderSell(timestamp);
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-    
-                    }
-    
-                    if (sig.rsi1m == 2 && sig.rsi3m >= 1 && sig.rsi5m == 2 ){
-                        flag = "5mC";
-    
-                        const orderBuy = api.newOrderBuy(timestamp);
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-    
-                    }
-    
-                    if (sig.rsi1m == -2 && sig.rsi3m <= -1 && sig.rsi5m == -2){
-                        flag = "5mV";
-    
-                        const orderSell = api.newOrderSell(timestamp);
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-    
-                    }
-                    */
-    
-                }
-    
-                //obj.flag = flag;
-            }
-            //obj.flag = flag;
 
         } else {
             console.log("No data available");
         }
+
+
     }).catch((error) => {
         console.error(error);
     })
@@ -844,6 +734,8 @@ function createHistObj(result, objSendcalc, position, flag){
         entryPrice: position[0].updateTime,
         closePrice: objSendcalc.tick,
         isolatedMargin: position[0].isolatedWallet,
+        highPnl: position[0].unrealizedProfit,
+        lowPnl: position[0].unrealizedProfit,
         realizedPnl: position[0].unrealizedProfit,
         flag: flag
 
@@ -852,7 +744,6 @@ function createHistObj(result, objSendcalc, position, flag){
     return histObj;
 
 }
-
 
 function calcSignals(objSendcalc) {
     
@@ -933,7 +824,7 @@ function calcFlag(item, dif, dif2){
 
     let flag = 0;  // 0 = neutro; 1 = Pré-compra; 2 = comprar; -1 = Pré-venda; -2 = vender
 
-    if (item.k > 70 && item.d > 70){                                        // sobrecomprado
+    if (item.k >= 70 && item.d >= 70){                                        // sobrecomprado
         if(dif > 0){                                                        // subindo
             if(dif < dif2){                                                 // revertendo para baixo ex.: (4 < 5) = true
                 if(dif < 2){
@@ -944,7 +835,7 @@ function calcFlag(item, dif, dif2){
             flag = -2; // vender
         }
     }else
-    if (item.k < 30 && item.d < 30){                                        // sobrevendido
+    if (item.k <= 30 && item.d <= 30){                                        // sobrevendido
         if(dif > 0){                                                        // subindo
             flag = 2; // comprar
         }else if(dif < 0){                                                  // caindo
@@ -961,7 +852,6 @@ function calcFlag(item, dif, dif2){
 
     return flag;
 }
-
 
 function writeUserData(objSendcalc) {
 
