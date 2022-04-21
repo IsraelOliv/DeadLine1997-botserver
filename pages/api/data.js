@@ -709,7 +709,7 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
 
     if (!position){
         flag = "";
-        set(ref(database, `rsidata/obj/flag`), flag);
+        await set(ref(database, `rsidata/obj/flag`), flag);
     }
 
     if (flag == "1mC"){
@@ -722,7 +722,7 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
             if (result.orderId){
 
                 const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+                await set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
                 flag = "";
             }
             //obj.flag = flag;
