@@ -728,7 +728,6 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
 
         if (dif > 0){
             const result = await api.closePositionSell(timestamp);
-            flag = "";
 
             if (result.orderId){
                 const histOrd = createHistObj(result, objSendcalc, position, flag);
@@ -745,7 +744,6 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
 
         if (dif < 0){
             const result = await api.closePositionBuy(timestamp);
-            flag = "";
 
             if (result.orderId){
                 const histOrd = createHistObj(result, objSendcalc, position, flag);
@@ -762,7 +760,6 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
 
         if (dif > 0){
             const result = await api.closePositionSell(timestamp);
-            flag = "";
 
             if (result.orderId){
                 const histOrd = createHistObj(result, objSendcalc, position, flag);
