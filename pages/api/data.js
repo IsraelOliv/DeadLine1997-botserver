@@ -729,7 +729,6 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
 
             if (result.orderId){
                 set(ref(database, `rsidata/hist/${result.orderId}`), result);
-
             }
 
             //obj.flag = flag;
@@ -742,6 +741,11 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
         if (dif < 0){
             const result = await api.closePositionBuy(timestamp);
             flag = "";
+
+            if (result.orderId){
+                set(ref(database, `rsidata/hist/${result.orderId}`), result);
+            }
+
             //obj.flag = flag;
 
         }
@@ -752,6 +756,11 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
         if (dif > 0){
             const result = await api.closePositionSell(timestamp);
             flag = "";
+
+            if (result.orderId){
+                set(ref(database, `rsidata/hist/${result.orderId}`), result);
+            }
+
             //obj.flag = flag;
 
         }
