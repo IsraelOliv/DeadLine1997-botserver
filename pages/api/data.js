@@ -706,6 +706,12 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
     const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
 
     let dif = 0.0;
+
+    if (!position){
+        flag = "";
+        set(ref(database, `rsidata/obj/flag`), flag);
+    }
+
     if (flag == "1mC"){
         dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
 
