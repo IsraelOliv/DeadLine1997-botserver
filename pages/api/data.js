@@ -96,8 +96,6 @@ let lowArr1w = [];
 let volArr1w = [];
 let marketData1w = null;
 
-let openOrders = null;
-
 async function data(request, response){ 
     //const dynamicDate = new Date();
 
@@ -346,7 +344,7 @@ async function data(request, response){
 
     //const allOrders = await api.allOrders(timeApi.data.serverTime);
 
-    const openOrders = await api.openOrders(timeApi.data.serverTime);
+    //const openOrders = await api.openOrders(timeApi.data.serverTime);
 
     /*
     //console.log('SMA: ');
@@ -410,7 +408,7 @@ async function data(request, response){
         stoch1w: stochRsi1w[stochRsi1w.length-1],
         stoch1wprev: stochRsi1w[stochRsi1w.length-2],
         
-        openorders: openOrders,
+        //openorders: openOrders,
         positions: positions,
         pnlHist: pnlHist
         //allOrders: allOrders
@@ -935,7 +933,7 @@ function calcFlag(item, dif, dif2){
 
     let flag = 0;  // 0 = neutro; 1 = Pré-compra; 2 = comprar; -1 = Pré-venda; -2 = vender
 
-    if (item.k > 70 && item.d > 70){                                        // sobrecomprado
+    if (item.k >= 70 && item.d >= 70){                                        // sobrecomprado
         if(dif > 0){                                                        // subindo
             if(dif < dif2){                                                 // revertendo para baixo ex.: (4 < 5) = true
                 if(dif < 2){
@@ -946,7 +944,7 @@ function calcFlag(item, dif, dif2){
             flag = -2; // vender
         }
     }else
-    if (item.k < 30 && item.d < 30){                                        // sobrevendido
+    if (item.k <= 30 && item.d <= 30){                                        // sobrevendido
         if(dif > 0){                                                        // subindo
             flag = 2; // comprar
         }else if(dif < 0){                                                  // caindo
