@@ -491,127 +491,19 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
     //const data = "";
 
-    await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
+    await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {
+
         if (snapshot.exists()) {
             const data = snapshot.val();
 
             flag = data;
             
-            if(data.exists && data != ""){
-
-                /*
-
-                if (data == "1mC"){
-                    dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-                    flag = data;
-
-                    if (dif < 0){
-                        const result = api.closePositionBuy(timestamp);
-                        flag = "";
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                    }
-
-                }else if (data == "1mV"){
-                    dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-                    flag = data;
-
-                    if (dif > 0){
-                        const result = api.closePositionSell(timestamp);
-                        flag = "";
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                    }
-
-                }else if (data == "5mC"){
-                    dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
-                    flag = data;
-
-                    if (dif < 0){
-                        const result = api.closePositionBuy(timestamp);
-                        flag = "";
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                    }
-
-                }else if (data == "5mV"){
-                    dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
-                    flag = data;
-
-                    if (dif > 0){
-                        const result = api.closePositionSell(timestamp);
-                        flag = "";
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                    }
-
-                }
-
-                */
-
-               
-            }else if(data == ""){
-                
-            
-                //set(ref(database, 'rsidata/getsignals/data'), data);
-    
-                //const order = null;
-                if(flag == ""){
-
-                    //flag = calcOpenPosition(sig, flag);
-                
-                    /*
-                    if (sig.rsi1m == 2){
-                        flag = "1mC";
-    
-                        const orderBuy = api.newOrderBuy(timestamp);
-    
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-    
-                    }
-    
-                    if (sig.rsi1m == -2){
-                        flag = "1mV";
-    
-                        const orderSell = api.newOrderSell(timestamp);
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-    
-                    }
-    
-                    if (sig.rsi1m == 2 && sig.rsi3m >= 1 && sig.rsi5m == 2 ){
-                        flag = "5mC";
-    
-                        const orderBuy = api.newOrderBuy(timestamp);
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-    
-                    }
-    
-                    if (sig.rsi1m == -2 && sig.rsi3m <= -1 && sig.rsi5m == -2){
-                        flag = "5mV";
-    
-                        const orderSell = api.newOrderSell(timestamp);
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-    
-                    }
-                    */
-    
-                }
-    
-                //obj.flag = flag;
-            }
-            //obj.flag = flag;
 
         } else {
             console.log("No data available");
         }
+
+
     }).catch((error) => {
         console.error(error);
     })
@@ -853,7 +745,6 @@ function createHistObj(result, objSendcalc, position, flag){
 
 }
 
-
 function calcSignals(objSendcalc) {
     
     const app = initializeApp(firebaseConfig);
@@ -961,7 +852,6 @@ function calcFlag(item, dif, dif2){
 
     return flag;
 }
-
 
 function writeUserData(objSendcalc) {
 
