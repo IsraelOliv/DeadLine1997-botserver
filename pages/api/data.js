@@ -621,9 +621,9 @@ async function makeMoneyRain(timestamp, objSendcalc){
     if(flag != ""){
         flag = await calcClosePosition(timestamp, objSendcalc, sig, flag);
     }
-    if(flag == ""){
+    //if(flag == ""){
         flag = await calcOpenPosition(timestamp, objSendcalc, sig, flag);
-    }
+    //}
     obj.flag = flag;
 
     //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
