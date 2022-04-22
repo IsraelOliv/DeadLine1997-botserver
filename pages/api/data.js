@@ -98,7 +98,7 @@ let marketData1w = null;
 
 let openOrders = null;
 
-let flag = "";
+var flag = "";
 
 async function data(request, response){ 
     //const dynamicDate = new Date();
