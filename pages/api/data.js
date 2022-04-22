@@ -608,7 +608,7 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
 
     const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
 
-    let dif = 0.0;
+    var dif = 0.0;
 
     if (position == null || position == ""){
         flag = "";
@@ -621,7 +621,7 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
 
 
         //if (dif1m < 0 && objSendcalc.stoch3m.k >= 70){
-        if (dif < 0){
+        if (dif1m < 0){
 
             const result = await api.closePositionBuy(timestamp);            
 
@@ -667,7 +667,6 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
         }
 
     }else if (flag == "5mV"){
-        dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
 
         if (objSendcalc.stoch5m.k <= 30 && objSendcalc.stoch3m.k <= 30 && dif3m > 0 && objSendcalc.stoch1m.k < 50 && dif1m > 0){
             const result = await api.closePositionSell(timestamp);
@@ -698,7 +697,6 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
         }
 
     }else if (flag == "15mV"){
-        dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
 
         if (sig.rsi5m == 2 && objSendcalc.stoch15m.k <= 30 && sig.rsi15m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0){
             const result = await api.closePositionSell(timestamp);
@@ -729,7 +727,6 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
         }
 
     }else if (flag == "1hV"){
-        dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
 
         if (sig.rsi5m == 2 && sig.rsi15m >= 1 && sig.rsi30m >= 1 && objSendcalc.stoch1h.k > 70){
             const result = await api.closePositionSell(timestamp);
