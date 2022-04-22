@@ -98,6 +98,8 @@ let marketData1w = null;
 
 let openOrders = null;
 
+let flag = "";
+
 async function data(request, response){ 
     //const dynamicDate = new Date();
 
@@ -186,7 +188,6 @@ async function data(request, response){
     console.log(`serverTime: ${timeApi.data.serverTime}`);
     const lastUpdate = formatTime(timeApi.data.serverTime);
     const timestamp = timeApi.data.serverTime;
-
 
     //const neworder = await api.newOrder(timestamp, "BUY");
     /*
@@ -483,7 +484,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
     //const dbref = ref(database, 'rsidata/obj/signals');
     //const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
-    var flag = "";
+    //var flag = "";
     //obj.flag = "";
 
     const sig = objSendcalc.signals;
@@ -497,12 +498,11 @@ async function makeMoneyRain(timestamp, objSendcalc){
     await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
         if (snapshot.exists()) {
             const data = snapshot.val();
-
             
             if(data.exists && data != ""){
-                flag = data;
-               
+                flag = data;               
             }
+
         } else {
             console.log("No data available");
         }
@@ -511,10 +511,10 @@ async function makeMoneyRain(timestamp, objSendcalc){
     })
     
     if(flag != ""){
-        flag = await calcClosePosition(timestamp, objSendcalc, sig, flag);
+        await calcClosePosition(timestamp, objSendcalc, sig, flag);
     }
     if(flag == ""){
-        flag = await calcOpenPosition(timestamp, objSendcalc, sig, flag);
+        await calcOpenPosition(timestamp, objSendcalc, sig, flag);
     }
     obj.flag = flag;
 
@@ -590,7 +590,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     return obj;
 }
 
-async function calcClosePosition(timestamp, objSendcalc, sig, flag){
+async function calcClosePosition(timestamp, objSendcalc, sig){
 
     const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
     const dif3m = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
@@ -608,17 +608,17 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
     const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
     set(ref(database, 'rsidata/log/position'), position);
 
-    var flagClose = flag;
+    //var flagClose = flag;
 
-    if (position == null && flagClose != ""){
-        flagClose = "";
-        set(ref(database, `rsidata/obj/flag`), flagClose);
+    if (position == null && flag != ""){
+        flag = "";
+        set(ref(database, `rsidata/obj/flag`), flag);
         
-        return flagClose;
+        //return flagClose;
         //return "";
     }
 
-    if (flagClose == "1mC"){
+    if (flag == "1mC"){
 
 
         //if (dif1m < 0 && objSendcalc.stoch3m.k >= 70){
@@ -631,11 +631,11 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
 
             if (result.orderId){
 
-                const histOrd = createHistObj(result, objSendcalc, position, flagClose);
+                const histOrd = createHistObj(result, objSendcalc, position, flag);
                 set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-                flagClose = "";
+                flag = "";
 
-                return flagClose;
+                //return flag;
 
             }
             //obj.flag = flag;
@@ -653,9 +653,9 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
             if (result.orderId){
                 const histOrd = createHistObj(result, objSendcalc, position, flag);
                 set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-                flagClose = "";
+                flag = "";
 
-                return flagClose;
+                //return flag;
 
             }
 
@@ -760,13 +760,13 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
     */
     
 
-    return flagClose;
+    //return flagClose;
 
 }
 
-async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
+async function calcOpenPosition(timestamp, objSendcalc, sig){
 
-    var flagOpen = flag;
+    //var flagOpen = flag;
 
     const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
     const dif3m = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
@@ -788,12 +788,12 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
 
 
         if(orderBuy.orderId){
-            flagOpen = "1mC";        
+            flag = "1mC";        
 
             //obj.flag = flag;
-            set(ref(database, 'rsidata/obj/signals/flag'), flagOpen);
-            return flagOpen;
-            
+            set(ref(database, 'rsidata/obj/signals/flag'), flag);
+            //return flagOpen;
+
         }
 
     }
@@ -806,10 +806,10 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
 
 
         if(orderSell.orderId){
-            flagOpen = "1mV";
+            flag = "1mV";
         
             set(ref(database, 'rsidata/obj/signals/flag'), flag);
-            return flagOpen;
+            //return flagOpen;
         
         }
 
@@ -905,7 +905,7 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
 
     */
 
-    return flagOpen;
+    //return flagOpen;
 }
 
 function createHistObj(result, objSendcalc, position, flag){
@@ -929,7 +929,6 @@ function createHistObj(result, objSendcalc, position, flag){
     return histObj;
 
 }
-
 
 function calcSignals(objSendcalc) {
     
@@ -1038,7 +1037,6 @@ function calcFlag(item, dif, dif2){
 
     return flag;
 }
-
 
 function writeUserData(objSendcalc) {
 
