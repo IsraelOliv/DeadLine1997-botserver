@@ -608,12 +608,12 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
     const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
     set(ref(database, 'rsidata/log/position'), position);
 
-    var flagClose = flag;
+    //var flagClose = flag;
 
     if (position == null && flagClose != ""){
         flagClose = "";
         set(ref(database, `rsidata/obj/flag`), flagClose);
-        return flagClose
+        return flagClose;
     }
 
     if (flagClose == "1mC"){
