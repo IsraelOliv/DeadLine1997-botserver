@@ -707,7 +707,7 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
 
     let dif = 0.0;
 
-    if (!position){
+    if (position == null || position == ""){
         flag = "";
         set(ref(database, `rsidata/obj/flag`), flag);
     }
