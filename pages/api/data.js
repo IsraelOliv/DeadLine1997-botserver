@@ -419,8 +419,10 @@ async function data(request, response){
 
     const signals = calcSignals(objSendcalc);
     objSendcalc.signals = signals;
- //////////////////const objSend = await makeMoneyRain(timestamp, objSendcalc);
+
+    const objSend = await makeMoneyRain(timestamp, objSendcalc);
     //objSend.signals = signals;
+
     writeUserData(objSend);
 
     //console.log(await api.exchangeInfo());
@@ -599,8 +601,6 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
     const dif4h = objSendcalc.stoch4h.k - objSendcalc.stoch4h.d;
     const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
-   
-
 
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
@@ -610,7 +610,7 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
 
     var flagClose = flag;
 
-    if (position == null || position == ""){
+    if (position == null && flagClose != ""){
         flagClose = "";
         set(ref(database, `rsidata/obj/flag`), flagClose);
         return flagClose
