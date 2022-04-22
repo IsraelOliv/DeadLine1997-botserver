@@ -861,7 +861,7 @@ function createHistObj(result, objSendcalc, position, flag){
     const histObj = {
 
         orderId: result.orderId,
-        firstUpdate: objSendcalc.serverTimestamp,
+        firstUpdate: position.updateTime,
         lastUpdate: objSendcalc.serverTimestamp,
         symbol: position[0].symbol,
         entryPrice: position[0].entryPrice,
