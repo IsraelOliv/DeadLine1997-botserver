@@ -809,6 +809,7 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
 
     }
 
+    /*
 
     if (sig.rsi3m >= 1 && sig.rsi5m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0 && (flag == "" || flag == "1mC")){
         flag = "5mC";
@@ -890,6 +891,8 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
         return "1hV";
 
     }
+
+    */
 
     return flagOpen;
 }
