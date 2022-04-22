@@ -477,18 +477,18 @@ async function data(request, response){
 
 async function makeMoneyRain(timestamp, objSendcalc){
 
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
     let obj = objSendcalc;
 
     //const dbref = ref(database, 'rsidata/obj/signals');
     //const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
     let dif = null; 
-    let flag = "";
+    const flag = "";
     //obj.flag = "";
 
     const sig = objSendcalc.signals;
 
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
     const dbRef = ref(getDatabase(app));
 
     //const data = "";
@@ -497,120 +497,11 @@ async function makeMoneyRain(timestamp, objSendcalc){
         if (snapshot.exists()) {
             const data = snapshot.val();
 
-            flag = data;
             
             if(data.exists && data != ""){
-
-                /*
-
-                if (data == "1mC"){
-                    dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-                    flag = data;
-
-                    if (dif < 0){
-                        const result = api.closePositionBuy(timestamp);
-                        flag = "";
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                    }
-
-                }else if (data == "1mV"){
-                    dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-                    flag = data;
-
-                    if (dif > 0){
-                        const result = api.closePositionSell(timestamp);
-                        flag = "";
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                    }
-
-                }else if (data == "5mC"){
-                    dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
-                    flag = data;
-
-                    if (dif < 0){
-                        const result = api.closePositionBuy(timestamp);
-                        flag = "";
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                    }
-
-                }else if (data == "5mV"){
-                    dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
-                    flag = data;
-
-                    if (dif > 0){
-                        const result = api.closePositionSell(timestamp);
-                        flag = "";
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                    }
-
-                }
-
-                */
-
+                flag = data;
                
-            }else if(data == ""){
-                
-            
-                //set(ref(database, 'rsidata/getsignals/data'), data);
-    
-                //const order = null;
-                if(flag == ""){
-
-                    //flag = calcOpenPosition(sig, flag);
-                
-                    /*
-                    if (sig.rsi1m == 2){
-                        flag = "1mC";
-    
-                        const orderBuy = api.newOrderBuy(timestamp);
-    
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-    
-                    }
-    
-                    if (sig.rsi1m == -2){
-                        flag = "1mV";
-    
-                        const orderSell = api.newOrderSell(timestamp);
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-    
-                    }
-    
-                    if (sig.rsi1m == 2 && sig.rsi3m >= 1 && sig.rsi5m == 2 ){
-                        flag = "5mC";
-    
-                        const orderBuy = api.newOrderBuy(timestamp);
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-    
-                    }
-    
-                    if (sig.rsi1m == -2 && sig.rsi3m <= -1 && sig.rsi5m == -2){
-                        flag = "5mV";
-    
-                        const orderSell = api.newOrderSell(timestamp);
-                        //obj.flag = flag;
-                        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-    
-                    }
-                    */
-    
-                }
-    
-                //obj.flag = flag;
             }
-            //obj.flag = flag;
-
         } else {
             console.log("No data available");
         }
@@ -727,9 +618,10 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
 
 
     if (flag == "1mC"){
-        dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
 
-        if (dif < 0 && objSendcalc.stoch3m.k >= 70){
+
+        //if (dif1m < 0 && objSendcalc.stoch3m.k >= 70){
+        if (dif < 0){
 
             const result = await api.closePositionBuy(timestamp);            
 
@@ -744,9 +636,9 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
         }
 
     }else if (flag == "1mV"){
-        dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
 
-        if (dif > 0 && objSendcalc.stoch3m.k <= 30){
+        //if (dif > 0 && objSendcalc.stoch3m.k <= 30){
+        if (dif1m > 0){
             const result = await api.closePositionSell(timestamp);
 
             if (result.orderId){
@@ -870,8 +762,10 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
     const dif4h = objSendcalc.stoch4h.k - objSendcalc.stoch4h.d;
     const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
-   
-    if (sig.rsi1m == 2 && sig.rsi3m >= 1 && flag == ""){
+
+
+    //if (sig.rsi1m == 2 && sig.rsi3m >= 1 && flag == ""){
+    if (sig.rsi1m == 2){
         flag = "1mC";
 
         const orderBuy = await api.newOrderBuy(timestamp);
@@ -883,7 +777,8 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
 
     }
 
-    if (sig.rsi1m == -2 && sig.rsi3m <= -1 && flag == ""){
+    //if (sig.rsi1m == -2 && sig.rsi3m <= -1 && flag == ""){
+    if (sig.rsi1m == -2){
         flag = "1mV";
 
         const orderSell = await api.newOrderSell(timestamp);
