@@ -700,6 +700,18 @@ async function makeMoneyRain(timestamp, objSendcalc){
 
 async function calcClosePosition(timestamp, objSendcalc, flag){
 
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif3m = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
+    const dif5m = objSendcalc.stoch5m.k - objSendcalc.stoch5m.d;
+    const dif15m = objSendcalc.stoch15m.k - objSendcalc.stoch15m.d;
+    const dif30m = objSendcalc.stoch30m.k - objSendcalc.stoch30m.d;
+    const dif1h = objSendcalc.stoch1h.k - objSendcalc.stoch1h.d;
+    const dif4h = objSendcalc.stoch4h.k - objSendcalc.stoch4h.d;
+    const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
+    const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
+   
+
+
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
@@ -734,7 +746,7 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
     }else if (flag == "1mV"){
         dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
 
-        if (dif > 0 && objSendcalc.stoch3m.k <= 70){
+        if (dif > 0 && objSendcalc.stoch3m.k <= 30){
             const result = await api.closePositionSell(timestamp);
 
             if (result.orderId){
@@ -748,9 +760,8 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
         }
 
     }else if (flag == "5mC"){
-        dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
 
-        if (dif < 0){
+        if (objSendcalc.stoch5m.k >= 70 && objSendcalc.stoch3m.k >= 70 && dif3m < 0 && objSendcalc.stoch1m.k > 50 && dif1m < 0){
             const result = await api.closePositionBuy(timestamp);
 
             if (result.orderId){
@@ -766,7 +777,7 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
     }else if (flag == "5mV"){
         dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
 
-        if (dif > 0){
+        if (objSendcalc.stoch5m.k <= 30 && objSendcalc.stoch3m.k <= 30 && dif3m > 0 && objSendcalc.stoch1m.k < 50 && dif1m > 0){
             const result = await api.closePositionSell(timestamp);
 
             if (result.orderId){
@@ -788,25 +799,15 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
 async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
 
     const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    /*const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;*/
-
-
-
+    const dif3m = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
+    const dif5m = objSendcalc.stoch5m.k - objSendcalc.stoch5m.d;
+    const dif15m = objSendcalc.stoch15m.k - objSendcalc.stoch15m.d;
+    const dif30m = objSendcalc.stoch30m.k - objSendcalc.stoch30m.d;
+    const dif1h = objSendcalc.stoch1h.k - objSendcalc.stoch1h.d;
+    const dif4h = objSendcalc.stoch4h.k - objSendcalc.stoch4h.d;
+    const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
+    const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
+   
     if (sig.rsi1m == 2 && sig.rsi3m >= 1 && flag == ""){
         flag = "1mC";
 
@@ -831,12 +832,12 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
     }
 
 
-    if (sig.rsi3m >= 1 && sig.rsi5m >= 1 ){
+    if (sig.rsi3m >= 1 && sig.rsi5m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0){
         flag = "5mC";
 
-        if (objSendcalc.stoch1m.k < 50 && dif1m > 0){
+        //if (){
             const orderBuy = await api.newOrderBuy(timestamp);
-        }
+        //}
         //obj.flag = flag;
         //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
@@ -844,13 +845,13 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
 
     }
 
-    if (sig.rsi3m <= -1 && sig.rsi5m == -2){
+    if (sig.rsi3m <= -1 && sig.rsi5m == -2 && objSendcalc.stoch1m.k > 50 && dif1m < 0){
         flag = "5mV";
 
         //const dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-        if (objSendcalc.stoch1m.k > 50 && dif1m < 0){
+        //if (){
             const orderSell = await api.newOrderSell(timestamp);
-        }
+        //}
         //obj.flag = flag;
         //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
