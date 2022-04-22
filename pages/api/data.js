@@ -606,7 +606,7 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
     const database = getDatabase(app);
 
     const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
-    set(ref(database, `rsidata/log/position`), position);
+    set(ref(database, 'rsidata/log/position'), position);
 
     var flagClose = flag;
 
