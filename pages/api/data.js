@@ -786,6 +786,22 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
 async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
 
     const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    /*const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+    const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;*/
 
     if (sig.rsi1m == 2){
         flag = "1mC";
@@ -810,7 +826,7 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
 
     }
 
-    if (sig.rsi3m >= 1 && sig.rsi5m == 2 ){
+    if (sig.rsi3m >= 1 && sig.rsi5m >= 1 ){
         flag = "5mC";
 
         if (objSendcalc.stoch1m.k < 50 && dif1m > 0){
