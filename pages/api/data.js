@@ -419,7 +419,7 @@ async function data(request, response){
 
     const signals = calcSignals(objSendcalc);
     objSendcalc.signals = signals;
-    const objSend = await makeMoneyRain(timestamp, objSendcalc);
+ //////////////////const objSend = await makeMoneyRain(timestamp, objSendcalc);
     //objSend.signals = signals;
     writeUserData(objSend);
 
