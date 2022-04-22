@@ -619,7 +619,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     })
     
     if(flag != ""){
-        flag = await calcClosePosition(timestamp, objSendcalc, flag);
+        flag = await calcClosePosition(timestamp, objSendcalc, sig, flag);
     }
     if(flag == ""){
         flag = await calcOpenPosition(timestamp, objSendcalc, sig, flag);
@@ -698,7 +698,7 @@ async function makeMoneyRain(timestamp, objSendcalc){
     return obj;
 }
 
-async function calcClosePosition(timestamp, objSendcalc, flag){
+async function calcClosePosition(timestamp, objSendcalc, sig, flag){
 
     const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
     const dif3m = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
@@ -790,6 +790,37 @@ async function calcClosePosition(timestamp, objSendcalc, flag){
 
         }
 
+    }else if (flag == "15mC"){
+
+        if (sig.rsi5m == -2 && objSendcalc.stoch15m.k >= 70 && sig.rsi15m <= -1 && objSendcalc.stoch1m.k > 50 && dif1m < 0){
+            const result = await api.closePositionBuy(timestamp);
+
+            if (result.orderId){
+                const histOrd = createHistObj(result, objSendcalc, position, flag);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+                flag = "";
+            }
+
+            //obj.flag = flag;
+
+        }
+
+    }else if (flag == "15mV"){
+        dif = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
+
+        if (sig.rsi5m == 2 && objSendcalc.stoch15m.k <= 30 && sig.rsi15m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0){
+            const result = await api.closePositionSell(timestamp);
+
+            if (result.orderId){
+                const histOrd = createHistObj(result, objSendcalc, position, flag);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+                flag = "";
+            }
+
+            //obj.flag = flag;
+
+        }
+
     }
 
     return flag;
@@ -832,7 +863,7 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
     }
 
 
-    if (sig.rsi3m >= 1 && sig.rsi5m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0){
+    if (sig.rsi3m >= 1 && sig.rsi5m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0 && (flag == "" || flag == "1mC")){
         flag = "5mC";
 
         //if (){
@@ -845,7 +876,7 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
 
     }
 
-    if (sig.rsi3m <= -1 && sig.rsi5m == -2 && objSendcalc.stoch1m.k > 50 && dif1m < 0){
+    if (sig.rsi3m <= -1 && sig.rsi5m == -2 && objSendcalc.stoch1m.k > 50 && dif1m < 0 && (flag == "" || flag == "1mV")){
         flag = "5mV";
 
         //const dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
@@ -858,6 +889,34 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
         return "5mV";
 
     }
+
+    if (sig.rsi5m == 2 && objSendcalc.stoch15m.k <= 30 && sig.rsi15m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0 && (flag == "" || flag == "1mC" || flag == "5mC" )){
+        flag = "15mC";
+
+        //if (){
+            const orderBuy = await api.newOrderBuy(timestamp);
+        //}
+        //obj.flag = flag;
+        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
+
+        return "15mC";
+
+    }
+
+    if (sig.rsi5m == -2 && objSendcalc.stoch15m.k >= 70 && sig.rsi15m <= -1 && objSendcalc.stoch1m.k > 50 && dif1m < 0 && (flag == "" || flag == "1mV" || flag == "5mV" )){
+        flag = "15mV";
+
+        //const dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
+        //if (){
+            const orderSell = await api.newOrderSell(timestamp);
+        //}
+        //obj.flag = flag;
+        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
+
+        return "15mV";
+
+    }
+
 
     return "";
 }
