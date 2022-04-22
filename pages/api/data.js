@@ -848,7 +848,7 @@ function createHistObj(result, objSendcalc, position, flag){
         firstUpdate: objSendcalc.serverTimestamp,
         lastUpdate: objSendcalc.serverTimestamp,
         symbol: position[0].symbol,
-        entryPrice: position[0].updateTime,
+        entryPrice: position[0].entryPrice,
         closePrice: objSendcalc.tick,
         isolatedMargin: position[0].isolatedWallet,
         highPnl: position[0].unrealizedProfit,
