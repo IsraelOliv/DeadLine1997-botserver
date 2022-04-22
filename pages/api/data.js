@@ -608,12 +608,14 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
     const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
     set(ref(database, 'rsidata/log/position'), position);
 
-    //var flagClose = flag;
+    var flagClose = flag;
 
     if (position == null && flagClose != ""){
         flagClose = "";
         set(ref(database, `rsidata/obj/flag`), flagClose);
+        
         return flagClose;
+        //return "";
     }
 
     if (flagClose == "1mC"){
@@ -632,6 +634,9 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
                 const histOrd = createHistObj(result, objSendcalc, position, flagClose);
                 set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
                 flagClose = "";
+
+                return flagClose;
+
             }
             //obj.flag = flag;
 
@@ -649,6 +654,9 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
                 const histOrd = createHistObj(result, objSendcalc, position, flag);
                 set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
                 flagClose = "";
+
+                return flagClose;
+
             }
 
             //obj.flag = flag;
@@ -780,13 +788,12 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
 
 
         if(orderBuy.orderId){
-            flagOpen = "1mC";
-        
+            flagOpen = "1mC";        
 
-        //obj.flag = flag;
-        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-        //return "1mC";
+            //obj.flag = flag;
+            set(ref(database, 'rsidata/obj/signals/flag'), flagOpen);
+            return flagOpen;
+            
         }
 
     }
@@ -800,8 +807,13 @@ async function calcOpenPosition(timestamp, objSendcalc, sig, flag){
 
         if(orderSell.orderId){
             flagOpen = "1mV";
+        
+            set(ref(database, 'rsidata/obj/signals/flag'), flag);
+            return flagOpen;
+        
         }
-            //obj.flag = flag;
+
+        //obj.flag = flag;
         //set(ref(database, 'rsidata/obj/signals/flag'), flag);
 
         //return "1mV";
