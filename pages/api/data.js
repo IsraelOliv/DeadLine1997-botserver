@@ -616,8 +616,6 @@ async function calcClosePosition(timestamp, objSendcalc, sig, flag){
         return flagClose
     }
 
-
-
     if (flagClose == "1mC"){
 
 
