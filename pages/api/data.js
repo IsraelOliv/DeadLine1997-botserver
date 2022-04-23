@@ -98,6 +98,8 @@ let marketData1w = null;
 
 let openOrders = null;
 
+let objSendcalc = null;
+
 var flag = "";
 
 async function data(request, response){ 
@@ -362,7 +364,7 @@ async function data(request, response){
     }));
     */
     
-    let objSendcalc = {
+    objSendcalc = {
 
         lastUpdate: lastUpdate,
         balance: balance,
@@ -478,9 +480,9 @@ async function data(request, response){
     response.json(objSend);
 }
 
-async function makeMoneyRain(timestamp, objSendcalc){
+async function makeMoneyRain(timestamp){
 
-    let obj = objSendcalc;
+    //let obj = objSendcalc;
 
     //const dbref = ref(database, 'rsidata/obj/signals');
     //const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
@@ -511,12 +513,12 @@ async function makeMoneyRain(timestamp, objSendcalc){
     })
     
     if(flag != ""){
-        await calcClosePosition(timestamp, objSendcalc, sig, flag);
+        await calcClosePosition(timestamp, sig, flag);
     }
     if(flag == ""){
-        await calcOpenPosition(timestamp, objSendcalc, sig, flag);
+        await calcOpenPosition(timestamp, sig, flag);
     }
-    obj.flag = flag;
+    objSendcalc.flag = flag;
 
     //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
     //get(child(dbRef)).then((snapshot) => {
@@ -587,10 +589,10 @@ async function makeMoneyRain(timestamp, objSendcalc){
     });
     */
 
-    return obj;
+    return objSendcalc;
 }
 
-async function calcClosePosition(timestamp, objSendcalc, sig){
+async function calcClosePosition(timestamp, sig){
 
     const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
     const dif3m = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
@@ -764,7 +766,7 @@ async function calcClosePosition(timestamp, objSendcalc, sig){
 
 }
 
-async function calcOpenPosition(timestamp, objSendcalc, sig){
+async function calcOpenPosition(timestamp, sig){
 
     //var flagOpen = flag;
 
