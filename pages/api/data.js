@@ -668,7 +668,7 @@ async function calcClosePosition(timestamp, sig){
 
         }
 
-    }else if (flagClose == "1mV"){
+    }else if (flag == "1mV"){
 
         //if (dif > 0 && objSendcalc.stoch3m.k <= 30){
         if (dif1m > 0){
