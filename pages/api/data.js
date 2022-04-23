@@ -807,14 +807,14 @@ async function calcOpenPosition(timestamp, sig){
         //set(ref(database, `rsidata/log/open1mC`), orderBuy);
 
 
-        if(orderBuy){
+        //if(orderBuy){
             flag = "1mC";        
 
             //obj.flag = flag;
             //set(ref(database, 'rsidata/obj/signals/flag'), flag);
             //return flagOpen;
             objSendcalc.flag = flag;
-        }
+        //}
 
     }
 
@@ -825,13 +825,13 @@ async function calcOpenPosition(timestamp, sig){
         //set(ref(database, `rsidata/log/open1mV`), orderSell);
 
 
-        if(orderSell.orderId){
+        //if(orderSell){
             flag = "1mV";
         
             //set(ref(database, 'rsidata/obj/signals/flag'), flag);
             //return flagOpen;
             objSendcalc.flag = flag;
-        }
+        //}
 
         //obj.flag = flag;
         //set(ref(database, 'rsidata/obj/signals/flag'), flag);
