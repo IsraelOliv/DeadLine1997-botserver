@@ -105,6 +105,8 @@ var objSendcalc = {};
 
 var flag = "";
 
+var position = {};
+
 async function data(request, response){ 
     //const dynamicDate = new Date();
 
@@ -439,6 +441,8 @@ async function data(request, response){
         //allOrders: allOrders
 
     };
+
+    position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
 
     const signals = calcSignals(objSendcalc);
     objSendcalc.signals = signals;
