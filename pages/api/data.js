@@ -645,7 +645,7 @@ async function calcClosePosition(timestamp, sig){
                 //const histOrd = createHistObj(result, objSendcalc, position, flag);
                 //set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
                 //const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, `rsidata/hist/${result.orderId}`), "histOrd");
+                set(ref(database, 'rsidata/hist/resultC'), "histOrd");
                 flag = "";
                 objSendcalc.flag = flag;
 
@@ -668,7 +668,7 @@ async function calcClosePosition(timestamp, sig){
                 //const histOrd = createHistObj(result, objSendcalc, position, flag);
                 //set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
                 //const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, `rsidata/hist/${result.orderId}`), "histOrd");
+                set(ref(database, 'rsidata/hist/resultV'), "histOrd");
                 flag = "";
                 objSendcalc.flag = flag;
 
