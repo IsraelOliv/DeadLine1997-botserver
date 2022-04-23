@@ -423,10 +423,12 @@ async function data(request, response){
     const signals = calcSignals(objSendcalc);
     objSendcalc.signals = signals;
 
-    const objSend = await makeMoneyRain(timestamp, objSendcalc);
+    await makeMoneyRain(timestamp, objSendcalc);
+    //const objSend = await makeMoneyRain(timestamp, objSendcalc);
     //objSend.signals = signals;
 
-    writeUserData(objSend);
+    writeUserData(objSendcalc);
+    //writeUserData(objSend);
 
     //console.log(await api.exchangeInfo());
 /*
@@ -589,7 +591,7 @@ async function makeMoneyRain(timestamp){
     });
     */
 
-    return objSendcalc;
+    //return objSendcalc;
 }
 
 async function calcClosePosition(timestamp, sig){
