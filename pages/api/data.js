@@ -629,7 +629,7 @@ async function calcClosePosition(timestamp, sig){
         if (flag != ""){
             flag = "";
             objSendcalc.flag = flag;
-            return;
+            //return;
             //set(ref(database, `rsidata/obj/flag`), flag);
             
             //return flagClose;
