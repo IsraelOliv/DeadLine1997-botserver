@@ -520,7 +520,8 @@ async function makeMoneyRain(timestamp){
     if(flag == ""){
         await calcOpenPosition(timestamp, sig, flag);
     }
-    objSendcalc.flag = flag;
+    
+    //objSendcalc.flag = flag;
 
     //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
     //get(child(dbRef)).then((snapshot) => {
@@ -1047,6 +1048,7 @@ function writeUserData(objSendcalc) {
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
+    objSendcalc.flag = flag;
     set(ref(database, 'rsidata/obj'), objSendcalc);
 }
 
