@@ -622,7 +622,7 @@ async function calcClosePosition(timestamp, sig){
         const position0 = position[0];
         set(ref(database, 'rsidata/hist/position'), position0);
 
-    }else if(!position){
+    }else if(position === null || position === undefined){
 
         //var flagClose = flag;
 
