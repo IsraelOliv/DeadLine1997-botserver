@@ -621,7 +621,7 @@ async function calcClosePosition(timestamp, sig){
 
     //var flagClose = flag;
 
-    if (position == null && flag != ""){
+    if (position == [] && flag != ""){
         flag = "";
         objSendcalc.flag = flag;
         return;
