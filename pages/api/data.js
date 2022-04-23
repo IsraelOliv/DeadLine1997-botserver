@@ -105,7 +105,7 @@ var objSendcalc = {};
 
 var flag = "";
 
-const timestamp = null;
+var timestamp = null;
 
 async function data(request, response){ 
     //const dynamicDate = new Date();
