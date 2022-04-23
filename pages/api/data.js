@@ -636,7 +636,7 @@ async function calcClosePosition(timestamp, sig){
         if (dif1m < 0){
 
             const result = await api.closePositionBuy(timestamp);
-            const ordIdC = result.orderId;
+            //const ordIdC = result.orderId;
             //set(ref(database, `rsidata/log/close1mC`), result);
 
             
@@ -662,7 +662,7 @@ async function calcClosePosition(timestamp, sig){
         //if (dif > 0 && objSendcalc.stoch3m.k <= 30){
         if (dif1m > 0){
             const result = await api.closePositionSell(timestamp);
-            const ordIdV = result.orderId;
+            //const ordIdV = result.orderId;
 
             //set(ref(database, `rsidata/log/close1mV`), result);
 
