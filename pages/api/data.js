@@ -14,6 +14,9 @@ const firebaseConfig = {
     measurementId: "G-M66C87Z9QT"
 };
 
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const dbRef = ref(database);
 
 let timestampArr1m = [];
 let dateArr1m = [];
@@ -98,7 +101,7 @@ let marketData1w = null;
 
 let openOrders = null;
 
-let objSendcalc = null;
+let objSendcalc = {};
 
 var flag = "";
 
@@ -184,7 +187,24 @@ async function data(request, response){
     highArr1w = [];
     lowArr1w = [];
     volArr1w = [];
-    marketData1w = null;    
+    marketData1w = null;   
+    
+    flag = "";   
+
+    await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            
+            if(data){
+                flag = data;               
+            }
+
+        } else {
+            console.log("No data available");
+        }
+    }).catch((error) => {
+        console.error(error);
+    })
 
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
@@ -374,7 +394,7 @@ async function data(request, response){
         serverTimestamp: timeApi.data.serverTime,
         tick: marketData1m.close[marketData1m.close.length-1],
         tickprev: marketData1m.close[marketData1m.close.length-2],
-        flag: "",
+        flag: flag,
         signals: {},
 
         lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
@@ -423,7 +443,7 @@ async function data(request, response){
     const signals = calcSignals(objSendcalc);
     objSendcalc.signals = signals;
 
-    await makeMoneyRain(timestamp, objSendcalc);
+    await makeMoneyRain(timestamp);
     //const objSend = await makeMoneyRain(timestamp, objSendcalc);
     //objSend.signals = signals;
 
@@ -479,7 +499,7 @@ async function data(request, response){
 
     response.setHeader('Cache-Control', 's-maxage=3', 'stale-while-revalidate');
 
-    response.json(objSend);
+    response.json(objSendcalc);
 }
 
 async function makeMoneyRain(timestamp){
@@ -493,32 +513,18 @@ async function makeMoneyRain(timestamp){
 
     const sig = objSendcalc.signals;
 
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-    const dbRef = ref(getDatabase(app));
+    //const app = initializeApp(firebaseConfig);
+    //const database = getDatabase(app);
+    //const dbRef = ref(getDatabase(app));
 
     //const data = "";
 
-    await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
-        if (snapshot.exists()) {
-            const data = snapshot.val();
-            
-            if(data.exists && data != ""){
-                flag = data;               
-            }
-
-        } else {
-            console.log("No data available");
-        }
-    }).catch((error) => {
-        console.error(error);
-    })
     
     if(flag != ""){
-        await calcClosePosition(timestamp, sig, flag);
+        await calcClosePosition(timestamp, sig);
     }
     if(flag == ""){
-        await calcOpenPosition(timestamp, sig, flag);
+        await calcOpenPosition(timestamp, sig);
     }
     
     //objSendcalc.flag = flag;
@@ -639,6 +645,7 @@ async function calcClosePosition(timestamp, sig){
                 const histOrd = createHistObj(result, objSendcalc, position, flag);
                 set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
                 flag = "";
+                objSendcalc.flag = flag;
 
                 //return flag;
 
@@ -659,6 +666,7 @@ async function calcClosePosition(timestamp, sig){
                 const histOrd = createHistObj(result, objSendcalc, position, flag);
                 set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
                 flag = "";
+                objSendcalc.flag = flag;
 
                 //return flag;
 
@@ -798,7 +806,7 @@ async function calcOpenPosition(timestamp, sig){
             //obj.flag = flag;
             set(ref(database, 'rsidata/obj/signals/flag'), flag);
             //return flagOpen;
-
+            objSendcalc.flag = flag;
         }
 
     }
@@ -815,7 +823,7 @@ async function calcOpenPosition(timestamp, sig){
         
             set(ref(database, 'rsidata/obj/signals/flag'), flag);
             //return flagOpen;
-        
+            objSendcalc.flag = flag;
         }
 
         //obj.flag = flag;
