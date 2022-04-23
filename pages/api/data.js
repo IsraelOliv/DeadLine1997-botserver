@@ -615,11 +615,10 @@ async function calcClosePosition(timestamp, sig){
 
     //const app = initializeApp(firebaseConfig);
     //const database = getDatabase(app);
-
+/*
     const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
     set(ref(database, 'rsidata/hist/position'), position);
 
-/*
     if(position){
         const position0 = position[0];
         set(ref(database, 'rsidata/hist/position'), position0);
