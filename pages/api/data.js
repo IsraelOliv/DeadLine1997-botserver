@@ -621,7 +621,7 @@ async function calcClosePosition(timestamp, sig){
 
     //var flagClose = flag;
 
-    if (!position && flag != ""){
+    if (position == null && flag != ""){
         flag = "";
         //set(ref(database, `rsidata/obj/flag`), flag);
         
@@ -640,7 +640,7 @@ async function calcClosePosition(timestamp, sig){
 
             
 
-            if (result){
+            if (result.orderId != null){
 
                 const histOrd = createHistObj(result, objSendcalc, position, flag);
                 set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
@@ -662,7 +662,7 @@ async function calcClosePosition(timestamp, sig){
             //set(ref(database, `rsidata/log/close1mV`), result);
 
 
-            if (result){
+            if (result.orderId != null){
                 const histOrd = createHistObj(result, objSendcalc, position, flag);
                 set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
                 flag = "";
