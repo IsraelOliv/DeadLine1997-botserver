@@ -101,7 +101,7 @@ let marketData1w = null;
 
 let openOrders = null;
 
-let objSendcalc = {};
+var objSendcalc = {};
 
 var flag = "";
 
