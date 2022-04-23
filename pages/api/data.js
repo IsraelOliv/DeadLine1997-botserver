@@ -622,7 +622,7 @@ async function calcClosePosition(timestamp, sig){
 
     //var flagClose = flag;
 
-    if (position.symbol != 'BTCUSDT' && flag != ""){
+    if (position0 == null && flag != ""){
         flag = "";
         objSendcalc.flag = flag;
         return;
