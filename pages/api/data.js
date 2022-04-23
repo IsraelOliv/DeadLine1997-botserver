@@ -613,17 +613,17 @@ async function calcClosePosition(timestamp, sig){
     const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
 
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+    //const app = initializeApp(firebaseConfig);
+    //const database = getDatabase(app);
 
     const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
-    set(ref(database, 'rsidata/log/position'), position);
+    //set(ref(database, 'rsidata/log/position'), position);
 
     //var flagClose = flag;
 
-    if (position == null && flag != ""){
+    if (!position && flag != ""){
         flag = "";
-        set(ref(database, `rsidata/obj/flag`), flag);
+        //set(ref(database, `rsidata/obj/flag`), flag);
         
         //return flagClose;
         //return "";
@@ -636,11 +636,11 @@ async function calcClosePosition(timestamp, sig){
         if (dif1m < 0){
 
             const result = await api.closePositionBuy(timestamp);
-            set(ref(database, `rsidata/log/close1mC`), result);
+            //set(ref(database, `rsidata/log/close1mC`), result);
 
             
 
-            if (result.orderId){
+            if (result){
 
                 const histOrd = createHistObj(result, objSendcalc, position, flag);
                 set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
@@ -659,10 +659,10 @@ async function calcClosePosition(timestamp, sig){
         //if (dif > 0 && objSendcalc.stoch3m.k <= 30){
         if (dif1m > 0){
             const result = await api.closePositionSell(timestamp);
-            set(ref(database, `rsidata/log/close1mV`), result);
+            //set(ref(database, `rsidata/log/close1mV`), result);
 
 
-            if (result.orderId){
+            if (result){
                 const histOrd = createHistObj(result, objSendcalc, position, flag);
                 set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
                 flag = "";
@@ -797,14 +797,14 @@ async function calcOpenPosition(timestamp, sig){
         
 
         const orderBuy = await api.newOrderBuy(timestamp);
-        set(ref(database, `rsidata/log/open1mC`), orderBuy);
+        //set(ref(database, `rsidata/log/open1mC`), orderBuy);
 
 
-        if(orderBuy.orderId){
+        if(orderBuy){
             flag = "1mC";        
 
             //obj.flag = flag;
-            set(ref(database, 'rsidata/obj/signals/flag'), flag);
+            //set(ref(database, 'rsidata/obj/signals/flag'), flag);
             //return flagOpen;
             objSendcalc.flag = flag;
         }
@@ -815,13 +815,13 @@ async function calcOpenPosition(timestamp, sig){
     if (sig.rsi1m == -2){
 
         const orderSell = await api.newOrderSell(timestamp);
-        set(ref(database, `rsidata/log/open1mV`), orderSell);
+        //set(ref(database, `rsidata/log/open1mV`), orderSell);
 
 
         if(orderSell.orderId){
             flag = "1mV";
         
-            set(ref(database, 'rsidata/obj/signals/flag'), flag);
+            //set(ref(database, 'rsidata/obj/signals/flag'), flag);
             //return flagOpen;
             objSendcalc.flag = flag;
         }
