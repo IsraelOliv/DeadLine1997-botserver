@@ -618,21 +618,23 @@ async function calcClosePosition(timestamp, sig){
 
     const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
 
-    if(position[0]){
+    if(position){
         const position0 = position[0];
         set(ref(database, 'rsidata/hist/position'), position0);
-    }
 
-    //var flagClose = flag;
+    }else if(!position){
 
-    if (position0 == null && flag != ""){
-        flag = "";
-        objSendcalc.flag = flag;
-        return;
-        //set(ref(database, `rsidata/obj/flag`), flag);
-        
-        //return flagClose;
-        //return "";
+        //var flagClose = flag;
+
+        if (flag != ""){
+            flag = "";
+            objSendcalc.flag = flag;
+            return;
+            //set(ref(database, `rsidata/obj/flag`), flag);
+            
+            //return flagClose;
+            //return "";
+        }
     }
 
 
