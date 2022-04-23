@@ -105,6 +105,8 @@ var objSendcalc = {};
 
 var flag = "";
 
+const timestamp = null;
+
 async function data(request, response){ 
     //const dynamicDate = new Date();
 
@@ -209,7 +211,7 @@ async function data(request, response){
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
     const lastUpdate = formatTime(timeApi.data.serverTime);
-    const timestamp = timeApi.data.serverTime;
+    timestamp = timeApi.data.serverTime;
 
     //const neworder = await api.newOrder(timestamp, "BUY");
     /*
