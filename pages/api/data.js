@@ -804,7 +804,7 @@ async function calcOpenPosition(timestamp, sig){
         
 
         const orderBuy = await api.newOrderBuy(timestamp);
-        //set(ref(database, `rsidata/log/open1mC`), orderBuy);
+        set(ref(database, `rsidata/hist/open1mC`), orderBuy.orderId);
 
 
         //if(orderBuy){
@@ -822,7 +822,7 @@ async function calcOpenPosition(timestamp, sig){
     if (sig.rsi1m == -2){
 
         const orderSell = await api.newOrderSell(timestamp);
-        //set(ref(database, `rsidata/log/open1mV`), orderSell);
+        set(ref(database, `rsidata/hist/open1mV`), orderSell.orderId);
 
 
         //if(orderSell){
