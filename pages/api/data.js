@@ -107,6 +107,8 @@ var flag = "";
 
 var position = {};
 
+var pnlHist = null;
+
 async function data(request, response){ 
     //const dynamicDate = new Date();
 
@@ -234,7 +236,7 @@ async function data(request, response){
     //console.log(`TEST:positions:  ${JSON.stringify(coin[0].availableBalance)}`);
 
     const income = await api.income(timestamp);
-    const pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
+    pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
 
     //accountFutures
 
