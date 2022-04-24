@@ -986,6 +986,7 @@ async function calcClosePosition(timestamp, sig){
 //function createHistObj(result, objSendcalc, position, flag){
 function createHistObj(result){
 
+    let pnlrealized = pnlHist[pnlHist.length-1].income;
 
     const histObj = {
 
@@ -998,7 +999,7 @@ function createHistObj(result){
         isolatedMargin: position[0].isolatedWallet,
         highPnl: position[0].unrealizedProfit,
         lowPnl: position[0].unrealizedProfit,
-        realizedPnl: position[0].unrealizedProfit,
+        realizedPnl: pnlrealized, // position[0].unrealizedProfit,
         flag: flag
 
     }  
