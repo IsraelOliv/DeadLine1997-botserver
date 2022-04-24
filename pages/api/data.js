@@ -709,37 +709,34 @@ async function calcOpenPosition(timestamp, sig){
         objSendcalc.flag = flag;
 
     }
-/*
+
     if (sig.rsi5m == 2 && sig.rsi15m == 2 && sig.rsi30m >= 1 && sig.rsi1h >= 1 && (flag == "" || flag == "1mC" || flag == "5mC" || flag == "15mC" )){
-        flag = "1hC";
+        
+        const orderBuy = await api.newOrderBuy(timestamp);
+        set(ref(database, `rsidata/log/lastopen1hC`), orderBuy);
 
-        //if (){
-            const orderBuy = await api.newOrderBuy(timestamp);
-        //}
-        //obj.flag = flag;
-        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
+        const ordIdOC = orderBuy.orderId;
+        set(ref(database, 'rsidata/log/idOpen1hC'), ordIdOC);
 
-        return "1hC";
+        flag = "1hC";        
+        objSendcalc.flag = flag;
 
-    }
-
-    if (sig.rsi5m == -2 && sig.rsi15m == -2 && sig.rsi30m >= -1 && sig.rsi1h >= -1 && (flag == "" || flag == "1mC" || flag == "5mC" || flag == "15mC" )){
-        flag = "1hV";
-
-        //const dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-        //if (){
-            const orderSell = await api.newOrderSell(timestamp);
-        //}
-        //obj.flag = flag;
-        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-        return "1hV";
 
     }
 
-    */
+    if (sig.rsi5m == -2 && sig.rsi15m == -2 && sig.rsi30m >= -1 && sig.rsi1h >= -1 && (flag == "" || flag == "1mV" || flag == "5mV" || flag == "15mV" )){
 
-    //return flagOpen;
+        const orderSell = await api.newOrderSell(timestamp);
+        set(ref(database, `rsidata/log/lastopen1hV`), orderSell);
+
+        const ordIdOV = orderSell.orderId;
+        set(ref(database, 'rsidata/log/idOpen1hV'), ordIdOV);
+
+        flag = "1hV";        
+        objSendcalc.flag = flag;
+
+    }
+   
 }
 
 async function calcClosePosition(timestamp, sig){
@@ -874,10 +871,7 @@ async function calcClosePosition(timestamp, sig){
 
         }
 
-    }
-    
-    
-    else if (flag == "15mC"){
+    }else if (flag == "15mC"){
 
         if (sig.rsi5m == -2 && objSendcalc.stoch15m.k >= 70 && sig.rsi15m <= -1 && objSendcalc.stoch1m.k > 50 && dif1m < 0){
 
@@ -911,41 +905,42 @@ async function calcClosePosition(timestamp, sig){
 
         }
 
-    }
+    }else if (flag == "1hC"){
 
-    /*
-    else if (flag == "1hC"){
-
-        if (sig.rsi5m == -2 && sig.rsi15m <= -1 && sig.rsi30m <= -1 && objSendcalc.stoch1h.k > 70){
+        if (sig.rsi5m == -2 && sig.rsi15m <= -1 && sig.rsi30m <= -1 && sig.rsi1h <= -1 ){
+            
             const result = await api.closePositionBuy(timestamp);
+            set(ref(database, `rsidata/log/lastclose1hC`), result);
 
-            if (result.orderId){
-                const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-                flag = "";
-            }
+            const ordIdC = result.orderId;
+            set(ref(database, 'rsidata/log/idClose1hC'), ordIdC);
 
-            //obj.flag = flag;
+            const histOrd = createHistObj(result);
+            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+
+            flag = "";
+            objSendcalc.flag = flag;
 
         }
 
     }else if (flag == "1hV"){
 
-        if (sig.rsi5m == 2 && sig.rsi15m >= 1 && sig.rsi30m >= 1 && objSendcalc.stoch1h.k > 70){
+        if (sig.rsi5m == 2 && sig.rsi15m >= 1 && sig.rsi30m >= 1 && sig.rsi1h >= 1){
+            
             const result = await api.closePositionSell(timestamp);
+            set(ref(database, `rsidata/log/lastclose1hV`), result);
 
-            if (result.orderId){
-                const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-                flag = "";
-            }
+            const ordIdV = result.orderId;
+            set(ref(database, 'rsidata/log/idClose1hV'), ordIdV);
 
-            //obj.flag = flag;
+            const histOrd = createHistObj(result);
+            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+            flag = "";
+            objSendcalc.flag = flag;
 
         }
 
     }
-    */
     
 
     //return flagClose;
