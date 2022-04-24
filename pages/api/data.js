@@ -628,6 +628,10 @@ async function calcOpenPosition(timestamp, sig){
         set(ref(database, `rsidata/log/lastopen1mC`), orderBuy);
 
 
+        const ordIdOC = result.orderId;
+        set(ref(database, 'rsidata/log/idOpen1mC'), ordIdOC);
+
+
         //if(orderBuy){
             flag = "1mC";        
 
@@ -644,6 +648,10 @@ async function calcOpenPosition(timestamp, sig){
 
         const orderSell = await api.newOrderSell(timestamp);
         set(ref(database, `rsidata/log/lastopen1mV`), orderSell);
+
+        const ordIdOV = result.orderId;
+        set(ref(database, 'rsidata/log/idOpen1mV'), ordIdOV);
+
 
 
         //if(orderSell){
@@ -800,6 +808,8 @@ async function calcClosePosition(timestamp, sig){
 
 
             const ordIdC = result.orderId;
+            set(ref(database, 'rsidata/log/idClose1mC'), ordIdC);
+
             //set(ref(database, `rsidata/log/close1mC`), result);
 
             
@@ -810,7 +820,6 @@ async function calcClosePosition(timestamp, sig){
                 //const histOrd = createHistObj(result, objSendcalc, position, flag);
                 set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
                 //const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, 'rsidata/log/ordIdC'), ordIdC);
                 flag = "";
                 objSendcalc.flag = flag;
 
@@ -829,6 +838,7 @@ async function calcClosePosition(timestamp, sig){
             set(ref(database, `rsidata/log/lastclose1mV`), result);
 
             const ordIdV = result.orderId;
+            set(ref(database, 'rsidata/log/idClose1mV'), ordIdV);
 
             //set(ref(database, `rsidata/log/close1mV`), result);
 
@@ -838,7 +848,6 @@ async function calcClosePosition(timestamp, sig){
                 //const histOrd = createHistObj(result, objSendcalc, position, flag);
                 set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
                 //const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, 'rsidata/log/ordIdV'), ordIdV);
                 flag = "";
                 objSendcalc.flag = flag;
 
@@ -961,7 +970,7 @@ function createHistObj(result){
 
         orderId: result.orderId,
         firstUpdate: position[0].updateTime,
-        lastUpdate: objSendcalc.serverTimestamp,
+        lastUpdate: result.updateTime,
         symbol: position[0].symbol,
         entryPrice: position[0].entryPrice,
         closePrice: objSendcalc.tick,
