@@ -785,7 +785,8 @@ async function calcClosePosition(timestamp, sig){
             //return "";
         }
     }
-    */
+
+*/
 
 
     if (flag == "1mC"){
