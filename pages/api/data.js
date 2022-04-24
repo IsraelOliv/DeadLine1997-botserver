@@ -719,7 +719,7 @@ async function calcOpenPosition(timestamp, sig){
     
     // 5mC
     //if (sig.rsi3m >= 1 && sig.rsi5m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0 && (flag == "" || flag == "1mC")){
-    if (sig.rsi3m == 2 && sig.rsi5m >= 1){
+    if (dif1m > 0 && sig.rsi3m == 2 && sig.rsi5m >= 1){
 
         if (flag == "" || flag == "1mC"){  
 
@@ -739,7 +739,7 @@ async function calcOpenPosition(timestamp, sig){
 
     // 5mV
     //if (sig.rsi3m <= -1 && sig.rsi5m == -2 && objSendcalc.stoch1m.k > 50 && dif1m < 0 && (flag == "" || flag == "1mV")){
-    if (sig.rsi3m == -2 && sig.rsi5m <= -1){
+    if (dif1m < 0 && sig.rsi3m == -2 && sig.rsi5m <= -1){
 
         if (flag == "" || flag == "1mV"){  
     
@@ -939,7 +939,7 @@ async function calcClosePosition(timestamp, sig){
 
         //if (objSendcalc.stoch5m.k <= 30 && objSendcalc.stoch3m.k <= 30 && dif3m > 0 && objSendcalc.stoch1m.k < 50 && dif1m > 0){
         if (dif3m > 0 && dif5m > 0){    
-             
+
             const result = await api.closePositionSell(timestamp);
             set(ref(database, `rsidata/log/lastclose5mV`), result);
 
