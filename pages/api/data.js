@@ -628,7 +628,7 @@ async function calcOpenPosition(timestamp, sig){
         set(ref(database, `rsidata/log/lastopen1mC`), orderBuy);
 
 
-        const ordIdOC = result.orderId;
+        const ordIdOC = orderBuy.orderId;
         set(ref(database, 'rsidata/log/idOpen1mC'), ordIdOC);
 
 
@@ -649,7 +649,7 @@ async function calcOpenPosition(timestamp, sig){
         const orderSell = await api.newOrderSell(timestamp);
         set(ref(database, `rsidata/log/lastopen1mV`), orderSell);
 
-        const ordIdOV = result.orderId;
+        const ordIdOV = orderSell.orderId;
         set(ref(database, 'rsidata/log/idOpen1mV'), ordIdOV);
 
 
