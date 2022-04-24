@@ -655,7 +655,7 @@ async function calcOpenPosition(timestamp, sig){
 
         flag = "1mC";        
         objSendcalc.flag = flag;
-
+/*
         let obj = {
             symbol: "BTCUSDT",
             initialMargin: "0",
@@ -677,7 +677,7 @@ async function calcOpenPosition(timestamp, sig){
         }
 
         await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT').set(obj); // || b.asset === 'USDT');
-
+*/
     }
 
 
@@ -693,7 +693,7 @@ async function calcOpenPosition(timestamp, sig){
 
         flag = "1mV";        
         objSendcalc.flag = flag;
-
+/*
         let obj = {
             symbol: "BTCUSDT",
             initialMargin: "0",
@@ -715,7 +715,7 @@ async function calcOpenPosition(timestamp, sig){
         }
 
         await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT').set(obj); // || b.asset === 'USDT');
-
+*/
     }
     /*
     // 5mC
