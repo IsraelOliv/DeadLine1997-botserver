@@ -444,7 +444,7 @@ async function data(request, response){
 
     };
 
-    position = await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
+    position = await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); //.set("test"); // || b.asset === 'USDT');
 
     if(position == {} || position[0] == null){
         flag = "";
@@ -656,6 +656,28 @@ async function calcOpenPosition(timestamp, sig){
         flag = "1mC";        
         objSendcalc.flag = flag;
 
+        let obj = {
+            symbol: "BTCUSDT",
+            initialMargin: "0",
+            maintMargin: "0",
+            unrealizedProfit: "0.01",
+            positionInitialMargin: "0",
+            openOrderInitialMargin: "0",
+            leverage: "125",
+            isolated: true,
+            entryPrice: "00000.0",
+            maxNotional: "0",
+            positionSide: "BOTH",
+            positionAmt: "0.000",
+            notional: "0.0",
+            isolatedWallet: "0.0",
+            updateTime: 1650830183823,
+            bidNotional: "0",
+            askNotional: "0"
+        }
+
+        await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT').set(obj); // || b.asset === 'USDT');
+
     }
 
 
@@ -672,6 +694,27 @@ async function calcOpenPosition(timestamp, sig){
         flag = "1mV";        
         objSendcalc.flag = flag;
 
+        let obj = {
+            symbol: "BTCUSDT",
+            initialMargin: "0",
+            maintMargin: "0",
+            unrealizedProfit: "0.01",
+            positionInitialMargin: "0",
+            openOrderInitialMargin: "0",
+            leverage: "125",
+            isolated: true,
+            entryPrice: "00000.0",
+            maxNotional: "0",
+            positionSide: "BOTH",
+            positionAmt: "0.000",
+            notional: "0.0",
+            isolatedWallet: "0.0",
+            updateTime: 1650830183823,
+            bidNotional: "0",
+            askNotional: "0"
+        }
+
+        await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT').set(obj); // || b.asset === 'USDT');
 
     }
     /*
