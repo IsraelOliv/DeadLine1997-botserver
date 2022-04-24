@@ -445,6 +445,11 @@ async function data(request, response){
     };
 
     position = await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
+
+    if(position == {}){
+        flag = "";
+    }
+
 /*
     await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
         if (snapshot.exists()) {
