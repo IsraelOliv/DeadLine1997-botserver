@@ -446,7 +446,7 @@ async function data(request, response){
 
     position = await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
 
-    if(position == {}){
+    if(position == {} || position[0] == null){
         flag = "";
     }
 
