@@ -444,7 +444,23 @@ async function data(request, response){
 
     };
 
-    position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
+    position = await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
+/*
+    await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            
+            if(data){
+                flag = data;               
+            }
+
+        } else {
+            console.log("No data available");
+        }
+    }).catch((error) => {
+        console.error(error);
+    })
+*/
 
     const signals = calcSignals(objSendcalc);
     objSendcalc.signals = signals;
