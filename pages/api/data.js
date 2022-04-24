@@ -658,10 +658,10 @@ async function calcClosePosition(timestamp, sig){
 
             //if (result.orderId != null){
 
+                const histOrd = createHistObj(result, objSendcalc, position, flag);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
                 //const histOrd = createHistObj(result, objSendcalc, position, flag);
-                //set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-                //const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, 'rsidata/hist/ordIdC'), ordIdC);
+                set(ref(database, 'rsidata/test/ordIdC'), ordIdC);
                 flag = "";
                 objSendcalc.flag = flag;
 
@@ -683,10 +683,10 @@ async function calcClosePosition(timestamp, sig){
 
 
             //if (result.orderId != null){
+                const histOrd = createHistObj(result, objSendcalc, position, flag);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
                 //const histOrd = createHistObj(result, objSendcalc, position, flag);
-                //set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-                //const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, 'rsidata/hist/ordIdV'), ordIdV);
+                set(ref(database, 'rsidata/test/ordIdV'), ordIdV);
                 flag = "";
                 objSendcalc.flag = flag;
 
@@ -821,7 +821,7 @@ async function calcOpenPosition(timestamp, sig){
         
 
         const orderBuy = await api.newOrderBuy(timestamp);
-        set(ref(database, `rsidata/hist/open1mC`), orderBuy.orderId);
+        set(ref(database, `rsidata/test/open1mC`), orderBuy.orderId);
 
 
         //if(orderBuy){
@@ -839,7 +839,7 @@ async function calcOpenPosition(timestamp, sig){
     if (sig.rsi1m == -2){
 
         const orderSell = await api.newOrderSell(timestamp);
-        set(ref(database, `rsidata/hist/open1mV`), orderSell.orderId);
+        set(ref(database, `rsidata/test/open1mV`), orderSell.orderId);
 
 
         //if(orderSell){
