@@ -651,9 +651,8 @@ async function calcOpenPosition(timestamp, sig){
 
 
     }
-
     
-
+    //5mC
     if (sig.rsi3m >= 1 && sig.rsi5m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0 && (flag == "" || flag == "1mC")){
 
         const orderBuy = await api.newOrderBuy(timestamp);
@@ -682,34 +681,35 @@ async function calcOpenPosition(timestamp, sig){
         objSendcalc.flag = flag;
 
     }
-/*
+
     if (sig.rsi5m == 2 && objSendcalc.stoch15m.k <= 30 && sig.rsi15m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0 && (flag == "" || flag == "1mC" || flag == "5mC" )){
+        
+        const orderBuy = await api.newOrderBuy(timestamp);
+        set(ref(database, `rsidata/log/lastopen15mC`), orderBuy);
+
+
+        const ordIdOC = orderBuy.orderId;
+        set(ref(database, 'rsidata/log/idOpen15mC'), ordIdOC);
+
         flag = "15mC";
-
-        //if (){
-            const orderBuy = await api.newOrderBuy(timestamp);
-        //}
-        //obj.flag = flag;
-        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-        return "15mC";
+        objSendcalc.flag = flag;
 
     }
 
     if (sig.rsi5m == -2 && objSendcalc.stoch15m.k >= 70 && sig.rsi15m <= -1 && objSendcalc.stoch1m.k > 50 && dif1m < 0 && (flag == "" || flag == "1mV" || flag == "5mV" )){
+        
+        const orderBuy = await api.newOrderBuy(timestamp);
+        set(ref(database, `rsidata/log/lastopen15mV`), orderBuy);
+
+
+        const ordIdOC = orderBuy.orderId;
+        set(ref(database, 'rsidata/log/idOpen15mV'), ordIdOC);
+
         flag = "15mV";
-
-        //const dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-        //if (){
-            const orderSell = await api.newOrderSell(timestamp);
-        //}
-        //obj.flag = flag;
-        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-        return "15mV";
+        objSendcalc.flag = flag;
 
     }
-
+/*
     if (sig.rsi5m == 2 && sig.rsi15m == 2 && sig.rsi30m >= 1 && sig.rsi1h >= 1 && (flag == "" || flag == "1mC" || flag == "5mC" || flag == "15mC" )){
         flag = "1hC";
 
@@ -876,38 +876,45 @@ async function calcClosePosition(timestamp, sig){
 
     }
     
-    /*
+    
     else if (flag == "15mC"){
 
         if (sig.rsi5m == -2 && objSendcalc.stoch15m.k >= 70 && sig.rsi15m <= -1 && objSendcalc.stoch1m.k > 50 && dif1m < 0){
+
             const result = await api.closePositionBuy(timestamp);
+            set(ref(database, `rsidata/log/lastclose15mC`), result);
 
-            if (result.orderId){
-                const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-                flag = "";
-            }
+            const ordIdV = result.orderId;
+            set(ref(database, 'rsidata/log/idClose15mC'), ordIdV);
 
-            //obj.flag = flag;
+            const histOrd = createHistObj(result);
+            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+            flag = "";
+            objSendcalc.flag = flag;
 
         }
 
     }else if (flag == "15mV"){
 
         if (sig.rsi5m == 2 && objSendcalc.stoch15m.k <= 30 && sig.rsi15m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0){
+            
             const result = await api.closePositionSell(timestamp);
+            set(ref(database, `rsidata/log/lastclose15mV`), result);
 
-            if (result.orderId){
-                const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-                flag = "";
-            }
+            const ordIdV = result.orderId;
+            set(ref(database, 'rsidata/log/idClose15mV'), ordIdV);
 
-            //obj.flag = flag;
+            const histOrd = createHistObj(result);
+            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+            flag = "";
+            objSendcalc.flag = flag;
 
         }
 
-    }else if (flag == "1hC"){
+    }
+
+    /*
+    else if (flag == "1hC"){
 
         if (sig.rsi5m == -2 && sig.rsi15m <= -1 && sig.rsi30m <= -1 && objSendcalc.stoch1h.k > 70){
             const result = await api.closePositionBuy(timestamp);
