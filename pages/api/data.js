@@ -529,9 +529,9 @@ async function makeMoneyRain(timestamp){
     if(flag != ""){
         await calcClosePosition(timestamp, sig);
     }
-    
-    await calcOpenPosition(timestamp, sig);
-    
+    //if(flag == ""){
+        await calcOpenPosition(timestamp, sig);
+    //}
     
     //objSendcalc.flag = flag;
 
