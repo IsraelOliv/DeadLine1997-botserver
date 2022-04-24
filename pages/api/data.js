@@ -785,8 +785,8 @@ async function calcClosePosition(timestamp, sig){
     if (flag == "1mC"){
 
 
-        //if (dif1m < 0 && objSendcalc.stoch3m.k >= 70){
-        if (dif1m < 0){
+        if (dif1m < 0 && dif3m < 0){
+        //if (dif1m < 0){
 
 /*
             await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
@@ -810,95 +810,74 @@ async function calcClosePosition(timestamp, sig){
             const result = await api.closePositionBuy(timestamp);
             set(ref(database, `rsidata/log/lastclose1mC`), result);
 
-
             const ordIdC = result.orderId;
             set(ref(database, 'rsidata/log/idClose1mC'), ordIdC);
 
-            //set(ref(database, `rsidata/log/close1mC`), result);
+            const histOrd = createHistObj(result);
+            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
 
-            
-
-            //if (result.orderId != null){
-
-                const histOrd = createHistObj(result);
-                //const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-                //const histOrd = createHistObj(result, objSendcalc, position, flag);
-                flag = "";
-                objSendcalc.flag = flag;
-
-                //return flag;
-
-            //}
-            //obj.flag = flag;
+            flag = "";
+            objSendcalc.flag = flag;
 
         }
 
     }else if (flag == "1mV"){
 
-        //if (dif > 0 && objSendcalc.stoch3m.k <= 30){
-        if (dif1m > 0){
+        if (dif1m > 0 && dif3m > 0){
+        //if (dif1m > 0){
+
             const result = await api.closePositionSell(timestamp);
             set(ref(database, `rsidata/log/lastclose1mV`), result);
 
             const ordIdV = result.orderId;
             set(ref(database, 'rsidata/log/idClose1mV'), ordIdV);
 
-            //set(ref(database, `rsidata/log/close1mV`), result);
-
-
-            //if (result.orderId != null){
-                const histOrd = createHistObj(result);
-                //const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-                //const histOrd = createHistObj(result, objSendcalc, position, flag);
-                flag = "";
-                objSendcalc.flag = flag;
-
-                //return flag;
-
-            //}
-
-            //obj.flag = flag;
+            const histOrd = createHistObj(result);
+            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+            flag = "";
+            objSendcalc.flag = flag;
 
         }
 
-    }
-
-    
-    
-    /*
-    else if (flag == "5mC"){
+    }else if (flag == "5mC"){
 
         if (objSendcalc.stoch5m.k >= 70 && objSendcalc.stoch3m.k >= 70 && dif3m < 0 && objSendcalc.stoch1m.k > 50 && dif1m < 0){
+
             const result = await api.closePositionBuy(timestamp);
+            set(ref(database, `rsidata/log/lastclose5mC`), result);
 
-            if (result.orderId){
-                const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-                flag = "";
-            }
+            const ordIdV = result.orderId;
+            set(ref(database, 'rsidata/log/idClose5mC'), ordIdV);
 
-            //obj.flag = flag;
+            const histOrd = createHistObj(result);
+            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+            flag = "";
+            objSendcalc.flag = flag;
 
         }
 
     }else if (flag == "5mV"){
 
         if (objSendcalc.stoch5m.k <= 30 && objSendcalc.stoch3m.k <= 30 && dif3m > 0 && objSendcalc.stoch1m.k < 50 && dif1m > 0){
+            
             const result = await api.closePositionSell(timestamp);
+            set(ref(database, `rsidata/log/lastclose5mV`), result);
 
-            if (result.orderId){
-                const histOrd = createHistObj(result, objSendcalc, position, flag);
-                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-                flag = "";
-            }
+            const ordIdV = result.orderId;
+            set(ref(database, 'rsidata/log/idClose5mV'), ordIdV);
 
-            //obj.flag = flag;
+            const histOrd = createHistObj(result);
+            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+            flag = "";
+            objSendcalc.flag = flag;
+
 
         }
 
-    }else if (flag == "15mC"){
+    }
+    
+    /*
+    else if (flag == "15mC"){
 
         if (sig.rsi5m == -2 && objSendcalc.stoch15m.k >= 70 && sig.rsi15m <= -1 && objSendcalc.stoch1m.k > 50 && dif1m < 0){
             const result = await api.closePositionBuy(timestamp);
