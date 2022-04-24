@@ -622,9 +622,8 @@ async function calcOpenPosition(timestamp, sig){
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
 
 
-    //if (sig.rsi1m == 2 && sig.rsi3m >= 1 && flag == ""){
-    if (sig.rsi1m == 2){
-        
+    if (sig.rsi1m == 2 && sig.rsi3m >= 1 && flag == ""){
+    //if (sig.rsi1m == 2){        
 
         const orderBuy = await api.newOrderBuy(timestamp);
         set(ref(database, `rsidata/log/lastopen1mC`), orderBuy);
@@ -633,20 +632,13 @@ async function calcOpenPosition(timestamp, sig){
         const ordIdOC = orderBuy.orderId;
         set(ref(database, 'rsidata/log/idOpen1mC'), ordIdOC);
 
-
-        //if(orderBuy){
-            flag = "1mC";        
-
-            //obj.flag = flag;
-            //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-            //return flagOpen;
-            objSendcalc.flag = flag;
-        //}
+        flag = "1mC";        
+        objSendcalc.flag = flag;
 
     }
 
-    //if (sig.rsi1m == -2 && sig.rsi3m <= -1 && flag == ""){
-    if (sig.rsi1m == -2){
+    if (sig.rsi1m == -2 && sig.rsi3m <= -1 && flag == ""){
+    //if (sig.rsi1m == -2){
 
         const orderSell = await api.newOrderSell(timestamp);
         set(ref(database, `rsidata/log/lastopen1mV`), orderSell);
@@ -654,52 +646,43 @@ async function calcOpenPosition(timestamp, sig){
         const ordIdOV = orderSell.orderId;
         set(ref(database, 'rsidata/log/idOpen1mV'), ordIdOV);
 
+        flag = "1mV";        
+        objSendcalc.flag = flag;
 
-
-        //if(orderSell){
-            flag = "1mV";
-        
-            //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-            //return flagOpen;
-            objSendcalc.flag = flag;
-        //}
-
-        //obj.flag = flag;
-        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-        //return "1mV";
 
     }
 
-    /*
+    
 
     if (sig.rsi3m >= 1 && sig.rsi5m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0 && (flag == "" || flag == "1mC")){
+
+        const orderBuy = await api.newOrderBuy(timestamp);
+        set(ref(database, `rsidata/log/lastopen5mC`), orderBuy);
+
+
+        const ordIdOC = orderBuy.orderId;
+        set(ref(database, 'rsidata/log/idOpen5mC'), ordIdOC);
+
         flag = "5mC";
+        objSendcalc.flag = flag;
 
-        //if (){
-            const orderBuy = await api.newOrderBuy(timestamp);
-        //}
-        //obj.flag = flag;
-        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-        return "5mC";
 
     }
 
     if (sig.rsi3m <= -1 && sig.rsi5m == -2 && objSendcalc.stoch1m.k > 50 && dif1m < 0 && (flag == "" || flag == "1mV")){
+
+        const orderBuy = await api.newOrderBuy(timestamp);
+        set(ref(database, `rsidata/log/lastopen5mV`), orderBuy);
+
+
+        const ordIdOC = orderBuy.orderId;
+        set(ref(database, 'rsidata/log/idOpen5mV'), ordIdOC);
+
         flag = "5mV";
-
-        //const dif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
-        //if (){
-            const orderSell = await api.newOrderSell(timestamp);
-        //}
-        //obj.flag = flag;
-        //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-        return "5mV";
+        objSendcalc.flag = flag;
 
     }
-
+/*
     if (sig.rsi5m == 2 && objSendcalc.stoch15m.k <= 30 && sig.rsi15m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0 && (flag == "" || flag == "1mC" || flag == "5mC" )){
         flag = "15mC";
 
