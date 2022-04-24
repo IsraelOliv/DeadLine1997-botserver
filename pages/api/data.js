@@ -651,6 +651,9 @@ async function calcClosePosition(timestamp, sig){
         if (dif1m < 0){
 
             const result = await api.closePositionBuy(timestamp);
+            set(ref(database, `rsidata/log/lastclose1mC`), result);
+
+
             const ordIdC = result.orderId;
             //set(ref(database, `rsidata/log/close1mC`), result);
 
@@ -677,6 +680,8 @@ async function calcClosePosition(timestamp, sig){
         //if (dif > 0 && objSendcalc.stoch3m.k <= 30){
         if (dif1m > 0){
             const result = await api.closePositionSell(timestamp);
+            set(ref(database, `rsidata/log/lastclose1mV`), result);
+
             const ordIdV = result.orderId;
 
             //set(ref(database, `rsidata/log/close1mV`), result);
@@ -821,7 +826,7 @@ async function calcOpenPosition(timestamp, sig){
         
 
         const orderBuy = await api.newOrderBuy(timestamp);
-        set(ref(database, `rsidata/test/open1mC`), orderBuy);
+        set(ref(database, `rsidata/log/lastopen1mC`), orderBuy);
 
 
         //if(orderBuy){
@@ -839,7 +844,7 @@ async function calcOpenPosition(timestamp, sig){
     if (sig.rsi1m == -2){
 
         const orderSell = await api.newOrderSell(timestamp);
-        set(ref(database, `rsidata/test/open1mV`), orderSell);
+        set(ref(database, `rsidata/log/lastopen1mV`), orderSell);
 
 
         //if(orderSell){
