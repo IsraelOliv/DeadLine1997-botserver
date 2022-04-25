@@ -1052,7 +1052,7 @@ async function createHistObj(result){
     
     const userTrades = await api.userTrades(timestamp);
     const lastTrade = await userTrades.filter(b => b.orderId === result.orderId);
-    let pnlrealized = lastTrade[0].realizedPnl;
+    //let pnlrealized = lastTrade[0].realizedPnl;
 
     //const income = await api.income(timestamp);
     //pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
@@ -1065,11 +1065,11 @@ async function createHistObj(result){
         lastUpdate: result.updateTime,
         symbol: position[0].symbol,
         entryPrice: position[0].entryPrice,
-        closePrice: objSendcalc.tick,
+        closePrice: lastTrade[0].price,
         isolatedMargin: position[0].isolatedWallet,
         highPnl: position[0].unrealizedProfit,
         lowPnl: position[0].unrealizedProfit,
-        realizedPnl: pnlrealized, // position[0].unrealizedProfit,
+        realizedPnl: lastTrade[0].realizedPnl, // position[0].unrealizedProfit,
         flag: flag
 
     }  
