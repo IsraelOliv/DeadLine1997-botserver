@@ -219,7 +219,7 @@ async function income(timestamp){
 
 async function userTrades(timestamp){
 
-    return privateFutCall('/fapi/v1/userTrades',timestamp);
+    return privateFutCall('/fapi/v1/userTrades',timestamp, {symbol});
 }
 
 module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders, allOrders, newOrderBuy, newOrderSell, closePositionSell, closePositionBuy, income, userTrades }
