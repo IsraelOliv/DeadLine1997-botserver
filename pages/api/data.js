@@ -932,6 +932,7 @@ async function calcClosePosition(timestamp, sig){
 
             const histOrd = createHistObj(result);
             set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+            
             flag = "";
             objSendcalc.flag = flag;
 
