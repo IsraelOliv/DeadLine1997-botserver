@@ -744,8 +744,8 @@ async function calcOpenPosition(timestamp, sig){
 
         if (flag == "" || flag == "1mV"){  
     
-            const orderBuy = await api.newOrderBuy(timestamp);
-            set(ref(database, `rsidata/log/lastopen5mV`), orderBuy);
+            const orderSell = await api.newOrderSell(timestamp);
+            set(ref(database, `rsidata/log/lastopen5mV`), orderSell);
 
             const ordIdOC = orderBuy.orderId;
             set(ref(database, 'rsidata/log/idOpen5mV'), ordIdOC);
@@ -1040,7 +1040,7 @@ async function calcClosePosition(timestamp, sig){
 }
 
 //function createHistObj(result, objSendcalc, position, flag){
-function createHistObj(result){
+function createHistObj(result){  
 
     let pnlrealized = pnlHist[pnlHist.length-1].income;
 
