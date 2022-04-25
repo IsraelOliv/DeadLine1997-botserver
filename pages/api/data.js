@@ -444,7 +444,7 @@ async function data(request, response){
 
     };
 
-    position = await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); //.set("test"); // || b.asset === 'USDT');
+    position = await objSendcalc.positions.filter(b => b.symbol === process.env.SYMBOL); //.set("test"); // || b.asset === 'USDT');
 
     if(position == {} || position[0] == null){
         flag = "";
