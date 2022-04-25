@@ -1054,8 +1054,8 @@ async function createHistObj(result){
     const lastTrade = userTrades.filter(b => b.orderId === result.orderId);
     //let pnlrealized = lastTrade[0].realizedPnl;
 
-    //const income = await api.income(timestamp);
-    //pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
+    const income = await api.income(timestamp);
+    pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
     let pnlrealized = pnlHist[pnlHist.length-1].income;
 
     const histObj = {
