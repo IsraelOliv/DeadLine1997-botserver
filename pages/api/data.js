@@ -546,12 +546,13 @@ async function makeMoneyRain(timestamp){
 
     //const data = "";
 
-    
+    await calcOpenPosition(timestamp, sig);
+
     if(flag != ""){
         await calcClosePosition(timestamp, sig);
     }
     //if(flag == ""){
-        await calcOpenPosition(timestamp, sig);
+        //await calcOpenPosition(timestamp, sig);
     //}
     
     //objSendcalc.flag = flag;
@@ -677,7 +678,7 @@ async function calcOpenPosition(timestamp, sig){
 
         await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT').set(obj); // || b.asset === 'USDT');
 */
-    }
+    }else
 
 
     // 1mV
@@ -715,7 +716,7 @@ async function calcOpenPosition(timestamp, sig){
 
         await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT').set(obj); // || b.asset === 'USDT');
 */
-    }
+    }else
     
     // 5mC
     //if (sig.rsi3m >= 1 && sig.rsi5m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0 && (flag == "" || flag == "1mC")){
@@ -735,7 +736,7 @@ async function calcOpenPosition(timestamp, sig){
 
         }
 
-    }
+    }else
 
     // 5mV
     //if (sig.rsi3m <= -1 && sig.rsi5m == -2 && objSendcalc.stoch1m.k > 50 && dif1m < 0 && (flag == "" || flag == "1mV")){
