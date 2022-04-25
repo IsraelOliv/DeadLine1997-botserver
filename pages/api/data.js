@@ -897,7 +897,7 @@ async function calcClosePosition(timestamp, sig){
             const ordIdC = result.orderId;
             set(ref(database, 'rsidata/log/idClose1mC'), ordIdC);
 
-            const histOrd = createHistObj(result);
+            const histOrd = await createHistObj(result);
             set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
 
             flag = "";
@@ -916,7 +916,7 @@ async function calcClosePosition(timestamp, sig){
             const ordIdV = result.orderId;
             set(ref(database, 'rsidata/log/idClose1mV'), ordIdV);
 
-            const histOrd = createHistObj(result);
+            const histOrd = await createHistObj(result);
             set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
 
             flag = "";
@@ -935,7 +935,7 @@ async function calcClosePosition(timestamp, sig){
             const ordIdV = result.orderId;
             set(ref(database, 'rsidata/log/idClose5mC'), ordIdV);
 
-            const histOrd = createHistObj(result);
+            const histOrd = await createHistObj(result);
             set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
 
             flag = "";
@@ -954,7 +954,7 @@ async function calcClosePosition(timestamp, sig){
             const ordIdV = result.orderId;
             set(ref(database, 'rsidata/log/idClose5mV'), ordIdV);
 
-            const histOrd = createHistObj(result);
+            const histOrd = await createHistObj(result);
             set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
 
             flag = "";
@@ -1048,7 +1048,7 @@ async function calcClosePosition(timestamp, sig){
 }
 
 //function createHistObj(result, objSendcalc, position, flag){
-function createHistObj(result){ 
+async function createHistObj(result){ 
     
     //const userTrades = await api.userTrades(timestamp);
     //const lastTrade = userTrades.filter(b => b.orderId === result.orderId);
