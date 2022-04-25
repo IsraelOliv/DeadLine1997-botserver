@@ -1051,7 +1051,7 @@ async function calcClosePosition(timestamp, sig){
 async function createHistObj(result){ 
     
     const userTrades = await api.userTrades(timestamp);
-    const lastTrade = await userTrades.filter(b => b.orderId === result.orderId);
+    const lastTrade = userTrades.filter(b => b.orderId === result.orderId);
     //let pnlrealized = lastTrade[0].realizedPnl;
 
     //const income = await api.income(timestamp);
