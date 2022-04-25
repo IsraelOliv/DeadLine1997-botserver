@@ -371,9 +371,12 @@ async function data(request, response){
         dPeriod: 3
     });
 
-    const allOrders = await api.allOrders(timeApi.data.serverTime);
+    //const allOrders = await api.allOrders(timeApi.data.serverTime);
 
-    const openOrders = await api.openOrders(timeApi.data.serverTime);
+    //const openOrders = await api.openOrders(timeApi.data.serverTime);
+
+    const userTrades = await api.userTrades(timestamp);
+
 
     /*
     //console.log('SMA: ');
@@ -437,11 +440,12 @@ async function data(request, response){
         stoch1w: stochRsi1w[stochRsi1w.length-1],
         stoch1wprev: stochRsi1w[stochRsi1w.length-2],
         
-        openorders: openOrders,
+        //openorders: openOrders,
         positions: positions,
         //pnlHist: pnlHist,
         pnlHist: {},
-        allOrders: allOrders
+        //allOrders: allOrders,
+        userTrades: userTrades
 
     };
 
@@ -1042,7 +1046,10 @@ async function calcClosePosition(timestamp, sig){
 }
 
 //function createHistObj(result, objSendcalc, position, flag){
-function createHistObj(result){  
+async function createHistObj(result){ 
+    
+    //const userTrades = await api.userTrades(timestamp);
+
 
     const income = await api.income(timestamp);
     pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
