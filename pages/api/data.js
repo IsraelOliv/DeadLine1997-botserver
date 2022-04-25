@@ -897,7 +897,7 @@ async function calcClosePosition(timestamp, sig){
             const ordIdC = result.orderId;
             set(ref(database, 'rsidata/log/idClose1mC'), ordIdC);
 
-            const histOrd = await createHistObj(result);
+            const histOrd = createHistObj(result);
             set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
 
             flag = "";
@@ -1048,14 +1048,14 @@ async function calcClosePosition(timestamp, sig){
 }
 
 //function createHistObj(result, objSendcalc, position, flag){
-async function createHistObj(result){ 
+function createHistObj(result){ 
     
     //const userTrades = await api.userTrades(timestamp);
     //const lastTrade = userTrades.filter(b => b.orderId === result.orderId);
     //let pnlrealized = lastTrade[0].realizedPnl;
 
-    const income = await api.income(timestamp);
-    pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
+    //const income = await api.income(timestamp);
+    //pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
     let pnlrealized = pnlHist[pnlHist.length-1].income;
 
     const histObj = {
