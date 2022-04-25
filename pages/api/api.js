@@ -217,8 +217,12 @@ async function income(timestamp){
     return privateFutCall('/fapi/v1/income',timestamp);
 }
 
+async function userTrades(timestamp){
 
-module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders, allOrders, newOrderBuy, newOrderSell, closePositionSell, closePositionBuy, income }
+    return privateFutCall('/fapi/v1/userTrades',timestamp);
+}
+
+module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders, allOrders, newOrderBuy, newOrderSell, closePositionSell, closePositionBuy, income, userTrades }
 
 /*
 
