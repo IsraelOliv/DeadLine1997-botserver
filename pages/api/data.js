@@ -235,8 +235,8 @@ async function data(request, response){
     const positions = carteira.positions.filter(b => b.unrealizedProfit !== '0.00000000'); // || b.asset === 'USDT');
     //console.log(`TEST:positions:  ${JSON.stringify(coin[0].availableBalance)}`);
 
-    const income = await api.income(timestamp);
-    pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
+    //const income = await api.income(timestamp);
+    //pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
 
     //accountFutures
 
@@ -439,7 +439,8 @@ async function data(request, response){
         
         openorders: openOrders,
         positions: positions,
-        pnlHist: pnlHist,
+        //pnlHist: pnlHist,
+        pnlHist: {},
         allOrders: allOrders
 
     };
@@ -1042,6 +1043,8 @@ async function calcClosePosition(timestamp, sig){
 //function createHistObj(result, objSendcalc, position, flag){
 function createHistObj(result){  
 
+    const income = await api.income(timestamp);
+    pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
     let pnlrealized = pnlHist[pnlHist.length-1].income;
 
     const histObj = {
