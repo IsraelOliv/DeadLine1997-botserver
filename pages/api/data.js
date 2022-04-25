@@ -546,13 +546,13 @@ async function makeMoneyRain(timestamp){
 
     //const data = "";
 
-    await calcOpenPosition(timestamp, sig);
+    //await calcOpenPosition(timestamp, sig);
 
     if(flag != ""){
         await calcClosePosition(timestamp, sig);
     }
     //if(flag == ""){
-        //await calcOpenPosition(timestamp, sig);
+        await calcOpenPosition(timestamp, sig);
     //}
     
     //objSendcalc.flag = flag;
