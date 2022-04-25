@@ -1056,7 +1056,7 @@ async function createHistObj(result){
 
     //const income = await api.income(timestamp);
     //pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
-    //let pnlrealized = pnlHist[pnlHist.length-1].income;
+    let pnlrealized = pnlHist[pnlHist.length-1].income;
 
     const histObj = {
 
@@ -1069,7 +1069,7 @@ async function createHistObj(result){
         isolatedMargin: position[0].isolatedWallet,
         highPnl: position[0].unrealizedProfit,
         lowPnl: position[0].unrealizedProfit,
-        realizedPnl: lastTrade[0].realizedPnl, // position[0].unrealizedProfit,
+        realizedPnl: pnlrealized, // position[0].unrealizedProfit,
         flag: flag
 
     }  
