@@ -218,8 +218,8 @@ async function income(timestamp){
 }
 
 async function userTrades(timestamp){
-
-    return privateFutCall('/fapi/v1/userTrades',timestamp, {symbol});
+    const limit = 15;
+    return privateFutCall('/fapi/v1/userTrades',timestamp, {symbol, limit});
 }
 
 module.exports = { time, depth, exchangeInfo, accountSnapshot, balance, accountFutures, klines, openOrders, allOrders, newOrderBuy, newOrderSell, closePositionSell, closePositionBuy, income, userTrades }
