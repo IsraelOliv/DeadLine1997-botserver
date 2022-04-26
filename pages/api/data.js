@@ -1053,7 +1053,7 @@ async function calcClosePosition(timestamp, sig){
 
 async function histFix (){
 
-    let histFixObj = [];
+    var histFixObj = [];
 
     await get(child(dbRef, 'rsidata/hist')).then((snapshot) => {    
         if (snapshot.exists()) {
@@ -1073,18 +1073,11 @@ async function histFix (){
     for (let i = 0; i < histFixObj.length; i++) {
         
         var v = userTradesObj.filter(b => b.orderId === histFixObj[i].orderId);
-
         
+        histFixObj[i].closePrice = v.price
 
     }
-
-    /*
-    histFixObj.forEach(function(element) {
-       // var v = userTradesObj.orderId;
-
-        //console.log(element.orderId);
-    });
-    */
+    set(ref(database, `rsidata/hist`), histFixObj);
 
 }
 
