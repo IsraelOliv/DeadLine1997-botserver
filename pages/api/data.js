@@ -922,6 +922,7 @@ async function calcClosePosition(timestamp, sig){
 
             flag = "";
             objSendcalc.flag = flag;
+            set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -941,6 +942,7 @@ async function calcClosePosition(timestamp, sig){
 
             flag = "";
             objSendcalc.flag = flag;
+            set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -960,6 +962,7 @@ async function calcClosePosition(timestamp, sig){
 
             flag = "";
             objSendcalc.flag = flag;
+            set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -979,7 +982,7 @@ async function calcClosePosition(timestamp, sig){
 
             flag = "";
             objSendcalc.flag = flag;
-
+            set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -996,8 +999,10 @@ async function calcClosePosition(timestamp, sig){
 
             const histOrd = createHistObj(result);
             set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+
             flag = "";
             objSendcalc.flag = flag;
+            set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -1016,6 +1021,7 @@ async function calcClosePosition(timestamp, sig){
             set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
             flag = "";
             objSendcalc.flag = flag;
+            set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -1035,6 +1041,7 @@ async function calcClosePosition(timestamp, sig){
 
             flag = "";
             objSendcalc.flag = flag;
+            set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -1054,6 +1061,7 @@ async function calcClosePosition(timestamp, sig){
 
             flag = "";
             objSendcalc.flag = flag;
+            set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -1111,10 +1119,7 @@ async function histFix (timestamp){
         //histFixObj[i].realizedPnl = v.realizedPnl;
 
     }
-    await set(child(dbRef, 'rsidata/hist'), histFixObj);
-
-
-    
+    await set(child(dbRef, 'rsidata/hist'), histFixObj);    
 
 }
 
