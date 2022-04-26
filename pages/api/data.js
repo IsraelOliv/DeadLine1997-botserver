@@ -110,6 +110,8 @@ var position = {};
 var pnlHist = null;
 var userTradesObj = [];
 
+const symbol = process.env.SYMBOL;
+
 async function data(request, response){ 
     //const dynamicDate = new Date();
 
@@ -481,7 +483,7 @@ async function data(request, response){
 
     };
 
-    position = await objSendcalc.positions.filter(b => b.symbol === process.env.SYMBOL); //.set("test"); // || b.asset === 'USDT');
+    position = await objSendcalc.positions.filter(b => b.symbol === symbol); //.set("test"); // || b.asset === 'USDT');
 
     if(position == {} || position[0] == null){
         flag = "";
