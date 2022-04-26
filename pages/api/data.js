@@ -1021,7 +1021,7 @@ async function calcClosePosition(timestamp, sig){
     }else if (flag == "1hC"){
 
         //if (sig.rsi5m == -2 && sig.rsi15m <= -1 && sig.rsi30m <= -1 && sig.rsi1h <= -1 ){
-        if (sig.rsi1h <= -1 && dif30m < 0 && objSendcalc.stoch1h.k > 60){     
+        if ((sig.rsi1h <= -1 && dif30m < 0 && objSendcalc.stoch1h.k > 60) || dif1h < 0){     
     
             let result = await api.closePositionBuy(timestamp);
             set(ref(database, `rsidata/log/lastclose1hC`), result);
@@ -1042,7 +1042,7 @@ async function calcClosePosition(timestamp, sig){
     }else if (flag == "1hV"){
 
         //if (sig.rsi5m == 2 && sig.rsi15m >= 1 && sig.rsi30m >= 1 && sig.rsi1h >= 1){
-        if (sig.rsi1h >= 1 && dif30m < 0 && objSendcalc.stoch1h.k < 40){     
+        if ((sig.rsi1h >= 1 && dif30m < 0 && objSendcalc.stoch1h.k < 40) || dif1h > 0){     
     
             let result = await api.closePositionSell(timestamp);
             set(ref(database, `rsidata/log/lastclose1hV`), result);
