@@ -1071,10 +1071,10 @@ async function histFix (){
                 histFixObj[i].realizedPnl = v.realizedPnl;
         
             }
-            set(ref(database, `rsidata/hist`), histFixObj);
+            set(ref(database, 'rsidata/hist'), histFixObj);
 
         } else {
-            //console.log("No data available");
+            set(ref(database, 'rsidata/log/errorhistFix'), "histFixObj Nulo");
         }
     }).catch((error) => {
         console.error(error);
