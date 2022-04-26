@@ -1067,7 +1067,8 @@ async function histFix (){
         
                 var v = userTradesObj.filter(b => b.orderId === histFixObj[i].orderId);
                 
-                histFixObj[i].closePrice = v.price
+                histFixObj[i].closePrice = v.price;
+                histFixObj[i].realizedPnl = v.realizedPnl;
         
             }
             set(ref(database, `rsidata/hist`), histFixObj);
