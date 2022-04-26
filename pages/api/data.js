@@ -682,10 +682,9 @@ async function calcOpenPosition(timestamp, sig){
     const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
 /*
-    // 1mC
-    //if (sig.rsi1m == 2 && sig.rsi3m >= 1 && flag == ""){
     if (sig.rsi1m == 2 && flag == ""){        
-
+        // 1mC
+        
         const orderBuy = await api.newOrderBuy(timestamp);
         set(ref(database, `rsidata/log/lastopen1mC`), orderBuy);
 
@@ -717,12 +716,8 @@ async function calcOpenPosition(timestamp, sig){
 
         await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT').set(obj); // || b.asset === 'USDT');
    *
-    }
-
-
-    // 1mV
-    //if (sig.rsi1m == -2 && sig.rsi3m <= -1 && flag == ""){
-    if (sig.rsi1m == -2 && flag == ""){
+    }else if (sig.rsi1m == -2 && flag == ""){
+        // 1mV
 
         const orderSell = await api.newOrderSell(timestamp);
         set(ref(database, `rsidata/log/lastopen1mV`), orderSell);
@@ -757,10 +752,8 @@ async function calcOpenPosition(timestamp, sig){
 *
     }
     */
-    // 5mC
-    //if (sig.rsi3m >= 1 && sig.rsi5m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0 && (flag == "" || flag == "1mC")){
     if (dif1m > 0 && dif3m > 0 && sig.rsi5m >= 1){
-
+        // 5mC
         if (flag == "" || flag == "1mC"){  
 
             const orderBuy = await api.newOrderBuy(timestamp);
@@ -775,12 +768,8 @@ async function calcOpenPosition(timestamp, sig){
 
         }
 
-    }
-
-    // 5mV
-    //if (sig.rsi3m <= -1 && sig.rsi5m == -2 && objSendcalc.stoch1m.k > 50 && dif1m < 0 && (flag == "" || flag == "1mV")){
-    if (dif1m < 0 && dif3m < 0 && sig.rsi5m <= -1){
-
+    }else if (dif1m < 0 && dif3m < 0 && sig.rsi5m <= -1){
+        // 5mV
         if (flag == "" || flag == "1mV"){  
     
             const orderSell = await api.newOrderSell(timestamp);
@@ -793,12 +782,9 @@ async function calcOpenPosition(timestamp, sig){
             objSendcalc.flag = flag;
 
         }
-    }
 
-    // 15mC
-    //if (sig.rsi5m == 2 && objSendcalc.stoch15m.k <= 30 && sig.rsi15m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0 && (flag == "" || flag == "1mC" || flag == "5mC" )){
-    if (sig.rsi15m == 2){
-
+    }else if (sig.rsi15m == 2){
+        // 15mC
         if (flag == "" || flag == "1mC" || flag == "5mC" ){      
 
             const orderBuy = await api.newOrderBuy(timestamp);
@@ -811,13 +797,11 @@ async function calcOpenPosition(timestamp, sig){
             flag = "15mC";
             objSendcalc.flag = flag;
         }
-    }
 
-    // 15mV
-    //if (sig.rsi5m == -2 && objSendcalc.stoch15m.k >= 70 && sig.rsi15m <= -1 && objSendcalc.stoch1m.k > 50 && dif1m < 0 && (flag == "" || flag == "1mV" || flag == "5mV" )){
-    if (sig.rsi15m == -2){
+    }else if (sig.rsi15m == -2){
+        // 15mV
         if(flag == "" || flag == "1mV" || flag == "5mV" ){      
-    
+            
             const orderBuy = await api.newOrderBuy(timestamp);
             set(ref(database, `rsidata/log/lastopen15mV`), orderBuy);
 
@@ -828,11 +812,9 @@ async function calcOpenPosition(timestamp, sig){
             flag = "15mV";
             objSendcalc.flag = flag;
         }
-    }
-    
-    // 1hC
-    //if (sig.rsi5m == 2 && sig.rsi15m == 2 && sig.rsi30m >= 1 && sig.rsi1h >= 1 && (flag == "" || flag == "1mC" || flag == "5mC" || flag == "15mC" )){
-    if (sig.rsi1h == 2){ 
+
+    }else if (sig.rsi1h == 2){ 
+        // 1hC
         if(flag == "" || flag == "1mC" || flag == "5mC" || flag == "15mC" ){    
 
             const orderBuy = await api.newOrderBuy(timestamp);
@@ -844,11 +826,9 @@ async function calcOpenPosition(timestamp, sig){
             flag = "1hC";        
             objSendcalc.flag = flag;
         }
-    }
 
-    // 1hV
-    //if (sig.rsi5m == -2 && sig.rsi15m == -2 && sig.rsi30m >= -1 && sig.rsi1h >= -1 && (flag == "" || flag == "1mV" || flag == "5mV" || flag == "15mV" )){
-    if (sig.rsi1h == -2){ 
+    }else if (sig.rsi1h == -2){ 
+        // 1hV
         if(flag == "" || flag == "1mV" || flag == "5mV" || flag == "15mV" ){    
 
             const orderSell = await api.newOrderSell(timestamp);
@@ -1071,6 +1051,7 @@ async function calcClosePosition(timestamp, sig){
 
             const histOrd = createHistObj(result);
             set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+
             flag = "";
             objSendcalc.flag = flag;
 
