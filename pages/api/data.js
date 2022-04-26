@@ -922,7 +922,8 @@ async function calcClosePosition(timestamp, sig){
 
             flag = "";
             objSendcalc.flag = flag;
-            set(ref(database, 'rsidata/obj/positions'), null);
+            objSendcalc.positions = null;            
+            //set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -942,7 +943,8 @@ async function calcClosePosition(timestamp, sig){
 
             flag = "";
             objSendcalc.flag = flag;
-            set(ref(database, 'rsidata/obj/positions'), null);
+            objSendcalc.positions = null;            
+            //set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -962,7 +964,8 @@ async function calcClosePosition(timestamp, sig){
 
             flag = "";
             objSendcalc.flag = flag;
-            set(ref(database, 'rsidata/obj/positions'), null);
+            objSendcalc.positions = null;            
+            //set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -982,7 +985,8 @@ async function calcClosePosition(timestamp, sig){
 
             flag = "";
             objSendcalc.flag = flag;
-            set(ref(database, 'rsidata/obj/positions'), null);
+            objSendcalc.positions = null;            
+            //set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -1002,7 +1006,8 @@ async function calcClosePosition(timestamp, sig){
 
             flag = "";
             objSendcalc.flag = flag;
-            set(ref(database, 'rsidata/obj/positions'), null);
+            objSendcalc.positions = null;            
+            //set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -1021,7 +1026,8 @@ async function calcClosePosition(timestamp, sig){
             set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
             flag = "";
             objSendcalc.flag = flag;
-            set(ref(database, 'rsidata/obj/positions'), null);
+            objSendcalc.positions = null;            
+            //set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -1041,7 +1047,8 @@ async function calcClosePosition(timestamp, sig){
 
             flag = "";
             objSendcalc.flag = flag;
-            set(ref(database, 'rsidata/obj/positions'), null);
+            objSendcalc.positions = null;            
+            //set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
@@ -1061,16 +1068,13 @@ async function calcClosePosition(timestamp, sig){
 
             flag = "";
             objSendcalc.flag = flag;
-            set(ref(database, 'rsidata/obj/positions'), null);
+            objSendcalc.positions = null;            
+            //set(ref(database, 'rsidata/obj/positions'), null);
 
         }
 
     }
-    
-    
-
     //return flagClose;
-
 }
 
 async function histFix (timestamp){
