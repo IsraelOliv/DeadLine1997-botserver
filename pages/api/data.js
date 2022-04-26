@@ -108,6 +108,7 @@ var flag = "";
 var position = {};
 
 var pnlHist = null;
+var userTrades = null;
 
 async function data(request, response){ 
     //const dynamicDate = new Date();
@@ -375,7 +376,7 @@ async function data(request, response){
 
     //const openOrders = await api.openOrders(timeApi.data.serverTime);
 
-    const userTrades = await api.userTrades(timestamp);
+    userTrades = await api.userTrades(timestamp);
 
 
     /*
@@ -1067,9 +1068,9 @@ async function histFix (){
     });
 
     histFixObj.forEach(element => {
+        //userTrades
 
-
-        console.log(element);
+        //console.log(element.orderId);
     });
 
 }
