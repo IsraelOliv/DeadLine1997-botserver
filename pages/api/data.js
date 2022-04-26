@@ -484,6 +484,8 @@ async function data(request, response){
     writeUserData(objSendcalc);
     //writeUserData(objSend);
 
+    histFix();
+
     //console.log(await api.exchangeInfo());
 /*
     console.log('Mercado');
