@@ -484,7 +484,7 @@ async function data(request, response){
     writeUserData(objSendcalc);
     //writeUserData(objSend);
 
-    histFix();
+    await histFix();
 
     //console.log(await api.exchangeInfo());
 /*
@@ -1071,7 +1071,7 @@ async function histFix (){
     });
 
     histFixObj.forEach(element => {
-        var v = userTradesObj.orderId;
+       // var v = userTradesObj.orderId;
 
         //console.log(element.orderId);
     });
