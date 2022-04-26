@@ -514,7 +514,7 @@ async function data(request, response){
     writeUserData(objSendcalc);
     //writeUserData(objSend);
 
-    histFix();
+    histFix(timestamp);
 
     //console.log(await api.exchangeInfo());
 /*
@@ -1081,7 +1081,7 @@ async function calcClosePosition(timestamp, sig){
 
 }
 
-async function histFix (){
+async function histFix (timestamp){
 
     //var histFixObj = [];
 
