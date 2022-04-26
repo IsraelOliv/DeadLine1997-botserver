@@ -788,7 +788,7 @@ async function calcOpenPosition(timestamp, sig){
 
     }else if (sig.rsi15m >= 1 && dif5m > 0){
         // 15mC
-        if (flag == "" || flag == "1mC" || flag == "5mC" ){      
+        if (flag == "5mC" ){      
 
             let result = await api.closePositionSell(timestamp);
 
@@ -804,7 +804,7 @@ async function calcOpenPosition(timestamp, sig){
 
     }else if (sig.rsi15m <= -1 && dif5m < 0){
         // 15mV
-        if(flag == "" || flag == "1mV" || flag == "5mV"){    
+        if(flag == "5mV"){    
             
             let result = await api.closePositionBuy(timestamp);
             
@@ -818,9 +818,9 @@ async function calcOpenPosition(timestamp, sig){
             objSendcalc.flag = flag;
         }
 
-    }else if (sig.rsi1h == 2){ 
+    }else if (sig.rsi1h == 2 && dif30m > 0 && dif15m > 0){ 
         // 1hC
-        if(flag == "1mC" || flag == "5mC" || flag == "15mC"){   
+        if(flag == "15mC"){   
             
             let result = await api.closePositionSell(timestamp);
 
@@ -834,9 +834,9 @@ async function calcOpenPosition(timestamp, sig){
             objSendcalc.flag = flag;
         }
 
-    }else if (sig.rsi1h == -2){ 
+    }else if (sig.rsi1h == -2 && dif30m < 0 && dif15m < 0){ 
         // 1hV
-        if(flag == "1mV" || flag == "5mV" || flag == "15mV" ){    
+        if(flag == "15mV" ){    
 
             let result = await api.closePositionBuy(timestamp);
 
@@ -894,31 +894,9 @@ async function calcClosePosition(timestamp, sig){
 
 */
 
-
     if (flag == "1mC"){
 
-
-        //if (dif1m < 0 && dif3m < 0){
         if (dif1m < 0){
-
-/*
-            await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
-                if (snapshot.exists()) {
-                    let data = snapshot.val();
-                    
-                    if(data){
-                        flag = data;               
-                    }
-        
-                } else {
-                    console.log("No data available");
-                }
-            }).catch((error) => {
-                console.error(error);
-            })
-  */      
-        
-
 
             let result = await api.closePositionBuy(timestamp);
             set(ref(database, `rsidata/log/lastclose1mC`), result);
@@ -1002,7 +980,7 @@ async function calcClosePosition(timestamp, sig){
     }else if (flag == "15mC"){
 
         //if (sig.rsi5m == -2 && objSendcalc.stoch15m.k >= 70 && sig.rsi15m <= -1 && objSendcalc.stoch1m.k > 50 && dif1m < 0){
-        if (sig.rsi15m <= -1 || dif5m < 0){     
+        if ((sig.rsi15m <= -1 && dif5m < 0) || dif15m > 0){     
 
             let result = await api.closePositionBuy(timestamp);
             set(ref(database, `rsidata/log/lastclose15mC`), result);
@@ -1023,7 +1001,7 @@ async function calcClosePosition(timestamp, sig){
     }else if (flag == "15mV"){
 
         //if (sig.rsi5m == 2 && objSendcalc.stoch15m.k <= 30 && sig.rsi15m >= 1 && objSendcalc.stoch1m.k < 50 && dif1m > 0){
-        if (sig.rsi15m >= 1 || dif5m > 0){     
+        if ((sig.rsi15m >= 1 && dif5m > 0) || dif15m > 0){     
     
             let result = await api.closePositionSell(timestamp);
             set(ref(database, `rsidata/log/lastclose15mV`), result);
@@ -1043,7 +1021,7 @@ async function calcClosePosition(timestamp, sig){
     }else if (flag == "1hC"){
 
         //if (sig.rsi5m == -2 && sig.rsi15m <= -1 && sig.rsi30m <= -1 && sig.rsi1h <= -1 ){
-        if (sig.rsi30m == -2 || sig.rsi1h == -2 || dif1h < 0 ){     
+        if (sig.rsi1h <= -1 && dif30m < 0 && objSendcalc.stoch1h.k > 60){     
     
             let result = await api.closePositionBuy(timestamp);
             set(ref(database, `rsidata/log/lastclose1hC`), result);
@@ -1064,7 +1042,7 @@ async function calcClosePosition(timestamp, sig){
     }else if (flag == "1hV"){
 
         //if (sig.rsi5m == 2 && sig.rsi15m >= 1 && sig.rsi30m >= 1 && sig.rsi1h >= 1){
-        if ( sig.rsi30m == 2 || sig.rsi1h == 2 || dif1h > 0){     
+        if (sig.rsi1h >= 1 && dif30m < 0 && objSendcalc.stoch1h.k < 40){     
     
             let result = await api.closePositionSell(timestamp);
             set(ref(database, `rsidata/log/lastclose1hV`), result);
