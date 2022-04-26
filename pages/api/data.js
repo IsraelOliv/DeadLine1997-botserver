@@ -241,7 +241,7 @@ async function data(request, response){
 
     const userTrades = await api.userTrades(timestamp);
     userTradesObj = userTrades;
-
+/*
     var histFixObj = null;
 
     await get(child(dbRef, 'rsidata/hist')).then((snapshot) => {    
@@ -270,7 +270,7 @@ async function data(request, response){
     }
     set(ref(database, 'rsidata/hist'), histFixObj);
 
-
+*/
 
     //accountFutures
 
