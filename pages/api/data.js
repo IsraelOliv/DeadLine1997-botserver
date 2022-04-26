@@ -514,7 +514,7 @@ async function data(request, response){
     writeUserData(objSendcalc);
     //writeUserData(objSend);
 
-    //await histFix();
+    histFix();
 
     //console.log(await api.exchangeInfo());
 /*
@@ -1085,23 +1085,18 @@ async function histFix (){
 
     //var histFixObj = [];
 
+    const userTrades = await api.userTrades(timestamp);
+    userTradesObj = userTrades;
+
+    var histFixObj = null;
+
     await get(child(dbRef, 'rsidata/hist')).then((snapshot) => {    
         if (snapshot.exists()) {
             const data = snapshot.val();
             
-            //if(data){
-              var histFixObj = data;               
-            //}
-
-            for (let i = 0; i < histFixObj.length; i++) {
-        
-                var v = userTradesObj.filter(b => b.orderId === histFixObj[i].orderId);
-                
-                histFixObj[i].closePrice = v.price;
-                histFixObj[i].realizedPnl = v.realizedPnl;
-        
+            if(data){
+              histFixObj = data;               
             }
-            set(ref(database, 'rsidata/hist'), histFixObj);
 
         } else {
 
@@ -1110,6 +1105,30 @@ async function histFix (){
     }).catch((error) => {
         console.error(error);
     });
+
+    for (let i = 0; i < userTradesObj.length; i++) {
+    
+        //console.log(`userTradesObj [${i}] = { ${JSON.stringify(userTradesObj[i])} }`);
+        
+        
+        if (histFixObj[userTradesObj[i].orderId]){
+
+            histFixObj[userTradesObj[i].orderId].realizedPnl = userTradesObj[i].realizedPnl;
+            histFixObj[userTradesObj[i].orderId].closePrice = userTradesObj[i].price;
+            histFixObj[userTradesObj[i].orderId].realizedPnl = userTradesObj[i].realizedPnl;
+            
+        }
+        
+        //console.log('test');
+
+        //var v = userTradesObj.filter(b => b.orderId === histFixObj[i].orderId);
+        
+        //histFixObj[i].closePrice = v.price;
+        //histFixObj[i].realizedPnl = v.realizedPnl;
+
+    }
+    await set(database.child(dbRef, 'rsidata/hist'), histFixObj);
+
 
     
 
