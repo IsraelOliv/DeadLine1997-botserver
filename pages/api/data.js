@@ -1047,6 +1047,27 @@ async function calcClosePosition(timestamp, sig){
 
 }
 
+async function histFix (){
+
+    var histFixObj = null;
+
+    await get(child(dbRef, 'rsidata/hist')).then((snapshot) => {    
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            
+            if(data){
+                histFixObj = data;               
+            }
+
+        } else {
+            console.log("No data available");
+        }
+    }).catch((error) => {
+        console.error(error);
+    })
+
+}
+
 //function createHistObj(result, objSendcalc, position, flag){
 function createHistObj(result){ 
     
