@@ -1070,13 +1070,17 @@ async function histFix (){
         console.error(error);
     });
 
-    
+    for (let i = 0; i < histFixObj.length; i++) {
+
+
+    }
+    /*
     histFixObj.forEach(function(element) {
        // var v = userTradesObj.orderId;
 
         //console.log(element.orderId);
     });
-    
+    */
 
 }
 
