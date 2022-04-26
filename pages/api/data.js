@@ -1127,7 +1127,7 @@ async function histFix (timestamp){
         //histFixObj[i].realizedPnl = v.realizedPnl;
 
     }
-    await set(database.child(dbRef, 'rsidata/hist'), histFixObj);
+    await set(child(dbRef, 'rsidata/hist'), histFixObj);
 
 
     
