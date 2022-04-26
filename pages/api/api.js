@@ -218,7 +218,7 @@ async function income(timestamp){
 }
 
 async function userTrades(timestamp){
-    const limit = 15;
+    const limit = 50;
     return privateFutCall('/fapi/v1/userTrades',timestamp, {symbol, limit});
 }
 
