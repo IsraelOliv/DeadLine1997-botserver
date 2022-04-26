@@ -208,7 +208,7 @@ async function data(request, response){
         }
     }).catch((error) => {
         console.error(error);
-    })
+    });
 
     const timeApi = await api.time();
     console.log(`serverTime: ${timeApi.data.serverTime}`);
@@ -1064,7 +1064,13 @@ async function histFix (){
         }
     }).catch((error) => {
         console.error(error);
-    })
+    });
+
+    histFixObj.forEach(element => {
+
+
+        console.log(element);
+    });
 
 }
 
