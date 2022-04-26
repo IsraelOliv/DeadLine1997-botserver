@@ -1071,7 +1071,7 @@ async function histFix (){
     });
 
     
-    histFixObj.forEach(element => {
+    histFixObj.forEach(function(element) {
        // var v = userTradesObj.orderId;
 
         //console.log(element.orderId);
