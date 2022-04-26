@@ -1053,14 +1053,14 @@ async function calcClosePosition(timestamp, sig){
 
 async function histFix (){
 
-    var histFixObj = null;
+    let histFixObj = [];
 
     await get(child(dbRef, 'rsidata/hist')).then((snapshot) => {    
         if (snapshot.exists()) {
             const data = snapshot.val();
             
             if(data){
-                histFixObj = data;               
+              histFixObj = data;               
             }
 
         } else {
@@ -1070,13 +1070,13 @@ async function histFix (){
         console.error(error);
     });
 
-    /*
+    
     histFixObj.forEach(element => {
        // var v = userTradesObj.orderId;
 
         //console.log(element.orderId);
     });
-    */
+    
 
 }
 
