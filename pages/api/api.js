@@ -181,7 +181,7 @@ async function newOrder(timestamp, side, type = "TRAILING_STOP_MARKET", quantity
 async function newOrderBuy(timestamp){
     const side = "BUY";
     const type = "MARKET";
-    const quantity = 0.004;
+    const quantity = 0.002;
 
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
 }
@@ -189,7 +189,7 @@ async function newOrderBuy(timestamp){
 async function newOrderSell(timestamp){
     const side = "SELL";
     const type = "MARKET";
-    const quantity = 0.004;
+    const quantity = 0.002;
 
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
 }
