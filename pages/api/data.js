@@ -1115,7 +1115,7 @@ async function histFix (timestamp){
 
             histFixObj[userTradesObj[i].orderId].realizedPnl = userTradesObj[i].realizedPnl;
             histFixObj[userTradesObj[i].orderId].closePrice = userTradesObj[i].price;
-            histFixObj[userTradesObj[i].orderId].realizedPnl = userTradesObj[i].realizedPnl;
+            histFixObj[userTradesObj[i].orderId].lastUpdate = userTradesObj[i].time;
             
         }
         
