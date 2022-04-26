@@ -940,7 +940,7 @@ async function calcClosePosition(timestamp, sig){
     }else if (flag == "5mC"){
 
         //if (objSendcalc.stoch5m.k >= 70 && objSendcalc.stoch3m.k >= 70 && dif3m < 0 && objSendcalc.stoch1m.k > 50 && dif1m < 0){
-        if (dif3m < 0 && dif5m < 0){ 
+        if ((dif3m < 0 && sig.rsi15m <= -1) || dif5m < 0){ 
 
             let result = await api.closePositionBuy(timestamp);
             set(ref(database, `rsidata/log/lastclose5mC`), result);
@@ -961,7 +961,7 @@ async function calcClosePosition(timestamp, sig){
     }else if (flag == "5mV"){
 
         //if (objSendcalc.stoch5m.k <= 30 && objSendcalc.stoch3m.k <= 30 && dif3m > 0 && objSendcalc.stoch1m.k < 50 && dif1m > 0){
-        if (dif3m > 0 && dif5m > 0){    
+        if ((dif3m > 0 && sig.rsi15m >= 1) || dif5m > 0){    
 
             let result = await api.closePositionSell(timestamp);
             set(ref(database, `rsidata/log/lastclose5mV`), result);
