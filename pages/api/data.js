@@ -474,7 +474,7 @@ async function data(request, response){
         
         //openorders: openOrders,
         positions: positions,
-        pnlHist: pnlHist,
+        //pnlHist: pnlHist,
         pnlHist: {},
         //allOrders: allOrders,
         userTrades: userTrades
