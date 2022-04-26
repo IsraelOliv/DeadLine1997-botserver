@@ -108,7 +108,7 @@ var flag = "";
 var position = {};
 
 var pnlHist = null;
-var userTrades = null;
+var userTradesObj = null;
 
 async function data(request, response){ 
     //const dynamicDate = new Date();
@@ -376,8 +376,9 @@ async function data(request, response){
 
     //const openOrders = await api.openOrders(timeApi.data.serverTime);
 
-    userTrades = await api.userTrades(timestamp);
-
+    const userTrades = await api.userTrades(timestamp);
+    
+    userTradesObj = userTrades;
 
     /*
     //console.log('SMA: ');
@@ -1068,7 +1069,7 @@ async function histFix (){
     });
 
     histFixObj.forEach(element => {
-        //userTrades
+        var v = userTradesObj.orderId;
 
         //console.log(element.orderId);
     });
