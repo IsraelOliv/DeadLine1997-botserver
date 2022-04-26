@@ -802,7 +802,7 @@ async function calcOpenPosition(timestamp, sig){
         // 15mV
         if(flag == "" || flag == "1mV" || flag == "5mV" ){      
             
-            const orderBuy = await api.newOrderBuy(timestamp);
+            const orderBuy = await api.newOrderSell(timestamp);
             set(ref(database, `rsidata/log/lastopen15mV`), orderBuy);
 
 
