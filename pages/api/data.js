@@ -108,7 +108,7 @@ var flag = "";
 var position = {};
 
 var pnlHist = null;
-var userTradesObj = null;
+var userTradesObj = [];
 
 async function data(request, response){ 
     //const dynamicDate = new Date();
@@ -238,6 +238,39 @@ async function data(request, response){
 
     const income = await api.income(timestamp);
     pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
+
+    const userTrades = await api.userTrades(timestamp);
+    userTradesObj = userTrades;
+
+    var histFixObj = null;
+
+    await get(child(dbRef, 'rsidata/hist')).then((snapshot) => {    
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            
+            if(data){
+              histFixObj = data;               
+            }
+
+        } else {
+
+            set(ref(database, 'rsidata/log/errorhistFix'), "histFixObj Nulo");
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
+
+    for (let i = 0; i < histFixObj.length; i++) {
+        
+        var v = userTradesObj.filter(b => b.orderId === histFixObj[i].orderId);
+        
+        histFixObj[i].closePrice = v.price;
+        histFixObj[i].realizedPnl = v.realizedPnl;
+
+    }
+    set(ref(database, 'rsidata/hist'), histFixObj);
+
+
 
     //accountFutures
 
@@ -376,9 +409,6 @@ async function data(request, response){
 
     //const openOrders = await api.openOrders(timeApi.data.serverTime);
 
-    const userTrades = await api.userTrades(timestamp);
-    
-    userTradesObj = userTrades;
 
     /*
     //console.log('SMA: ');
@@ -484,7 +514,7 @@ async function data(request, response){
     writeUserData(objSendcalc);
     //writeUserData(objSend);
 
-    await histFix();
+    //await histFix();
 
     //console.log(await api.exchangeInfo());
 /*
@@ -1074,6 +1104,7 @@ async function histFix (){
             set(ref(database, 'rsidata/hist'), histFixObj);
 
         } else {
+
             set(ref(database, 'rsidata/log/errorhistFix'), "histFixObj Nulo");
         }
     }).catch((error) => {
