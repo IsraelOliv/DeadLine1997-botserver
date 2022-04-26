@@ -1071,9 +1071,13 @@ async function histFix (){
     });
 
     for (let i = 0; i < histFixObj.length; i++) {
+        
+        var v = userTradesObj.filter(b => b.asset === histFixObj[i].orderId);
 
+        
 
     }
+    
     /*
     histFixObj.forEach(function(element) {
        // var v = userTradesObj.orderId;
