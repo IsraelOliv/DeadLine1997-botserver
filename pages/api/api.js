@@ -194,7 +194,7 @@ async function newOrderSell(timestamp){
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
 }
 
-async function closePositionBuy(timestamp, quantity = 1000){
+async function closePositionBuy(timestamp, quantity = 1){
     const side = "SELL";
     const type = "MARKET";
     //const quantity = 1;
@@ -203,7 +203,7 @@ async function closePositionBuy(timestamp, quantity = 1000){
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity, reduceOnly}, "POST");
 }
 
-async function closePositionSell(timestamp, quantity = 1000){
+async function closePositionSell(timestamp, quantity = 1){
     const side = "BUY";
     const type = "MARKET";
     //const quantity = 1;
