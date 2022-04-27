@@ -685,7 +685,7 @@ async function calcOpenPosition(timestamp, sig){
     const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
 
-    if (sig.rsi1m == 2 && objSendcalc.stoch3m.k < 50 && flag == ""){        
+    if (sig.rsi3m >= 1 && dif1m > 0 && objSendcalc.stoch1m.k < 50 && flag == ""){      
         // 1mC
         
         let orderBuy = await api.newOrderBuy(timestamp);
@@ -721,7 +721,7 @@ async function calcOpenPosition(timestamp, sig){
         await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT').set(obj); // || b.asset === 'USDT');
    */
     
-    }else if (sig.rsi1m == -2 && objSendcalc.stoch3m.k > 50 && flag == ""){
+    }else if (sig.rsi3m <= -1 && dif1m < 0 && objSendcalc.stoch1m.k > 50 && flag == ""){
         // 1mV
 
         let orderSell = await api.newOrderSell(timestamp);
