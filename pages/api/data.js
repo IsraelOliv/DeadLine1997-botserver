@@ -427,6 +427,7 @@ async function data(request, response){
     
     objSendcalc = {
 
+        symbol: symbol,
         lastUpdate: lastUpdate,
         balance: balance,
         availableBalance: availableBalance,
