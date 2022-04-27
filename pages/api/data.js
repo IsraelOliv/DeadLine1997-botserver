@@ -780,8 +780,8 @@ async function calcOpenPosition(timestamp, sig){
             let orderSell = await api.newOrderSell(timestamp);
             set(ref(database, `rsidata/log/lastopen5mV`), orderSell);
 
-            let ordIdOC = orderSell.orderId;
-            set(ref(database, 'rsidata/log/idOpen5mV'), ordIdOC);
+            let ordIdOV = orderSell.orderId;
+            set(ref(database, 'rsidata/log/idOpen5mV'), ordIdOV);
 
             flag = "5mV";
             objSendcalc.flag = flag;
@@ -810,11 +810,11 @@ async function calcOpenPosition(timestamp, sig){
             
             let result = await api.closePositionBuy(timestamp);
             
-            let orderBuy = await api.newOrderSell(timestamp);
-            set(ref(database, `rsidata/log/lastopen15mV`), orderBuy);
+            let orderSell = await api.newOrderSell(timestamp);
+            set(ref(database, `rsidata/log/lastopen15mV`), orderSell);
 
-            let ordIdOC = orderBuy.orderId;
-            set(ref(database, 'rsidata/log/idOpen15mV'), ordIdOC);
+            let ordIdOV = orderSell.orderId;
+            set(ref(database, 'rsidata/log/idOpen15mV'), ordIdOV);
 
             flag = "15mV";
             objSendcalc.flag = flag;
