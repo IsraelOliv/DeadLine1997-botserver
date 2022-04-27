@@ -754,7 +754,7 @@ async function calcOpenPosition(timestamp, sig){
 *
     }
     */
-    if (sig.rsi5m >= 1 && dif1m > 0 && dif3m > 0 && objSendcalc.stoch15m.k < 50 && objSendcalc.stoch3m.k < 50 ){
+    if (sig.rsi5m >= 1 && dif1m > 0 && dif3m > 0 && objSendcalc.stoch3m.k < 50 && objSendcalc.stoch15m.k < 50){
         // 5mC
         if (flag == "" || flag == "1mC"){  
 
@@ -771,7 +771,7 @@ async function calcOpenPosition(timestamp, sig){
 
         }
 
-    }else if (sig.rsi5m <= -1 && dif1m < 0 && dif3m < 0 && objSendcalc.stoch15m.k > 50 && objSendcalc.stoch3m.k > 50){
+    }else if (sig.rsi5m <= -1 && dif1m < 0 && dif3m < 0 && objSendcalc.stoch3m.k > 50 && objSendcalc.stoch15m.k > 50){
         // 5mV
         if (flag == "" || flag == "1mV"){  
 
@@ -788,7 +788,7 @@ async function calcOpenPosition(timestamp, sig){
 
         }
 
-    }else if (sig.rsi15m >= 1 && dif5m > 0 && objSendcalc.stoch1h.k < 50){
+    }else if (sig.rsi15m >= 1 && dif5m > 0 && objSendcalc.stoch5m.k < 50 && objSendcalc.stoch1h.k < 50){
         // 15mC
         if (flag == "5mC" ){      
 
@@ -804,7 +804,7 @@ async function calcOpenPosition(timestamp, sig){
             objSendcalc.flag = flag;
         }
 
-    }else if (sig.rsi15m <= -1 && dif5m < 0 && objSendcalc.stoch1h.k > 50){
+    }else if (sig.rsi15m <= -1 && dif5m < 0 && objSendcalc.stoch5m.k > 50 && objSendcalc.stoch1h.k > 50){
         // 15mV
         if(flag == "5mV"){    
             
@@ -820,7 +820,7 @@ async function calcOpenPosition(timestamp, sig){
             objSendcalc.flag = flag;
         }
 
-    }else if (sig.rsi1h >= 1 && dif30m > 0 && objSendcalc.stoch4h.k < 50){ 
+    }else if (sig.rsi1h >= 1 && dif30m > 0 && objSendcalc.stoch30m.k < 50 && objSendcalc.stoch4h.k < 50){ 
         // 1hC
         if(flag == "15mC"){   
             
@@ -836,7 +836,7 @@ async function calcOpenPosition(timestamp, sig){
             objSendcalc.flag = flag;
         }
 
-    }else if (sig.rsi1h <= -1 && dif30m < 0 && objSendcalc.stoch4h.k > 50){ 
+    }else if (sig.rsi1h >= -1 && dif30m < 0 && objSendcalc.stoch30m.k > 50 && objSendcalc.stoch4h.k > 50){ 
         // 1hV
         if(flag == "15mV" ){    
 
