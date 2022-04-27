@@ -4,10 +4,10 @@
 import axios from 'axios';
 import queryString from 'querystring';
 import crypto from 'crypto';
-const apiKey = process.env.API_KEY_TESTNET;
-const apiSecret = process.env.SECRET_KEY_TESTNET;
-const apiUrl = process.env.API_URL_SPOT_TESTNET;
-const apiUrlFut = process.env.API_URL_FUT_TESTNET;
+const apiKey = process.env.API_KEY;
+const apiSecret = process.env.SECRET_KEY;
+const apiUrl = process.env.API_URL_SPOT;
+const apiUrlFut = process.env.API_URL_FUT;
 const symbol = process.env.SYMBOL;
 //const symbol = 'BTCUSDT';
 //const symbol = 'ADAUSDT';
@@ -181,7 +181,7 @@ async function newOrder(timestamp, side, type = "TRAILING_STOP_MARKET", quantity
 async function newOrderBuy(timestamp){
     const side = "BUY";
     const type = "MARKET";
-    const quantity = 0.004;
+    const quantity = 0.003;
 
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
 }
@@ -189,7 +189,7 @@ async function newOrderBuy(timestamp){
 async function newOrderSell(timestamp){
     const side = "SELL";
     const type = "MARKET";
-    const quantity = 0.004;
+    const quantity = 0.003;
 
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
 }
