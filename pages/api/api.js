@@ -181,15 +181,26 @@ async function newOrder(timestamp, side, type = "TRAILING_STOP_MARKET", quantity
 async function newOrderBuy(timestamp){
     const side = "BUY";
     const type = "MARKET";
-    const quantity = 0.003;
-
+    const quantity = 0.0;
+    
+    if(symbol == "BTCUSDT"){
+        quantity = 0.003;
+    }else if(symbol == "ADAUSDT"){
+        quantity = 75;
+    }
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
 }
 
 async function newOrderSell(timestamp){
     const side = "SELL";
     const type = "MARKET";
-    const quantity = 0.003;
+    const quantity = 0.0;
+
+    if(symbol == "BTCUSDT"){
+        quantity = 0.003;
+    }else if(symbol == "ADAUSDT"){
+        quantity = 75;
+    }
 
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
 }
@@ -197,8 +208,14 @@ async function newOrderSell(timestamp){
 async function closePositionBuy(timestamp, quantity = 1){
     const side = "SELL";
     const type = "MARKET";
-    //const quantity = 1;
     const reduceOnly = "true";
+    const quantity = 0.0;
+
+    if(symbol == "BTCUSDT"){
+        quantity = 0.1;
+    }else if(symbol == "ADAUSDT"){
+        quantity = 450;
+    }
 
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity, reduceOnly}, "POST");
 }
@@ -206,8 +223,14 @@ async function closePositionBuy(timestamp, quantity = 1){
 async function closePositionSell(timestamp, quantity = 1){
     const side = "BUY";
     const type = "MARKET";
-    //const quantity = 1;
     const reduceOnly = "true";
+    const quantity = 0.0;
+
+    if(symbol == "BTCUSDT"){
+        quantity = 0.1;
+    }else if(symbol == "ADAUSDT"){
+        quantity = 450;
+    }
 
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity, reduceOnly}, "POST");
 }
