@@ -836,7 +836,7 @@ async function calcOpenPosition(timestamp, sig){
             objSendcalc.flag = flag;
         }
 
-    }else if (sig.rsi1h == -2 && dif30m < 0 && objSendcalc.stoch4h.k > 50){ 
+    }else if (sig.rsi1h <= -1 && dif30m < 0 && objSendcalc.stoch4h.k > 50){ 
         // 1hV
         if(flag == "15mV" ){    
 
