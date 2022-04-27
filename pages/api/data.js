@@ -780,7 +780,7 @@ async function calcOpenPosition(timestamp, sig){
             let orderSell = await api.newOrderSell(timestamp);
             set(ref(database, `rsidata/log/lastopen5mV`), orderSell);
 
-            let ordIdOC = orderBuy.orderId;
+            let ordIdOC = orderSell.orderId;
             set(ref(database, 'rsidata/log/idOpen5mV'), ordIdOC);
 
             flag = "5mV";
