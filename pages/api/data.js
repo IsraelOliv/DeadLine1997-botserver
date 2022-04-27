@@ -565,7 +565,7 @@ async function data(request, response){
     //coin:  [{"asset":"USDT","marginBalance":"0.02738226","walletBalance":"0.02738226"}]
 */
 
-    response.setHeader('Cache-Control', 's-maxage=3', 'stale-while-revalidate');
+    response.setHeader('Cache-Control', 's-maxage=5', 'stale-while-revalidate');
 
     response.json(objSendcalc);
 }
