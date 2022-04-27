@@ -683,8 +683,8 @@ async function calcOpenPosition(timestamp, sig){
     const dif4h = objSendcalc.stoch4h.k - objSendcalc.stoch4h.d;
     const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
-/*
-    if (sig.rsi1m == 2 && flag == ""){        
+
+    if (sig.rsi1m == 2 && objSendcalc.stoch3m.k < 50 && flag == ""){        
         // 1mC
         
         let orderBuy = await api.newOrderBuy(timestamp);
@@ -695,6 +695,7 @@ async function calcOpenPosition(timestamp, sig){
 
         flag = "1mC";        
         objSendcalc.flag = flag;
+
     /*
         let obj = {
             symbol: "BTCUSDT",
@@ -717,8 +718,9 @@ async function calcOpenPosition(timestamp, sig){
         }
 
         await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT').set(obj); // || b.asset === 'USDT');
-   *
-    }else if (sig.rsi1m == -2 && flag == ""){
+   */
+    
+    }else if (sig.rsi1m == -2 && objSendcalc.stoch3m.k > 50 && flag == ""){
         // 1mV
 
         let orderSell = await api.newOrderSell(timestamp);
@@ -729,34 +731,10 @@ async function calcOpenPosition(timestamp, sig){
 
         flag = "1mV";        
         objSendcalc.flag = flag;
-/*
-        let obj = {
-            symbol: "BTCUSDT",
-            initialMargin: "0",
-            maintMargin: "0",
-            unrealizedProfit: "0.01",
-            positionInitialMargin: "0",
-            openOrderInitialMargin: "0",
-            leverage: "125",
-            isolated: true,
-            entryPrice: "00000.0",
-            maxNotional: "0",
-            positionSide: "BOTH",
-            positionAmt: "0.000",
-            notional: "0.0",
-            isolatedWallet: "0.0",
-            updateTime: 1650830183823,
-            bidNotional: "0",
-            askNotional: "0"
-        }
 
-        await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT').set(obj); // || b.asset === 'USDT');
-*
-    }
-    */
-    if (sig.rsi5m >= 1 && dif1m > 0 && dif3m > 0 && objSendcalc.stoch3m.k < 50 && objSendcalc.stoch15m.k < 50){
+    }else if (sig.rsi5m >= 1 && dif1m > 0 && dif3m > 0 && objSendcalc.stoch3m.k < 50 && objSendcalc.stoch15m.k < 50){
         // 5mC
-        if (flag == "" || flag == "1mC"){  
+        if (flag == "1mC"){  
 
             let result = await api.closePositionSell(timestamp);
 
@@ -773,7 +751,7 @@ async function calcOpenPosition(timestamp, sig){
 
     }else if (sig.rsi5m <= -1 && dif1m < 0 && dif3m < 0 && objSendcalc.stoch3m.k > 50 && objSendcalc.stoch15m.k > 50){
         // 5mV
-        if (flag == "" || flag == "1mV"){  
+        if (flag == "1mV"){  
 
             let result = await api.closePositionBuy(timestamp);
     
