@@ -945,8 +945,8 @@ async function calcClosePosition(timestamp, sig){
             let result = await api.closePositionBuy(timestamp);
             set(ref(database, `rsidata/log/lastclose5mC`), result);
 
-            let ordIdV = result.orderId;
-            set(ref(database, 'rsidata/log/idClose5mC'), ordIdV);
+            let ordIdC = result.orderId;
+            set(ref(database, 'rsidata/log/idClose5mC'), ordIdC);
 
             let histOrd = await createHistObj(result);
             set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
@@ -987,8 +987,8 @@ async function calcClosePosition(timestamp, sig){
             let result = await api.closePositionBuy(timestamp);
             set(ref(database, `rsidata/log/lastclose15mC`), result);
 
-            let ordIdV = result.orderId;
-            set(ref(database, 'rsidata/log/idClose15mC'), ordIdV);
+            let ordIdC = result.orderId;
+            set(ref(database, 'rsidata/log/idClose15mC'), ordIdC);
 
             let histOrd = createHistObj(result);
             set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
