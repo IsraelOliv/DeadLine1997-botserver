@@ -8,8 +8,8 @@ const apiKey = process.env.API_KEY;
 const apiSecret = process.env.SECRET_KEY;
 const apiUrl = process.env.API_URL_SPOT;
 const apiUrlFut = process.env.API_URL_FUT;
-const symbol = process.env.SYMBOL;
-//const symbol = 'BTCUSDT';
+//const symbol = process.env.SYMBOL;
+const symbol = 'BTCUSDT';
 //const symbol = 'ADAUSDT';
  
 async function publicCall(path, data, method = 'GET', headers = {}) {
@@ -182,7 +182,7 @@ async function newOrderBuy(timestamp){
     const side = "BUY";
     const type = "MARKET";
     const quantity = 0.0;
-    
+
     if(symbol == "BTCUSDT"){
         quantity = 0.003;
     }else if(symbol == "ADAUSDT"){

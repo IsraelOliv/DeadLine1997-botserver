@@ -110,7 +110,8 @@ var position = {};
 var pnlHist = null;
 var userTradesObj = [];
 
-const symbol = process.env.SYMBOL;
+//const symbol = process.env.SYMBOL;
+const symbol = 'BTCUSDT';
 
 async function data(request, response){ 
     //const dynamicDate = new Date();
