@@ -8,8 +8,8 @@ const apiKey = process.env.API_KEY;
 const apiSecret = process.env.SECRET_KEY;
 const apiUrl = process.env.API_URL_SPOT;
 const apiUrlFut = process.env.API_URL_FUT;
-//const symbol = process.env.SYMBOL;
-const symbol = 'BTCUSDT';
+const symbol = process.env.SYMBOL;
+//const symbol = 'BTCUSDT';
 //const symbol = 'ADAUSDT';
  
 async function publicCall(path, data, method = 'GET', headers = {}) {
@@ -181,7 +181,7 @@ async function newOrder(timestamp, side, type = "TRAILING_STOP_MARKET", quantity
 async function newOrderBuy(timestamp){
     const side = "BUY";
     const type = "MARKET";
-    const quantity = 0.0;
+    var quantity = 0.0;
 
     if(symbol == "BTCUSDT"){
         quantity = 0.003;
@@ -194,7 +194,7 @@ async function newOrderBuy(timestamp){
 async function newOrderSell(timestamp){
     const side = "SELL";
     const type = "MARKET";
-    const quantity = 0.0;
+    var quantity = 0.0;
 
     if(symbol == "BTCUSDT"){
         quantity = 0.003;
@@ -209,7 +209,7 @@ async function closePositionBuy(timestamp, quantity = 1){
     const side = "SELL";
     const type = "MARKET";
     const reduceOnly = "true";
-    const quantity = 0.0;
+    var quantity = 0.0;
 
     if(symbol == "BTCUSDT"){
         quantity = 0.1;
@@ -224,7 +224,7 @@ async function closePositionSell(timestamp, quantity = 1){
     const side = "BUY";
     const type = "MARKET";
     const reduceOnly = "true";
-    const quantity = 0.0;
+    var quantity = 0.0;
 
     if(symbol == "BTCUSDT"){
         quantity = 0.1;
