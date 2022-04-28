@@ -686,7 +686,7 @@ async function calcOpenPosition(timestamp, sig){
     const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
 
-    if (sig.rsi3m >= 1 && dif1m > 0 && flag == ""){      
+    if (sig.rsi3m == 2 && dif1m > 0 && flag == ""){      
         // 1mC
         
         let orderBuy = await api.newOrderBuy(timestamp);
@@ -722,7 +722,7 @@ async function calcOpenPosition(timestamp, sig){
         await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT').set(obj); // || b.asset === 'USDT');
    */
     
-    }else if (sig.rsi3m <= -1 && dif1m < 0 && flag == ""){
+    }else if (sig.rsi3m == -2 && dif1m < 0 && flag == ""){
         // 1mV
 
         let orderSell = await api.newOrderSell(timestamp);
@@ -878,7 +878,7 @@ async function calcClosePosition(timestamp, sig){
 
     if (flag == "1mC"){
 
-        if (dif1m < 0){
+        if (dif1m < 0 && dif3m < 0){ 
 
             let result = await api.closePositionBuy(timestamp);
             set(ref(database, `rsidata/log/lastclose1mC`), result);
@@ -898,8 +898,7 @@ async function calcClosePosition(timestamp, sig){
 
     }else if (flag == "1mV"){
 
-        //if (dif1m > 0 && dif3m > 0){
-        if (dif1m > 0){
+        if (dif1m > 0 && dif3m > 0){ 
 
             let result = await api.closePositionSell(timestamp);
             set(ref(database, `rsidata/log/lastclose1mV`), result);
