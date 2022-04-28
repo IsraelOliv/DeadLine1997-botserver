@@ -45,7 +45,7 @@ async function privateCall(path, timestamp, data = {}, method = 'GET') {
     }
     const type = "FUTURES";
     //const timestamp = (Date.now())-1000;
-    const recvWindow = 60000;//máximo permitido, default 5000
+    const recvWindow = 20000;//máximo permitido, default 5000
     
     const signature = crypto
         .createHmac('sha256', apiSecret)
@@ -73,7 +73,7 @@ async function privateFutCall(path, timestamp, data = {}, method = 'GET') {
     }
     const type = "FUTURES";
     //const timestamp = (Date.now())-1000;
-    const recvWindow = 60000;//máximo permitido, default 5000
+    const recvWindow = 20000;//máximo permitido, default 5000
     
     const signature = crypto
         .createHmac('sha256', apiSecret)
@@ -101,7 +101,7 @@ async function privateFutCall2(path, timestamp, data = {}, method = 'GET') {
     }
     //const type = "FUTURES";
     //const timestamp = (Date.now())-1000;
-    const recvWindow = 60000;//máximo permitido, default 5000
+    const recvWindow = 20000;//máximo permitido, default 5000
     
     const signature = crypto
         .createHmac('sha256', apiSecret)
@@ -186,7 +186,7 @@ async function newOrderBuy(timestamp){
     if(symbol == "BTCUSDT"){
         quantity = 0.003;
     }else if(symbol == "ADAUSDT"){
-        quantity = 70;
+        quantity = 60;
     }
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
 }
@@ -199,7 +199,7 @@ async function newOrderSell(timestamp){
     if(symbol == "BTCUSDT"){
         quantity = 0.003;
     }else if(symbol == "ADAUSDT"){
-        quantity = 70;
+        quantity = 60;
     }
 
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
