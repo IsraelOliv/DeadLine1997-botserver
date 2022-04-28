@@ -741,7 +741,7 @@ async function calcOpenPosition(timestamp, sig){
 
     */
     
-    if (sig.rsi5m >= 1 && dif1m > 0 && dif3m > 0 && objSendcalc.stoch3m.k < 50 && objSendcalc.stoch15m.k < 50){
+    if (sig.rsi5m >= 1 && dif1m > 0 && dif3m > 0 && objSendcalc.stoch3m.k < 50 && sig.rsi15m >= 1){
         // 5mC
         if (flag == "" || flag == "1mC"){  
 
@@ -758,7 +758,7 @@ async function calcOpenPosition(timestamp, sig){
 
         }
 
-    }else if (sig.rsi5m <= -1 && dif1m < 0 && dif3m < 0 && objSendcalc.stoch3m.k > 50 && objSendcalc.stoch15m.k > 50){
+    }else if (sig.rsi5m <= -1 && dif1m < 0 && dif3m < 0 && objSendcalc.stoch3m.k > 50 && sig.rsi15m <= -1){
         // 5mV
         if (flag == "" || flag == "1mV"){  
 
