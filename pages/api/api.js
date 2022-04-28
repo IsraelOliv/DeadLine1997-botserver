@@ -186,7 +186,7 @@ async function newOrderBuy(timestamp){
     if(symbol == "BTCUSDT"){
         quantity = 0.003;
     }else if(symbol == "ADAUSDT"){
-        quantity = 45;
+        quantity = 10;
     }
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
 }
@@ -199,7 +199,7 @@ async function newOrderSell(timestamp){
     if(symbol == "BTCUSDT"){
         quantity = 0.003;
     }else if(symbol == "ADAUSDT"){
-        quantity = 45;
+        quantity = 10;
     }
 
     return privateFutCall2('/fapi/v1/order',timestamp, {symbol, side, type, quantity}, "POST");
