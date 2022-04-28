@@ -686,6 +686,8 @@ async function calcOpenPosition(timestamp, sig){
     const dif4h = objSendcalc.stoch4h.k - objSendcalc.stoch4h.d;
     const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
+    
+    /*
 
     if (sig.rsi3m == 2 && dif1m > 0 && flag == ""){      
         // 1mC
@@ -699,7 +701,7 @@ async function calcOpenPosition(timestamp, sig){
         flag = "1mC";        
         objSendcalc.flag = flag;
 
-    /*
+    
         let obj = {
             symbol: "BTCUSDT",
             initialMargin: "0",
@@ -721,7 +723,7 @@ async function calcOpenPosition(timestamp, sig){
         }
 
         await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT').set(obj); // || b.asset === 'USDT');
-   */
+   
     
     }else if (sig.rsi3m == -2 && dif1m < 0 && flag == ""){
         // 1mV
@@ -735,7 +737,11 @@ async function calcOpenPosition(timestamp, sig){
         flag = "1mV";        
         objSendcalc.flag = flag;
 
-    }else if (sig.rsi5m >= 1 && dif1m > 0 && dif3m > 0 && objSendcalc.stoch3m.k < 50 && objSendcalc.stoch15m.k < 50){
+    }else 
+
+    */
+    
+    if (sig.rsi5m >= 1 && dif1m > 0 && dif3m > 0 && objSendcalc.stoch3m.k < 50 && objSendcalc.stoch15m.k < 50){
         // 5mC
         if (flag == "" || flag == "1mC"){  
 
