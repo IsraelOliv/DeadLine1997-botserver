@@ -110,9 +110,9 @@ var position = {};
 var pnlHist = null;
 var userTradesObj = [];
 
-//const symbol = process.env.SYMBOL;
+const symbol = process.env.SYMBOL;
 //const symbol = 'BTCUSDT';
-const symbol = 'ADAUSDT';
+//const symbol = 'ADAUSDT';
 
 async function data(request, response){ 
     //const dynamicDate = new Date();
@@ -687,7 +687,7 @@ async function calcOpenPosition(timestamp, sig){
     const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
     
-    /*
+/*
 
     if (sig.rsi3m == 2 && dif1m > 0 && flag == ""){      
         // 1mC
@@ -739,7 +739,7 @@ async function calcOpenPosition(timestamp, sig){
 
     }else 
 
-    */
+*/
     
     if (sig.rsi5m >= 1 && dif1m > 0 && dif3m > 0 && objSendcalc.stoch3m.k < 50 && sig.rsi15m >= 1){
         // 5mC
