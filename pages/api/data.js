@@ -1346,7 +1346,7 @@ function criarObj1w(item){
 function formatTime(timestamp){
 
     var date = new Date(timestamp);
-    var hours = date.getHours();
+    var hours = date.getHours()-3;
     var minutes = date.getMinutes();
     var seconds = date.getSeconds();
 
