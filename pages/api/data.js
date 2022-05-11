@@ -18,6 +18,7 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const dbRef = ref(database);
 
+
 let timestampArr1m = [];
 let dateArr1m = [];
 let openArr1m = [];
@@ -101,105 +102,30 @@ let marketData1w = null;
 
 let openOrders = null;
 
+var lastUpdate = null;
+var availableBalance = null;
+var balance = null;
+var unrealizedProfit = null;
+var marginBalance = null;
+var positions = null;
+var timestamp = null;
+
 var objSendcalc = {};
 
 var flag = "";
 
-var position = {};
+var position = [];
 
 var pnlHist = null;
-var userTradesObj = [];
+//var userTradesObj = [];
+//var userTrades = null;
 
-//const symbol = process.env.SYMBOL;
-//const symbol = 'BTCUSDT';
-const symbol = 'ADAUSDT';
+const cryptSymbol = process.env.SYMBOL;
+//const cryptSymbol = 'BTCUSDT';
+//const cryptSymbol = 'ADAUSDT';
 
 async function data(request, response){ 
     //const dynamicDate = new Date();
-
-    timestampArr1m = [];
-    dateArr1m = [];
-    openArr1m = [];
-    closeArr1m = [];
-    highArr1m = [];
-    lowArr1m = [];
-    volArr1m = [];
-    marketData1m = null;
-
-    timestampArr3m = [];
-    dateArr3m = [];
-    openArr3m = [];
-    closeArr3m = [];
-    highArr3m = [];
-    lowArr3m = [];
-    volArr3m = [];
-    marketData3m = null;
-
-    timestampArr5m = [];
-    dateArr5m = [];
-    openArr5m = [];
-    closeArr5m = [];
-    highArr5m = [];
-    lowArr5m = [];
-    volArr5m = [];
-    marketData5m = null;
-
-    timestampArr15m = [];
-    dateArr15m = [];
-    openArr15m = [];
-    closeArr15m = [];
-    highArr15m = [];
-    lowArr15m = [];
-    volArr15m = [];
-    marketData15m = null;
-
-    timestampArr30m = [];
-    dateArr30m = [];
-    openArr30m = [];
-    closeArr30m = [];
-    highArr30m = [];
-    lowArr30m = [];
-    volArr30m = [];
-    marketData30m = null;
-
-    timestampArr1h = [];
-    dateArr1h = [];
-    openArr1h = [];
-    closeArr1h = [];
-    highArr1h = [];
-    lowArr1h = [];
-    volArr1h = [];
-    marketData1h = null;
-
-    timestampArr4h = [];
-    dateArr4h = [];
-    openArr4h = [];
-    closeArr4h = [];
-    highArr4h = [];
-    lowArr4h = [];
-    volArr4h = [];
-    marketData4h = null;
-
-    timestampArr1d = [];
-    dateArr1d = [];
-    openArr1d = [];
-    closeArr1d = [];
-    highArr1d = [];
-    lowArr1d = [];
-    volArr1d = [];
-    marketData1d = null;
-
-    timestampArr1w = [];
-    dateArr1w = [];
-    openArr1w = [];
-    closeArr1w = [];
-    highArr1w = [];
-    lowArr1w = [];
-    volArr1w = [];
-    marketData1w = null;   
-    
-    flag = "";   
-
     await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
         if (snapshot.exists()) {
             const data = snapshot.val();
@@ -209,389 +135,310 @@ async function data(request, response){
             }
 
         } else {
-            console.log("No data available");
+            console.log("No data flag available");
         }
     }).catch((error) => {
         console.error(error);
     });
 
     const timeApi = await api.time();
-    console.log(`serverTime: ${timeApi.data.serverTime}`);
-    const lastUpdate = formatTime(timeApi.data.serverTime);
-    const timestamp = timeApi.data.serverTime;
+    if (timeApi != undefined){
 
-    //const neworder = await api.newOrder(timestamp, "BUY");
-    /*
-    const carteira = await api.accountSnapshot(timeApi.data.serverTime);
-    const coin = carteira.snapshotVos[0].data.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
-    console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
-    const carteira = await api.balance(timeApi.data.serverTime);
+        console.log('');
+        //console.log(`serverTime: ${timeApi.data.serverTime}`);
+        lastUpdate = formatTime(timeApi.data.serverTime);
+        timestamp = timeApi.data.serverTime;
+        console.log(`serverTime: ${lastUpdate}`);
 
-    //console.log(`TEST:  ${JSON.stringify(carteira.filter(b => b.asset === 'USDT'))}`);
-    const coin = carteira.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
-    console.log(`TEST:coin:  ${JSON.stringify(coin[0].availableBalance)}`);
-    */
+        const carteira = await api.accountFutures(timeApi.data.serverTime);
+        //console.log(`TEST:  ${JSON.stringify(carteira.filter(b => b.asset === 'USDT'))}`);
+        
+        if(carteira != undefined){
+            let resultLog = "";
+            const coin = await carteira.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
+            //console.log(`TEST:coin:  ${JSON.stringify(coin[0].availableBalance)}`);
+            for (let index = 1; index <= 3; index++) {
+                //console.log(`Positions loop: ${index}`);
 
-    const carteira = await api.accountFutures(timeApi.data.serverTime);
-    //console.log(`TEST:  ${JSON.stringify(carteira.filter(b => b.asset === 'USDT'))}`);
-    const coin = carteira.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
-    //console.log(`TEST:coin:  ${JSON.stringify(coin[0].availableBalance)}`);
-
-    const positions = carteira.positions.filter(b => b.unrealizedProfit !== '0.00000000'); // || b.asset === 'USDT');
-    //console.log(`TEST:positions:  ${JSON.stringify(coin[0].availableBalance)}`);
-
-    const income = await api.income(timestamp);
-    pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
-
-    const userTrades = await api.userTrades(timestamp);
-    userTradesObj = userTrades;
-/*
-    var histFixObj = null;
-
-    await get(child(dbRef, 'rsidata/hist')).then((snapshot) => {    
-        if (snapshot.exists()) {
-            const data = snapshot.val();
+                await get(child(dbRef, `rsidata/positions/${cryptSymbol}`)).then((snapshot) => {    
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        
+                        if(data){
+                            position[`${cryptSymbol}`] = data;  
+                            resultLog = `position in ${cryptSymbol} available`;
+                        }
             
-            if(data){
-              histFixObj = data;               
+                    } else {
+                        resultLog = "No data positions available";
+                        //console.log("No data positions available");
+                    }
+                }).catch((error) => {
+                    console.error(error);
+                }); 
+            }   
+            
+            console.log(resultLog);
+            
+            positions = await carteira.positions.filter(b => b.unrealizedProfit !== '0.00000000'); // || b.asset === 'USDT');
+            //console.log(`TEST:positions:  ${JSON.stringify(coin[0].availableBalance)}`);
+            
+            if(positions != []){
+
+                position[`${cryptSymbol}`] = await positions.filter(b => b.symbol == cryptSymbol);
+                //console.log(`TEST:position:  ${JSON.stringify(position[`${cryptSymbol}`])}`);
+                //set(ref(database, `rsidata/positions/${symbol}`), obj);
+
             }
 
-        } else {
+            if(position[`${cryptSymbol}`][0] == undefined || position[`${cryptSymbol}`][0] == null){
+                flag = "";
+            }else{
+                calcStopEmerg(position[`${cryptSymbol}`][0]);
+            } 
 
-            set(ref(database, 'rsidata/log/errorhistFix'), "histFixObj Nulo");
-        }
-    }).catch((error) => {
-        console.error(error);
-    });
+            /*
+            if(positions == {} || positions[0] == null){
+                flag = "";
+            }
+            */
 
-    for (let i = 0; i < histFixObj.length; i++) {
-        
-        var v = userTradesObj.filter(b => b.orderId === histFixObj[i].orderId);
-        
-        histFixObj[i].closePrice = v.price;
-        histFixObj[i].realizedPnl = v.realizedPnl;
+            //const income = await api.income(timestamp);
+            //pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
 
-    }
-    set(ref(database, 'rsidata/hist'), histFixObj);
-
-*/
-
-    //accountFutures
-
-    const availableBalance = coin[0].availableBalance;
-    const balance = coin[0].walletBalance;
-    const unrealizedProfit = coin[0].unrealizedProfit;
-    const marginBalance = coin[0].marginBalance;
-
-    const result1m = await api.klines("1m");
-    const result3m = await api.klines("3m");
-    const result5m = await api.klines("5m");
-    const result15m = await api.klines("15m");
-    const result30m = await api.klines("30m");
-    const result1h = await api.klines("1h");
-    const result4h = await api.klines("4h");
-    const result1d = await api.klines("1d");
-    const result1w = await api.klines("1w");
-
-    for (let i = 0; i < result1m.data.length; i++) {
-        criarObj1m(result1m.data[i]);
-    }
-    for (let i = 0; i < result3m.data.length; i++) {
-        criarObj3m(result3m.data[i]);
-    }
-    for (let i = 0; i < result5m.data.length; i++) {
-        criarObj5m(result5m.data[i]);
-    }
-    for (let i = 0; i < result15m.data.length; i++) {
-        criarObj15m(result15m.data[i]);
-    }
-    for (let i = 0; i < result30m.data.length; i++) {
-        criarObj30m(result30m.data[i]);
-    }
-    for (let i = 0; i < result1h.data.length; i++) {
-        criarObj1h(result1h.data[i]);
-    }
-    for (let i = 0; i < result4h.data.length; i++) {
-        criarObj4h(result4h.data[i]);
-    }
-    for (let i = 0; i < result1d.data.length; i++) {
-        criarObj1d(result1d.data[i]);
-    }
-    for (let i = 0; i < result1w.data.length; i++) {
-        criarObj1w(result1w.data[i]);
-    }
-
-    marketData1m = { date: dateArr1m, timestamp: timestampArr1m, open: openArr1m, close: closeArr1m, high: highArr1m, low: lowArr1m, volume: volArr1m };
-    marketData3m = { date: dateArr3m, timestamp: timestampArr3m, open: openArr3m, close: closeArr3m, high: highArr3m, low: lowArr3m, volume: volArr3m };
-    marketData5m = { date: dateArr5m, timestamp: timestampArr5m, open: openArr5m, close: closeArr5m, high: highArr5m, low: lowArr5m, volume: volArr5m };
-    marketData15m = { date: dateArr15m, timestamp: timestampArr15m, open: openArr15m, close: closeArr15m, high: highArr15m, low: lowArr15m, volume: volArr15m };
-    marketData30m = { date: dateArr30m, timestamp: timestampArr30m, open: openArr30m, close: closeArr30m, high: highArr30m, low: lowArr30m, volume: volArr30m };
-    marketData1h = { date: dateArr1h, timestamp: timestampArr1h, open: openArr1h, close: closeArr1h, high: highArr1h, low: lowArr1h, volume: volArr1h };
-    marketData4h = { date: dateArr4h, timestamp: timestampArr4h, open: openArr4h, close: closeArr4h, high: highArr4h, low: lowArr4h, volume: volArr4h };
-    marketData1d = { date: dateArr1d, timestamp: timestampArr1d, open: openArr1d, close: closeArr1d, high: highArr1d, low: lowArr1d, volume: volArr1d };
-    marketData1w = { date: dateArr1w, timestamp: timestampArr1w, open: openArr1w, close: closeArr1w, high: highArr1w, low: lowArr1w, volume: volArr1w };
-
-    //let marketData15m = criarKlineObj("15m");
-
-    /*
-    console.log(`klines0: ${JSON.stringify(result.data[0])}`);
-    console.log('');
-    console.log(`klines00: ${JSON.stringify(result.data[result.data.length-1])}`);
-  */
-    //invertido    
-    //for (let i = 40; i > 0; i--) {
-        //criarObj(result.data[i]);
-    //}
-
-    //console.log('');
-    //console.log(`marketData.date(últimoCandle): ${JSON.stringify(marketData.date[result.data.length-2])}`);
-
-    const stochRsi1m = stochasticrsi({values: marketData1m.close,
-        rsiPeriod: 14,
-        stochasticPeriod: 14,
-        kPeriod: 3,
-        dPeriod: 3
-    });
-
-    const stochRsi3m = stochasticrsi({values: marketData3m.close,
-        rsiPeriod: 14,
-        stochasticPeriod: 14,
-        kPeriod: 3,
-        dPeriod: 3
-    });
-
-    const stochRsi5m = stochasticrsi({values: marketData5m.close,
-        rsiPeriod: 14,
-        stochasticPeriod: 14,
-        kPeriod: 3,
-        dPeriod: 3
-    });
-
-    const stochRsi15m = stochasticrsi({values: marketData15m.close,
-        rsiPeriod: 14,
-        stochasticPeriod: 14,
-        kPeriod: 3,
-        dPeriod: 3
-    });
-
-    const stochRsi30m = stochasticrsi({values: marketData30m.close,
-        rsiPeriod: 14,
-        stochasticPeriod: 14,
-        kPeriod: 3,
-        dPeriod: 3
-    });
-
-    const stochRsi1h = stochasticrsi({values: marketData1h.close,
-        rsiPeriod: 14,
-        stochasticPeriod: 14,
-        kPeriod: 3,
-        dPeriod: 3
-    });
-    
-    const stochRsi4h = stochasticrsi({values: marketData4h.close,
-        rsiPeriod: 14,
-        stochasticPeriod: 14,
-        kPeriod: 3,
-        dPeriod: 3
-    });
-    
-    const stochRsi1d = stochasticrsi({values: marketData1d.close,
-        rsiPeriod: 14,
-        stochasticPeriod: 14,
-        kPeriod: 3,
-        dPeriod: 3
-    });
-
-    const stochRsi1w = stochasticrsi({values: marketData1w.close,
-        rsiPeriod: 14,
-        stochasticPeriod: 14,
-        kPeriod: 3,
-        dPeriod: 3
-    });
-
-    //const allOrders = await api.allOrders(timeApi.data.serverTime);
-
-    //const openOrders = await api.openOrders(timeApi.data.serverTime);
-
-
-    /*
-    //console.log('SMA: ');
-    //console.log(SMA.calculate({period : 5, values : [1,2,3,4,5,6,7,8,9]}));
-    console.log('');
-    console.log('<<--   StochasticRSI   -->>');
-    console.log(StochasticRSI.calculate({values: marketData.close,
-        rsiPeriod: 14,
-        stochasticPeriod: 14,
-        kPeriod: 3,
-        dPeriod: 3
-    }));
-    */
-    
-    objSendcalc = {
-
-        symbol: symbol,
-        lastUpdate: lastUpdate,
-        balance: balance,
-        availableBalance: availableBalance,
-        marginBalance: marginBalance,
-        unrealizedProfit: unrealizedProfit,
-        serverTimestamp: timeApi.data.serverTime,
-        tick: marketData1m.close[marketData1m.close.length-1],
-        tickprev: marketData1m.close[marketData1m.close.length-2],
-        flag: flag,
-        signals: {},
-
-        lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
-        stoch1m: stochRsi1m[stochRsi1m.length-1],
-        stoch1mprev: stochRsi1m[stochRsi1m.length-2],
-
-        lastUpdtMarket3m: marketData3m.date[marketData3m.date.length-1],
-        stoch3m: stochRsi3m[stochRsi3m.length-1],
-        stoch3mprev: stochRsi3m[stochRsi3m.length-2],
-
-        lastUpdtMarket5m: marketData5m.date[marketData5m.date.length-1],
-        stoch5m: stochRsi5m[stochRsi5m.length-1],
-        stoch5mprev: stochRsi5m[stochRsi5m.length-2],
-
-        lastUpdtMarket15m: marketData15m.date[marketData15m.date.length-1],
-        stoch15m: stochRsi15m[stochRsi15m.length-1],
-        stoch15mprev: stochRsi15m[stochRsi15m.length-2],
-
-        lastUpdtMarket30m: marketData30m.date[marketData30m.date.length-1],
-        stoch30m: stochRsi30m[stochRsi30m.length-1],
-        stoch30mprev: stochRsi30m[stochRsi30m.length-2],
-
-        lastUpdtMarket1h: marketData1h.date[marketData1h.date.length-1],
-        stoch1h: stochRsi1h[stochRsi1h.length-1],
-        stoch1hprev: stochRsi1h[stochRsi1h.length-2],
-
-        lastUpdtMarket4h: marketData4h.date[marketData4h.date.length-1],
-        stoch4h: stochRsi4h[stochRsi4h.length-1],
-        stoch4hprev: stochRsi4h[stochRsi4h.length-2],
-        
-        lastUpdtMarket1d: marketData1d.date[marketData1d.date.length-1],
-        stoch1d: stochRsi1d[stochRsi1d.length-1],
-        stoch1dprev: stochRsi1d[stochRsi1d.length-2],
-
-        lastUpdtMarket1w: marketData1w.date[marketData1w.date.length-1],
-        stoch1w: stochRsi1w[stochRsi1w.length-1],
-        stoch1wprev: stochRsi1w[stochRsi1w.length-2],
-        
-        //openorders: openOrders,
-        positions: positions,
-        //pnlHist: pnlHist,
-        pnlHist: {},
-        //allOrders: allOrders,
-        userTrades: userTrades
-
-    };
-
-    position = await objSendcalc.positions.filter(b => b.symbol === symbol); //.set("test"); // || b.asset === 'USDT');
-
-    if(position == {} || position[0] == null){
-        flag = "";
-    }
-
-/*
-    await get(child(dbRef, 'rsidata/obj/flag')).then((snapshot) => {    
-        if (snapshot.exists()) {
-            const data = snapshot.val();
+            //userTrades = await api.userTrades(timestamp);
+            //userTradesObj = userTrades;
             
-            if(data){
-                flag = data;               
+            //accountFutures
+
+            availableBalance = coin[0].availableBalance;
+            balance = coin[0].walletBalance;
+            unrealizedProfit = coin[0].unrealizedProfit;
+            marginBalance = coin[0].marginBalance;
+        }        
+
+        const result1m = await api.klines("1m");
+        const result3m = await api.klines("3m");
+        const result5m = await api.klines("5m");
+        const result15m = await api.klines("15m");
+        const result30m = await api.klines("30m");
+        const result1h = await api.klines("1h");
+        const result4h = await api.klines("4h");
+        const result1d = await api.klines("1d");
+        const result1w = await api.klines("1w");
+
+        if (result1m != undefined && 
+            result3m != undefined && 
+            result5m != undefined && 
+            result15m != undefined && 
+            result30m != undefined && 
+            result1h != undefined && 
+            result4h != undefined && 
+            result1d != undefined && 
+            result1w != undefined){
+
+            for (let i = 0; i < result1m.data.length; i++) {
+                criarObj1m(result1m.data[i]);
+            }
+            for (let i = 0; i < result3m.data.length; i++) {
+                criarObj3m(result3m.data[i]);
+            }
+            for (let i = 0; i < result5m.data.length; i++) {
+                criarObj5m(result5m.data[i]);
+            }
+            for (let i = 0; i < result15m.data.length; i++) {
+                criarObj15m(result15m.data[i]);
+            }
+            for (let i = 0; i < result30m.data.length; i++) {
+                criarObj30m(result30m.data[i]);
+            }
+            for (let i = 0; i < result1h.data.length; i++) {
+                criarObj1h(result1h.data[i]);
+            }
+            for (let i = 0; i < result4h.data.length; i++) {
+                criarObj4h(result4h.data[i]);
+            }
+            for (let i = 0; i < result1d.data.length; i++) {
+                criarObj1d(result1d.data[i]);
+            }
+            for (let i = 0; i < result1w.data.length; i++) {
+                criarObj1w(result1w.data[i]);
             }
 
-        } else {
-            console.log("No data available");
+            marketData1m = { date: dateArr1m, timestamp: timestampArr1m, open: openArr1m, close: closeArr1m, high: highArr1m, low: lowArr1m, volume: volArr1m };
+            marketData3m = { date: dateArr3m, timestamp: timestampArr3m, open: openArr3m, close: closeArr3m, high: highArr3m, low: lowArr3m, volume: volArr3m };
+            marketData5m = { date: dateArr5m, timestamp: timestampArr5m, open: openArr5m, close: closeArr5m, high: highArr5m, low: lowArr5m, volume: volArr5m };
+            marketData15m = { date: dateArr15m, timestamp: timestampArr15m, open: openArr15m, close: closeArr15m, high: highArr15m, low: lowArr15m, volume: volArr15m };
+            marketData30m = { date: dateArr30m, timestamp: timestampArr30m, open: openArr30m, close: closeArr30m, high: highArr30m, low: lowArr30m, volume: volArr30m };
+            marketData1h = { date: dateArr1h, timestamp: timestampArr1h, open: openArr1h, close: closeArr1h, high: highArr1h, low: lowArr1h, volume: volArr1h };
+            marketData4h = { date: dateArr4h, timestamp: timestampArr4h, open: openArr4h, close: closeArr4h, high: highArr4h, low: lowArr4h, volume: volArr4h };
+            marketData1d = { date: dateArr1d, timestamp: timestampArr1d, open: openArr1d, close: closeArr1d, high: highArr1d, low: lowArr1d, volume: volArr1d };
+            marketData1w = { date: dateArr1w, timestamp: timestampArr1w, open: openArr1w, close: closeArr1w, high: highArr1w, low: lowArr1w, volume: volArr1w };
+
+            //console.log('');
+            //console.log(`marketData.date(últimoCandle): ${JSON.stringify(marketData.date[result.data.length-2])}`);
+
+            const stochRsi1m = StochasticRSI.calculate({values: marketData1m.close,
+                rsiPeriod: 14,
+                stochasticPeriod: 14,
+                kPeriod: 3,
+                dPeriod: 3
+            });
+
+            const stochRsi3m = StochasticRSI.calculate({values: marketData3m.close,
+                rsiPeriod: 14,
+                stochasticPeriod: 14,
+                kPeriod: 3,
+                dPeriod: 3
+            });
+
+            const stochRsi5m = StochasticRSI.calculate({values: marketData5m.close,
+                rsiPeriod: 14,
+                stochasticPeriod: 14,
+                kPeriod: 3,
+                dPeriod: 3
+            });
+
+            const stochRsi15m = StochasticRSI.calculate({values: marketData15m.close,
+                rsiPeriod: 14,
+                stochasticPeriod: 14,
+                kPeriod: 3,
+                dPeriod: 3
+            });
+
+            const stochRsi30m = StochasticRSI.calculate({values: marketData30m.close,
+                rsiPeriod: 14,
+                stochasticPeriod: 14,
+                kPeriod: 3,
+                dPeriod: 3
+            });
+
+            const stochRsi1h = StochasticRSI.calculate({values: marketData1h.close,
+                rsiPeriod: 14,
+                stochasticPeriod: 14,
+                kPeriod: 3,
+                dPeriod: 3
+            });
+            
+            const stochRsi4h = StochasticRSI.calculate({values: marketData4h.close,
+                rsiPeriod: 14,
+                stochasticPeriod: 14,
+                kPeriod: 3,
+                dPeriod: 3
+            });
+            
+            const stochRsi1d = StochasticRSI.calculate({values: marketData1d.close,
+                rsiPeriod: 14,
+                stochasticPeriod: 14,
+                kPeriod: 3,
+                dPeriod: 3
+            });
+
+            const stochRsi1w = StochasticRSI.calculate({values: marketData1w.close,
+                rsiPeriod: 14,
+                stochasticPeriod: 14,
+                kPeriod: 3,
+                dPeriod: 3
+            });
+
+            //const allOrders = await api.allOrders(timeApi.data.serverTime);
+
+            //const openOrders = await api.openOrders(timeApi.data.serverTime);
+
+
+            /*
+            //console.log('SMA: ');
+            //console.log(SMA.calculate({period : 5, values : [1,2,3,4,5,6,7,8,9]}));
+            console.log('');
+            console.log('<<--   StochasticRSI   -->>');
+            console.log(StochasticRSI.calculate({values: marketData.close,
+                rsiPeriod: 14,
+                stochasticPeriod: 14,
+                kPeriod: 3,
+                dPeriod: 3
+            }));
+            */
+            
+            objSendcalc = {
+
+                symbol: cryptSymbol,
+                lastUpdate: lastUpdate,
+                balance: balance,
+                availableBalance: availableBalance,
+                marginBalance: marginBalance,
+                unrealizedProfit: unrealizedProfit,
+                serverTimestamp: timeApi.data.serverTime,
+                tick: marketData1m.close[marketData1m.close.length-1],
+                tickprev: marketData1m.close[marketData1m.close.length-2],
+                flag: flag,
+                signals: {},
+
+                lastUpdtMarket1m: marketData1m.date[marketData1m.date.length-1],
+                stoch1m: stochRsi1m[stochRsi1m.length-1],
+                stoch1mprev: stochRsi1m[stochRsi1m.length-2],
+
+                lastUpdtMarket3m: marketData3m.date[marketData3m.date.length-1],
+                stoch3m: stochRsi3m[stochRsi3m.length-1],
+                stoch3mprev: stochRsi3m[stochRsi3m.length-2],
+
+                lastUpdtMarket5m: marketData5m.date[marketData5m.date.length-1],
+                stoch5m: stochRsi5m[stochRsi5m.length-1],
+                stoch5mprev: stochRsi5m[stochRsi5m.length-2],
+
+                lastUpdtMarket15m: marketData15m.date[marketData15m.date.length-1],
+                stoch15m: stochRsi15m[stochRsi15m.length-1],
+                stoch15mprev: stochRsi15m[stochRsi15m.length-2],
+
+                lastUpdtMarket30m: marketData30m.date[marketData30m.date.length-1],
+                stoch30m: stochRsi30m[stochRsi30m.length-1],
+                stoch30mprev: stochRsi30m[stochRsi30m.length-2],
+
+                lastUpdtMarket1h: marketData1h.date[marketData1h.date.length-1],
+                stoch1h: stochRsi1h[stochRsi1h.length-1],
+                stoch1hprev: stochRsi1h[stochRsi1h.length-2],
+
+                lastUpdtMarket4h: marketData4h.date[marketData4h.date.length-1],
+                stoch4h: stochRsi4h[stochRsi4h.length-1],
+                stoch4hprev: stochRsi4h[stochRsi4h.length-2],
+                
+                lastUpdtMarket1d: marketData1d.date[marketData1d.date.length-1],
+                stoch1d: stochRsi1d[stochRsi1d.length-1],
+                stoch1dprev: stochRsi1d[stochRsi1d.length-2],
+
+                lastUpdtMarket1w: marketData1w.date[marketData1w.date.length-1],
+                stoch1w: stochRsi1w[stochRsi1w.length-1],
+                stoch1wprev: stochRsi1w[stochRsi1w.length-2],
+
+                positions: positions
+                //openorders: openOrders,
+                //pnlHist: pnlHist,
+                //pnlHist: {}
+                //allOrders: allOrders,
+                //userTrades: userTrades
+
+            };
+
+            const signals = calcSignals(objSendcalc);
+            objSendcalc.signals = signals;
+
+            await makeMoneyRain(timestamp);
+
+            writeUserData(objSendcalc);
+
+            histFix(timestamp);
+
+            //console.log(await api.exchangeInfo());
+            ///response.setHeader('Cache-Control', 's-maxage=3', 'stale-while-revalidate');
+            //response.json(objSendcalc);
+            
         }
-    }).catch((error) => {
-        console.error(error);
-    })
-*/
-
-    const signals = calcSignals(objSendcalc);
-    objSendcalc.signals = signals;
-
-    await makeMoneyRain(timestamp);
-    //const objSend = await makeMoneyRain(timestamp, objSendcalc);
-    //objSend.signals = signals;
-
-    writeUserData(objSendcalc);
-    //writeUserData(objSend);
-
-    histFix(timestamp);
-
-    //console.log(await api.exchangeInfo());
-/*
-    console.log('Mercado');
-
-    const mercado = await api.depth('BNBBUSD');
-    console.log(mercado.bids.length ? `Compra: ${mercado.bids[0][0]}` : 'Sem Compras');
-    console.log(mercado.asks.length ? `Venda: ${mercado.asks[0][0]}` : 'Sem Vendas');
-
-    console.log(await api.depth(symbol));
-
-    let buy, sell;
-
-    const result = await api.depth(symbol);
-    if (result.bids && result.bids.length){
-        console.log(`HI BUY: ${result.bids[0][0]}`);
-        buy = parseFloat(result.bids[0][0]);
     }
-
-    if (result.asks && result.asks.length){
-        console.log(`LOW SELL: ${result.asks[0][0]}`);
-        sell = parseFloat(result.asks[0][0]);
-    }
-
-    if(sell < 200000){
-        console.log('Hora de Comprar!!!')
-
-        
-    }else if(buy > 230000){
-        console.log('Hora de Vender!!!')
-    }else{
-        console.log('ESPERANDO!!!')
-    }
-
-    console.log('Carteira');
-
-    result = await api.accountSnapshot(ts);
-    console.log(result);
-    objStr = JSON.stringify(result.snapshotVos[0].data);
-    console.log(`TEST:snapshotVos: ${objStr}`);   
-
-    const carteira = await api.accountSnapshot(ts);
-    const coin = carteira.snapshotVos[0].data.assets.filter(b => b.asset === 'USDT'); // || b.asset === 'USDT');
-    
-    console.log(`TEST:coins:  ${JSON.stringify(coin[0].marginBalance)}`);
-    //coin:  [{"asset":"USDT","marginBalance":"0.02738226","walletBalance":"0.02738226"}]
-*/
-
-    response.setHeader('Cache-Control', 's-maxage=5', 'stale-while-revalidate');
-
-    response.json(objSendcalc);
 }
 
 async function makeMoneyRain(timestamp){
 
-    //let obj = objSendcalc;
-
-    //const dbref = ref(database, 'rsidata/obj/signals');
-    //const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
-    //var flag = "";
-    //obj.flag = "";
-
     const sig = objSendcalc.signals;
-
-    //const app = initializeApp(firebaseConfig);
-    //const database = getDatabase(app);
-    //const dbRef = ref(getDatabase(app));
-
-    //const data = "";
-
-    //await calcOpenPosition(timestamp, sig);
-
+    
     if(flag != ""){
         await calcClosePosition(timestamp, sig);
     }
@@ -599,82 +446,13 @@ async function makeMoneyRain(timestamp){
         await calcOpenPosition(timestamp, sig);
     //}
     
-    //objSendcalc.flag = flag;
-
-    //get(child(dbRef, `users/${userId}`)).then((snapshot) => {    
-    //get(child(dbRef)).then((snapshot) => {
-        /*
-    get(child(dbRef, 'rsidata/obj/signals')).then((snapshot) => {    
-
-
-        if (snapshot.exists()) {
-
-            *
-            //console.log(snapshot.val());
-            //const data = snapshot.val();
-            const sig = objSendcalc.signals;
-            
-            //set(ref(database, 'rsidata/getsignals/data'), data);
-
-            //const order = null;
-            if(flag == ""){
-            
-                if (sig.rsi1m == 2){
-                    flag = "1mC";
-
-                    const orderBuy = await api.newOrderBuy(timestamp);
-
-                    //obj.flag = flag;
-                    //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                }
-
-                if (sig.rsi1m == -2){
-                    flag = "1mV";
-
-                    const orderSell = await api.newOrderSell(timestamp);
-                    //obj.flag = flag;
-                    //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                }
-
-                if (sig.rsi1m == 2 && sig.rsi3m >= 1 && sig.rsi5m == 2 ){
-                    flag = "5mC";
-
-                    const orderBuy = api.newOrderBuy(timestamp);
-                    //obj.flag = flag;
-                    //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                }
-
-                if (sig.rsi1m == -2 && sig.rsi3m <= -1 && sig.rsi5m == -2){
-                    flag = "5mV";
-
-                    const orderSell = api.newOrderSell(timestamp);
-                    //obj.flag = flag;
-                    //set(ref(database, 'rsidata/obj/signals/flag'), flag);
-
-                }
-
-            }
-
-            obj.flag = flag;
-
-            /*
-        } else {
-            console.log("No data available");
-        }
-
-    }).catch((error) => {
-        console.error(error);
-    });
-    */
-
-    //return objSendcalc;
 }
 
 async function calcOpenPosition(timestamp, sig){
 
+    console.log('calcOpenPosition');
+
+    var oldFlag = flag;
     //var flagOpen = flag;
 
     const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
@@ -686,165 +464,237 @@ async function calcOpenPosition(timestamp, sig){
     const dif4h = objSendcalc.stoch4h.k - objSendcalc.stoch4h.d;
     const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
-    
-/*
 
-    if (sig.rsi3m == 2 && dif1m > 0 && flag == ""){      
-        // 1mC
-        
+    if (sig.rsi15m >= 1 && objSendcalc.stoch5m.k < 30 && dif3m > 0 && dif1m > 0 && flag == ""){  
+        // 1mC        
         let orderBuy = await api.newOrderBuy(timestamp);
-        set(ref(database, `rsidata/log/lastopen1mC`), orderBuy);
+        if(orderBuy != undefined){
+        //if(orderBuy.orderId != undefined){
 
-        let ordIdOC = orderBuy.orderId;
-        set(ref(database, 'rsidata/log/idOpen1mC'), ordIdOC);
+            set(ref(database, `rsidata/log/lastopen1mC`), orderBuy);
 
-        flag = "1mC";        
-        objSendcalc.flag = flag;
+            let ordIdOC = orderBuy.orderId;
+            set(ref(database, 'rsidata/log/idOpen1mC'), ordIdOC);
 
-    
-        let obj = {
-            symbol: "BTCUSDT",
-            initialMargin: "0",
-            maintMargin: "0",
-            unrealizedProfit: "0.01",
-            positionInitialMargin: "0",
-            openOrderInitialMargin: "0",
-            leverage: "125",
-            isolated: true,
-            entryPrice: "00000.0",
-            maxNotional: "0",
-            positionSide: "BOTH",
-            positionAmt: "0.000",
-            notional: "0.0",
-            isolatedWallet: "0.0",
-            updateTime: 1650830183823,
-            bidNotional: "0",
-            askNotional: "0"
+            flag = "1mC";        
+            objSendcalc.flag = flag;
+        
+            let obj = {
+                symbol: cryptSymbol,
+                initialMargin: "0",
+                maintMargin: "0",
+                unrealizedProfit: "0.01",
+                positionInitialMargin: "0",
+                openOrderInitialMargin: "0",
+                leverage: "125",
+                isolated: true,
+                entryPrice: "00000.0",
+                maxNotional: "0",
+                positionSide: "BOTH",
+                positionAmt: "0.000",
+                notional: "0.0",
+                isolatedWallet: "0.0",
+                updateTime: 1650830183823,
+                bidNotional: "0",
+                askNotional: "0"
+            }
+
+            set(ref(database, `rsidata/positions/${cryptSymbol}`), obj);
+
+
+            //let pos = await objSendcalc.positions.filter(b => b.symbol === cryptSymbol);
+            //objSendcalc.positions[`${cryptSymbol}`] = obj;
+            objSendcalc.positions = [];
+            objSendcalc.positions[0] = obj;
+
         }
 
-        await objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT').set(obj); // || b.asset === 'USDT');
-   
-    
-    }else if (sig.rsi3m == -2 && dif1m < 0 && flag == ""){
+    }else if (sig.rsi15m <= -1 && objSendcalc.stoch5m.k > 70 && dif3m < 0 && dif1m < 0 && flag == ""){
         // 1mV
-
         let orderSell = await api.newOrderSell(timestamp);
-        set(ref(database, `rsidata/log/lastopen1mV`), orderSell);
+        if(orderSell != undefined){
+        //if(orderSell.orderId != undefined){
+            set(ref(database, `rsidata/log/lastopen1mV`), orderSell);
 
-        let ordIdOV = orderSell.orderId;
-        set(ref(database, 'rsidata/log/idOpen1mV'), ordIdOV);
+            let ordIdOV = orderSell.orderId;
+            set(ref(database, 'rsidata/log/idOpen1mV'), ordIdOV);
 
-        flag = "1mV";        
-        objSendcalc.flag = flag;
+            flag = "1mV";        
+            objSendcalc.flag = flag;
+        
+            let obj = {
+                symbol: cryptSymbol,
+                initialMargin: "0",
+                maintMargin: "0",
+                unrealizedProfit: "0.01",
+                positionInitialMargin: "0",
+                openOrderInitialMargin: "0",
+                leverage: "125",
+                isolated: true,
+                entryPrice: "00000.0",
+                maxNotional: "0",
+                positionSide: "BOTH",
+                positionAmt: "0.000",
+                notional: "0.0",
+                isolatedWallet: "0.0",
+                updateTime: 1650830183823,
+                bidNotional: "0",
+                askNotional: "0"
+            }
 
-    }else 
+            set(ref(database, `rsidata/positions/${cryptSymbol}`), obj);
 
-*/
+            //let pos = await objSendcalc.positions.filter(b => b.symbol === cryptSymbol);
+            //objSendcalc.positions[`${cryptSymbol}`] = obj;
+            objSendcalc.positions = [];
+            objSendcalc.positions[0] = obj;
+
+        }
     
-    if (sig.rsi5m >= 1 && dif1m > 0 && dif3m > 0 && objSendcalc.stoch3m.k < 50 && sig.rsi15m >= 1){
+    }else if (sig.rsi5m == 2){
         // 5mC
-        if (flag == "" || flag == "1mC"){  
+        if (flag == "1mC"){  
 
-            let result = await api.closePositionSell(timestamp);
-
+            //let result = await api.closePositionSell(timestamp);
+        /*
             let orderBuy = await api.newOrderBuy(timestamp);
             set(ref(database, `rsidata/log/lastopen5mC`), orderBuy);
 
             let ordIdOC = orderBuy.orderId;
             set(ref(database, 'rsidata/log/idOpen5mC'), ordIdOC);
-
+        */
             flag = "5mC";
             objSendcalc.flag = flag;
 
         }
 
-    }else if (sig.rsi5m <= -1 && dif1m < 0 && dif3m < 0 && objSendcalc.stoch3m.k > 50 && sig.rsi15m <= -1){
+    }else if (sig.rsi5m == -2){
         // 5mV
-        if (flag == "" || flag == "1mV"){  
+        if (flag == "1mV"){  
 
-            let result = await api.closePositionBuy(timestamp);
-    
+            //let result = await api.closePositionBuy(timestamp);
+        /*
             let orderSell = await api.newOrderSell(timestamp);
             set(ref(database, `rsidata/log/lastopen5mV`), orderSell);
 
             let ordIdOV = orderSell.orderId;
             set(ref(database, 'rsidata/log/idOpen5mV'), ordIdOV);
-
+        */
             flag = "5mV";
             objSendcalc.flag = flag;
 
         }
 
-    }else if (sig.rsi15m >= 1 && dif5m > 0 && objSendcalc.stoch5m.k < 50 && objSendcalc.stoch1h.k < 50){
+    }else if (sig.rsi15m == 2){
         // 15mC
         if (flag == "5mC" ){      
 
             //let result = await api.closePositionSell(timestamp);
-
+        /*
             let orderBuy = await api.newOrderBuy(timestamp);
             set(ref(database, `rsidata/log/lastopen15mC`), orderBuy);
 
             let ordIdOC = orderBuy.orderId;
             set(ref(database, 'rsidata/log/idOpen15mC'), ordIdOC);
-
+        */
             flag = "15mC";
             objSendcalc.flag = flag;
         }
 
-    }else if (sig.rsi15m <= -1 && dif5m < 0 && objSendcalc.stoch5m.k > 50 && objSendcalc.stoch1h.k > 50){
+    }else if (sig.rsi15m == -2){
         // 15mV
         if(flag == "5mV"){    
             
             //let result = await api.closePositionBuy(timestamp);
-            
+        /*          
             let orderSell = await api.newOrderSell(timestamp);
             set(ref(database, `rsidata/log/lastopen15mV`), orderSell);
 
             let ordIdOV = orderSell.orderId;
             set(ref(database, 'rsidata/log/idOpen15mV'), ordIdOV);
-
+        */
             flag = "15mV";
             objSendcalc.flag = flag;
         }
 
-    }else if (sig.rsi1h >= 1 && dif30m > 0 && objSendcalc.stoch30m.k < 50 && objSendcalc.stoch4h.k < 50){ 
+    }else if (sig.rsi1h == 2){ 
         // 1hC
         if(flag == "15mC"){   
             
-            let result = await api.closePositionSell(timestamp);
-
+            //let result = await api.closePositionSell(timestamp);
+        /*
             let orderBuy = await api.newOrderBuy(timestamp);
             set(ref(database, `rsidata/log/lastopen1hC`), orderBuy);
 
             let ordIdOC = orderBuy.orderId;
             set(ref(database, 'rsidata/log/idOpen1hC'), ordIdOC);
-
+        */
             flag = "1hC";        
             objSendcalc.flag = flag;
         }
 
-    }else if (sig.rsi1h >= -1 && dif30m < 0 && objSendcalc.stoch30m.k > 50 && objSendcalc.stoch4h.k > 50){ 
+    }else if (sig.rsi1h == -2){ 
         // 1hV
         if(flag == "15mV" ){    
 
-            let result = await api.closePositionBuy(timestamp);
-
+            //let result = await api.closePositionBuy(timestamp);
+        /*
             let orderSell = await api.newOrderSell(timestamp);
             set(ref(database, `rsidata/log/lastopen1hV`), orderSell);
 
             let ordIdOV = orderSell.orderId;
             set(ref(database, 'rsidata/log/idOpen1hV'), ordIdOV);
-
+        */
             flag = "1hV";        
             objSendcalc.flag = flag;
         }
 
+    }else if (sig.rsi4h == 2){ 
+        // 4hC
+        if(flag == "1hC"){   
+            
+            //let result = await api.closePositionSell(timestamp);
+        /*
+            let orderBuy = await api.newOrderBuy(timestamp);
+            set(ref(database, `rsidata/log/lastopen1hC`), orderBuy);
+
+            let ordIdOC = orderBuy.orderId;
+            set(ref(database, 'rsidata/log/idOpen1hC'), ordIdOC);
+        */
+            flag = "4hC";        
+            objSendcalc.flag = flag;
+        }
+
+    }else if (sig.rsi4h == -2){ 
+        // 4hV
+        if(flag == "1hV" ){    
+
+            //let result = await api.closePositionBuy(timestamp);
+        /*
+            let orderSell = await api.newOrderSell(timestamp);
+            set(ref(database, `rsidata/log/lastopen1hV`), orderSell);
+
+            let ordIdOV = orderSell.orderId;
+            set(ref(database, 'rsidata/log/idOpen1hV'), ordIdOV);
+        */
+            flag = "4hV";        
+            objSendcalc.flag = flag;
+        }
+
     }
-    
+
+    if (oldFlag != flag){
+        
+        console.log('');
+        console.log(`${flag} ABERTO!`);
+        console.log('');
+    }
    
 }
 
 async function calcClosePosition(timestamp, sig){
+
+    console.log('calcClosePosition');
 
     const dif1m = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
     const dif3m = objSendcalc.stoch3m.k - objSendcalc.stoch3m.d;
@@ -856,283 +706,396 @@ async function calcClosePosition(timestamp, sig){
     const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
 
-    //const app = initializeApp(firebaseConfig);
-    //const database = getDatabase(app);
-/*
-    const position = objSendcalc.positions.filter(b => b.symbol === 'BTCUSDT'); // || b.asset === 'USDT');
-    set(ref(database, 'rsidata/hist/position'), position);
-
-    if(position){
-        const position0 = position[0];
-        set(ref(database, 'rsidata/hist/position'), position0);
-
-    }else if(position === null || position === undefined){
-
-        //var flagClose = flag;
-
-        if (flag != ""){
-            flag = "";
-            objSendcalc.flag = flag;
-            //return;
-            //set(ref(database, `rsidata/obj/flag`), flag);
-            
-            //return flagClose;
-            //return "";
-        }
-    }
-
-*/
+    var oldFlag = flag;
+    //var oldFlag = "";
 
     if (flag == "1mC"){
 
-        if (dif1m < 0 && dif3m < 0){ 
+        if (dif3m < 0 && dif1m < 0){
 
             let result = await api.closePositionBuy(timestamp);
-            set(ref(database, `rsidata/log/lastclose1mC`), result);
+            if (result != undefined){
+                set(ref(database, `rsidata/log/lastclose1mC`), result);
 
-            let ordIdC = result.orderId;
-            set(ref(database, 'rsidata/log/idClose1mC'), ordIdC);
+                let ordIdC = result.orderId;
+                set(ref(database, 'rsidata/log/idClose1mC'), ordIdC);
 
-            let histOrd = createHistObj(result);
-            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-
-            flag = "";
-            objSendcalc.flag = flag;
-            objSendcalc.positions = null;            
-            //set(ref(database, 'rsidata/obj/positions'), null);
-
+                let histOrd = createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+                
+                oldFlag = flag;
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
         }
 
     }else if (flag == "1mV"){
 
-        if (dif1m > 0 && dif3m > 0){ 
+        if (dif3m > 0 && dif1m > 0){
 
             let result = await api.closePositionSell(timestamp);
-            set(ref(database, `rsidata/log/lastclose1mV`), result);
+            if (result != undefined){
+                set(ref(database, `rsidata/log/lastclose1mV`), result);
 
-            let ordIdV = result.orderId;
-            set(ref(database, 'rsidata/log/idClose1mV'), ordIdV);
+                let ordIdV = result.orderId;
+                set(ref(database, 'rsidata/log/idClose1mV'), ordIdV);
 
-            let histOrd = await createHistObj(result);
-            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-
-            flag = "";
-            objSendcalc.flag = flag;
-            objSendcalc.positions = null;            
-            //set(ref(database, 'rsidata/obj/positions'), null);
+                let histOrd = await createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+                
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
 
         }
 
     }else if (flag == "5mC"){
 
-        if (dif5m < 0 || dif3m < 0){ 
+        if (dif5m < 0 || (dif3m < 0 && dif1m < 0)){ 
 
             let result = await api.closePositionBuy(timestamp);
-            set(ref(database, `rsidata/log/lastclose5mC`), result);
+            if (result != undefined){
 
-            let ordIdC = result.orderId;
-            set(ref(database, 'rsidata/log/idClose5mC'), ordIdC);
+                set(ref(database, `rsidata/log/lastclose5mC`), result);
 
-            let histOrd = await createHistObj(result);
-            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+                let ordIdV = result.orderId;
+                set(ref(database, 'rsidata/log/idClose5mC'), ordIdV);
 
-            flag = "";
-            objSendcalc.flag = flag;
-            objSendcalc.positions = null;            
-            //set(ref(database, 'rsidata/obj/positions'), null);
+                let histOrd = await createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
 
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
         }
 
     }else if (flag == "5mV"){
 
-        if (dif5m > 0 || dif3m > 0){    
+        if (dif5m > 0 || (dif3m > 0 && dif1m > 0)){   
 
             let result = await api.closePositionSell(timestamp);
-            set(ref(database, `rsidata/log/lastclose5mV`), result);
+            if (result != undefined){
 
-            let ordIdV = result.orderId;
-            set(ref(database, 'rsidata/log/idClose5mV'), ordIdV);
+                set(ref(database, `rsidata/log/lastclose5mV`), result);
 
-            let histOrd = await createHistObj(result);
-            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+                let ordIdV = result.orderId;
+                set(ref(database, 'rsidata/log/idClose5mV'), ordIdV);
 
-            flag = "";
-            objSendcalc.flag = flag;
-            objSendcalc.positions = null;            
-            //set(ref(database, 'rsidata/obj/positions'), null);
+                let histOrd = await createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
 
         }
 
     }else if (flag == "15mC"){
 
-        if (dif15m < 0 || dif5m < 0){     
+        if (dif15m < 0 || (dif5m < 0 && dif3m < 0)){   
 
             let result = await api.closePositionBuy(timestamp);
-            set(ref(database, `rsidata/log/lastclose15mC`), result);
+            if (result != undefined){
 
-            let ordIdC = result.orderId;
-            set(ref(database, 'rsidata/log/idClose15mC'), ordIdC);
+                set(ref(database, `rsidata/log/lastclose15mC`), result);
 
-            let histOrd = createHistObj(result);
-            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+                let ordIdV = result.orderId;
+                set(ref(database, 'rsidata/log/idClose15mC'), ordIdV);
 
-            flag = "";
-            objSendcalc.flag = flag;
-            objSendcalc.positions = null;            
-            //set(ref(database, 'rsidata/obj/positions'), null);
+                let histOrd = createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
 
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
         }
 
     }else if (flag == "15mV"){
 
-        if (dif15m > 0 || dif5m > 0){     
+        if (dif15m > 0 || (dif5m > 0 && dif3m > 0)){     
     
             let result = await api.closePositionSell(timestamp);
-            set(ref(database, `rsidata/log/lastclose15mV`), result);
+            if (result != undefined){
 
-            let ordIdV = result.orderId;
-            set(ref(database, 'rsidata/log/idClose15mV'), ordIdV);
+                set(ref(database, `rsidata/log/lastclose15mV`), result);
 
-            let histOrd = createHistObj(result);
-            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
-            
-            flag = "";
-            objSendcalc.flag = flag;
-            objSendcalc.positions = null;            
-            //set(ref(database, 'rsidata/obj/positions'), null);
+                let ordIdV = result.orderId;
+                set(ref(database, 'rsidata/log/idClose15mV'), ordIdV);
 
+                let histOrd = createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
         }
 
     }else if (flag == "1hC"){
 
-        if (dif1h < 0 || dif30m < 0){     
-    
+        if (dif1h < 0 || dif30m < 0 || (dif15m < 0 && dif5m < 0)){     
+
             let result = await api.closePositionBuy(timestamp);
-            set(ref(database, `rsidata/log/lastclose1hC`), result);
+            if (result != undefined){
 
-            let ordIdC = result.orderId;
-            set(ref(database, 'rsidata/log/idClose1hC'), ordIdC);
+                set(ref(database, `rsidata/log/lastclose1hC`), result);
 
-            let histOrd = createHistObj(result);
-            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+                let ordIdC = result.orderId;
+                set(ref(database, 'rsidata/log/idClose1hC'), ordIdC);
 
-            flag = "";
-            objSendcalc.flag = flag;
-            objSendcalc.positions = null;            
-            //set(ref(database, 'rsidata/obj/positions'), null);
+                let histOrd = createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
 
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
         }
 
     }else if (flag == "1hV"){
 
-        if (dif1h > 0 || dif30m > 0){     
+        if (dif1h > 0 || dif30m > 0 || (dif15m > 0 && dif5m > 0)){     
     
             let result = await api.closePositionSell(timestamp);
-            set(ref(database, `rsidata/log/lastclose1hV`), result);
+            if (result != undefined){
+                set(ref(database, `rsidata/log/lastclose1hV`), result);
 
-            let ordIdV = result.orderId;
-            set(ref(database, 'rsidata/log/idClose1hV'), ordIdV);
+                let ordIdV = result.orderId;
+                set(ref(database, 'rsidata/log/idClose1hV'), ordIdV);
 
-            let histOrd = createHistObj(result);
-            set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+                let histOrd = createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
 
-            flag = "";
-            objSendcalc.flag = flag;
-            objSendcalc.positions = null;            
-            //set(ref(database, 'rsidata/obj/positions'), null);
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
+        }
 
+    }else if (flag == "4hC"){
+
+        if (dif1h < 0 || dif30m < 0 || (dif15m < 0 && dif5m < 0)){     
+
+            let result = await api.closePositionBuy(timestamp);
+            if (result != undefined){
+
+                set(ref(database, `rsidata/log/lastclose4hC`), result);
+
+                let ordIdC = result.orderId;
+                set(ref(database, 'rsidata/log/idClose4hC'), ordIdC);
+
+                let histOrd = createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
+        }
+
+    }else if (flag == "4hV"){
+
+        if (dif1h > 0 || dif30m > 0 || (dif15m > 0 && dif5m > 0)){     
+    
+            let result = await api.closePositionSell(timestamp);
+            if (result != undefined){
+                set(ref(database, `rsidata/log/lastclose4hV`), result);
+
+                let ordIdV = result.orderId;
+                set(ref(database, 'rsidata/log/idClose4hV'), ordIdV);
+
+                let histOrd = createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
         }
 
     }
-    //return flagClose;
+
+    if (oldFlag != flag){
+
+        console.log('');
+        console.log(`${oldFlag} FECHADO!`);
+        console.log('');
+
+    }
+
+    //return
+    //return flag;
+}
+
+async function calcStopEmerg(posit){
+    //console.log('calcStopEmerg');
+    console.log(`calcStopEmerg/initPosit: ${posit.positionInitialMargin}`);
+    console.log(`calcStopEmerg/pnl: ${posit.unrealizedProfit}`);
+    console.log(`calcStopEmerg/flag: ${flag}`);
+
+    var n1 = Number.parseFloat(posit.positionInitialMargin);
+    var n2 = Number.parseFloat(posit.unrealizedProfit);
+    var n3 = n1 / 4;
+    var n4 = Math.abs(n2); 
+    
+
+    if(n2 < 0 && n4 >= n3){
+
+        console.log('');
+        console.log('STOP DE MARGEM: (- 25%)');
+        console.log('');        
+        
+        if (flag == "1mV" || flag == "5mV" || flag == "15mV" || flag == "1hV"){     
+        
+            let result = await api.closePositionSell(timestamp);
+            if (result != undefined){
+                set(ref(database, `rsidata/log/lastclose${flag}_E`), result);
+
+                let ordIdV = result.orderId;
+                set(ref(database, `rsidata/log/idClose${flag}_E`), ordIdV);
+
+                flag = flag + '_E';
+                let histOrd = createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
+        }
+
+        if (flag == "1mC" || flag == "5mC" || flag == "15mC" || flag == "1hC"){     
+        
+            let result = await api.closePositionBuy(timestamp);
+            if (result != undefined){
+
+                set(ref(database, `rsidata/log/lastclose${flag}_E`), result);
+
+                let ordIdC = result.orderId;
+                set(ref(database, `rsidata/log/idClose${flag}_E`), ordIdC);
+
+                flag = flag + '_E';
+                let histOrd = createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
+        }
+    }
 }
 
 async function histFix (timestamp){
 
+    //console.log('histFix');
+
     //var histFixObj = [];
 
     const userTrades = await api.userTrades(timestamp);
-    userTradesObj = userTrades;
+    var userTradesObj = userTrades;
 
     var histFixObj = null;
 
-    await get(child(dbRef, 'rsidata/hist')).then((snapshot) => {    
-        if (snapshot.exists()) {
-            const data = snapshot.val();
-            
-            if(data){
-              histFixObj = data;               
+    if(userTrades != null && userTrades != undefined){
+
+        await get(child(dbRef, 'rsidata/hist')).then((snapshot) => {    
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                
+                if(data){
+                histFixObj = data;               
+                }
+
+            } else {
+
+                set(ref(database, 'rsidata/log/errorhistFix'), "histFixObj Nulo");
             }
+        }).catch((error) => {
+            console.error(error);
+        });
 
-        } else {
-
-            set(ref(database, 'rsidata/log/errorhistFix'), "histFixObj Nulo");
-        }
-    }).catch((error) => {
-        console.error(error);
-    });
-
-    for (let i = 0; i < userTradesObj.length; i++) {
-    
-        //console.log(`userTradesObj [${i}] = { ${JSON.stringify(userTradesObj[i])} }`);
-        
-        
-        if (histFixObj[userTradesObj[i].orderId]){
-
-            histFixObj[userTradesObj[i].orderId].realizedPnl = userTradesObj[i].realizedPnl;
-            histFixObj[userTradesObj[i].orderId].closePrice = userTradesObj[i].price;
-            histFixObj[userTradesObj[i].orderId].lastUpdate = userTradesObj[i].time;
+        if (histFixObj != null){
+            for (let i = 0; i < userTradesObj.length; i++) {
             
+                //console.log(`userTradesObj [${i}] = { ${JSON.stringify(userTradesObj[i])} }`);
+                        
+                if (histFixObj[userTradesObj[i].orderId]){
+
+                    histFixObj[userTradesObj[i].orderId].realizedPnl = userTradesObj[i].realizedPnl;
+                    histFixObj[userTradesObj[i].orderId].closePrice = userTradesObj[i].price;
+                    histFixObj[userTradesObj[i].orderId].lastUpdate = userTradesObj[i].time;
+                    
+                }
+                
+                //console.log('test');
+
+                //var v = userTradesObj.filter(b => b.orderId === histFixObj[i].orderId);
+                
+                //histFixObj[i].closePrice = v.price;
+                //histFixObj[i].realizedPnl = v.realizedPnl;
+
+            }
         }
-        
-        //console.log('test');
-
-        //var v = userTradesObj.filter(b => b.orderId === histFixObj[i].orderId);
-        
-        //histFixObj[i].closePrice = v.price;
-        //histFixObj[i].realizedPnl = v.realizedPnl;
-
-    }
-    await set(child(dbRef, 'rsidata/hist'), histFixObj);    
+        await set(child(dbRef, 'rsidata/hist'), histFixObj);   
+    } 
 
 }
 
-//function createHistObj(result, objSendcalc, position, flag){
 function createHistObj(result){ 
-    
+    //var histObj = {};
     //const userTrades = await api.userTrades(timestamp);
     //const lastTrade = userTrades.filter(b => b.orderId === result.orderId);
     //let pnlrealized = lastTrade[0].realizedPnl;
 
     //const income = await api.income(timestamp);
-    //pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
-    let pnlrealized = pnlHist[pnlHist.length-1].income;
+    //if (income != undefined){
+        //var pnlHist = income.filter(b => b.incomeType === 'REALIZED_PNL'); // || b.asset === 'USDT');
+        //let pnlrealized = pnlHist[pnlHist.length-1].income;
 
-    const histObj = {
+        const histObj = {
 
-        orderId: result.orderId,
-        firstUpdate: position[0].updateTime,
-        lastUpdate: result.updateTime,
-        symbol: position[0].symbol,
-        entryPrice: position[0].entryPrice,
-        //closePrice: lastTrade[0].price,
-        closePrice: objSendcalc.tick,
-        isolatedMargin: position[0].isolatedWallet,
-        highPnl: position[0].unrealizedProfit,
-        lowPnl: position[0].unrealizedProfit,
-        realizedPnl: pnlrealized, // position[0].unrealizedProfit,
-        flag: flag
+            orderId: result.orderId,
+            firstUpdate: position[`${cryptSymbol}`][0].updateTime,
+            lastUpdate: result.updateTime,
+            symbol: position[`${cryptSymbol}`][0].symbol,
+            entryPrice: position[`${cryptSymbol}`][0].entryPrice,
+            //closePrice: lastTrade[0].price,
+            closePrice: objSendcalc.tick,
+            isolatedMargin: position[`${cryptSymbol}`][0].isolatedWallet,
+            highPnl: position[`${cryptSymbol}`][0].unrealizedProfit,
+            lowPnl: position[`${cryptSymbol}`][0].unrealizedProfit,
+            //realizedPnl: pnlrealized, // position[0].unrealizedProfit,
+            realizedPnl: "0.0", // position[0].unrealizedProfit,
+            flag: flag
 
-    }  
-    
+        }  
+        console.log(`histObj: ${JSON.stringify(histObj)}`);
+    //}
     return histObj;
 
 }
 
 function calcSignals(objSendcalc) {
     
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+    //const app = initializeApp(firebaseConfig);
+    //const database = getDatabase(app);
 
     const rsi1mdif = objSendcalc.stoch1m.k - objSendcalc.stoch1m.d;
     const rsi1mdif2 = objSendcalc.stoch1mprev.k - objSendcalc.stoch1mprev.d;   
@@ -1239,11 +1202,10 @@ function calcFlag(item, dif, dif2){
 
 function writeUserData(objSendcalc) {
 
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-
+    //histObj
     objSendcalc.flag = flag;
     set(ref(database, 'rsidata/obj'), objSendcalc);
+    set(ref(database, 'rsidata/positions'), position);
 }
 
 function criarObj1m(item){
@@ -1388,7 +1350,7 @@ function formatTime(timestamp){
     var minutes = date.getMinutes();
     var seconds = date.getSeconds();
 
-    switch(hours){
+    /*switch(hours){
         case 0 :
             hours = 24;
             break;
@@ -1402,11 +1364,11 @@ function formatTime(timestamp){
             hours = 27;
             break;
     
-    }
+    }*/
     //var x = hours-3;
     //hours = x;
     //var x = hours-3;
-    hours = hours-3;
+    //hours = hours-3;
     minutes = minutes;
     seconds = seconds;
 
