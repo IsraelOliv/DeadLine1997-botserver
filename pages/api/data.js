@@ -949,14 +949,14 @@ async function calcStopEmerg(posit){
 
     var n1 = Number.parseFloat(posit.positionInitialMargin);
     var n2 = Number.parseFloat(posit.unrealizedProfit);
-    var n3 = n1 / 4;
-    var n4 = Math.abs(n2); 
-    
+    var nx = n1 / 4;
+    var n3 = nx * 3;
+    var n4 = Math.abs(n2);     
 
     if(n2 < 0 && n4 >= n3){
 
         console.log('');
-        console.log('STOP DE MARGEM: (- 25%)');
+        console.log('STOP DE MARGEM: (- 75%)');
         console.log('');        
         
         if (flag == "1mV" || flag == "5mV" || flag == "15mV" || flag == "1hV"){     
