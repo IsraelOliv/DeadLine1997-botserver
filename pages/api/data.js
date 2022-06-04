@@ -466,7 +466,7 @@ async function calcOpenPosition(timestamp, sig){
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
 
     //if (sig.rsi15m >= 1 && objSendcalc.stoch5m.k < 30 && dif3m > 0 && dif1m > 0 && flag == ""){  
-    if (sig.rsi15m >= 1 && sig.rsi5m >= 1 && sig.rsi3m == 2 && dif1m > 0 && flag == ""){  
+    if (sig.rsi15m >= 1 && sig.rsi5m >= 1 && objSendcalc.stoch3m.k < 50 && dif3m > 0 && dif1m > 0 && flag == ""){  
         // 1mC        
         let orderBuy = await api.newOrderBuy(timestamp);
         if(orderBuy != undefined){
@@ -511,7 +511,7 @@ async function calcOpenPosition(timestamp, sig){
         }
 
     //}else if (sig.rsi15m <= -1 && objSendcalc.stoch5m.k > 70 && dif3m < 0 && dif1m < 0 && flag == ""){
-    }else if (sig.rsi15m <= -1 && sig.rsi5m <= -1 && sig.rsi3m == -2 && dif1m < 0 && flag == ""){
+    }else if (sig.rsi15m <= -1 && sig.rsi5m <= -1 && objSendcalc.stoch3m.k > 50 && dif3m < 0 && dif1m < 0 && flag == ""){
         // 1mV
         let orderSell = await api.newOrderSell(timestamp);
         if(orderSell != undefined){
