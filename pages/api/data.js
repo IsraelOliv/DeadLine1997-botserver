@@ -465,6 +465,105 @@ async function calcOpenPosition(timestamp, sig){
     const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
 
+    if (sig.rsi15m >= 1){
+        if (sig.rsi5m == 2){
+            if (dif1m > 0 && flag == "") {
+                // St00C
+
+                let orderBuy = await api.newOrderBuy(timestamp);
+                if(orderBuy != undefined){
+                //if(orderBuy.orderId != undefined){
+
+                    set(ref(database, `rsidata/log/lastopenSt00C`), orderBuy);
+
+                    let ordIdOC = orderBuy.orderId;
+                    set(ref(database, 'rsidata/log/idOpenSt00C'), ordIdOC);
+
+                    flag = "St00C";        
+                    objSendcalc.flag = flag;
+                
+                    let obj = {
+                        symbol: cryptSymbol,
+                        initialMargin: "0",
+                        maintMargin: "0",
+                        unrealizedProfit: "0.01",
+                        positionInitialMargin: "0",
+                        openOrderInitialMargin: "0",
+                        leverage: "125",
+                        isolated: true,
+                        entryPrice: "00000.0",
+                        maxNotional: "0",
+                        positionSide: "BOTH",
+                        positionAmt: "0.000",
+                        notional: "0.0",
+                        isolatedWallet: "0.0",
+                        updateTime: 1650830183823,
+                        bidNotional: "0",
+                        askNotional: "0"
+                    }
+
+                    set(ref(database, `rsidata/positions/${cryptSymbol}`), obj);
+
+
+                    //let pos = await objSendcalc.positions.filter(b => b.symbol === cryptSymbol);
+                    //objSendcalc.positions[`${cryptSymbol}`] = obj;
+                    objSendcalc.positions = [];
+                    objSendcalc.positions[0] = obj;
+
+                }
+            }
+        }
+    }
+
+    if (sig.rsi15m <= -1){
+        if (sig.rsi5m == -2){
+            if (dif1m < 0 && dif3m < 0 && flag == "") {
+                // St00V
+
+                let orderSell = await api.newOrderBuy(timestamp);
+                if(orderSell != undefined){
+                //if(orderBuy.orderId != undefined){
+
+                    set(ref(database, `rsidata/log/lastopenSt00V`), orderSell);
+
+                    let ordIdOV = orderBuy.orderId;
+                    set(ref(database, 'rsidata/log/idOpenSt00V'), ordIdOV);
+
+                    flag = "St00V";        
+                    objSendcalc.flag = flag;
+                
+                    let obj = {
+                        symbol: cryptSymbol,
+                        initialMargin: "0",
+                        maintMargin: "0",
+                        unrealizedProfit: "0.01",
+                        positionInitialMargin: "0",
+                        openOrderInitialMargin: "0",
+                        leverage: "125",
+                        isolated: true,
+                        entryPrice: "00000.0",
+                        maxNotional: "0",
+                        positionSide: "BOTH",
+                        positionAmt: "0.000",
+                        notional: "0.0",
+                        isolatedWallet: "0.0",
+                        updateTime: 1650830183823,
+                        bidNotional: "0",
+                        askNotional: "0"
+                    }
+
+                    set(ref(database, `rsidata/positions/${cryptSymbol}`), obj);
+                    
+                    //let pos = await objSendcalc.positions.filter(b => b.symbol === cryptSymbol);
+                    //objSendcalc.positions[`${cryptSymbol}`] = obj;
+                    objSendcalc.positions = [];
+                    objSendcalc.positions[0] = obj;
+
+                }
+            }
+        }
+    }
+
     //if (sig.rsi15m >= 1 && objSendcalc.stoch5m.k < 30 && dif3m > 0 && dif1m > 0 && flag == ""){  
     if (sig.rsi15m >= 1 && sig.rsi5m >= 1 && objSendcalc.stoch3m.k < 50 && dif3m > 0 && dif1m > 0 && flag == ""){  
         // 1mC        
@@ -711,6 +810,52 @@ async function calcClosePosition(timestamp, sig){
     var oldFlag = flag;
     //var oldFlag = "";
 
+    if (flag == "St00C"){
+
+        if (dif5m < 0){
+
+            let result = await api.closePositionBuy(timestamp);
+            if (result != undefined){
+                set(ref(database, `rsidata/log/lastcloseSt00C`), result);
+
+                let ordIdC = result.orderId;
+                set(ref(database, 'rsidata/log/idCloseSt00C'), ordIdC);
+
+                let histOrd = createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+                
+                oldFlag = flag;
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
+        }
+
+    }else if (flag == "St00V"){
+
+        if (dif5m > 0){
+
+            let result = await api.closePositionBuy(timestamp);
+            if (result != undefined){
+                set(ref(database, `rsidata/log/lastcloseSt00V`), result);
+
+                let ordIdV = result.orderId;
+                set(ref(database, 'rsidata/log/idCloseSt00V'), ordIdV);
+
+                let histOrd = createHistObj(result);
+                set(ref(database, `rsidata/hist/${result.orderId}`), histOrd);
+                
+                oldFlag = flag;
+                flag = "";
+                objSendcalc.flag = flag;
+                objSendcalc.positions = null;            
+                //set(ref(database, 'rsidata/obj/positions'), null);
+            }
+        }
+    }
+
+
     if (flag == "1mC"){
 
         if (dif3m < 0 && dif1m < 0){
@@ -951,17 +1096,17 @@ async function calcStopEmerg(posit){
 
     var n1 = Number.parseFloat(posit.positionInitialMargin);
     var n2 = Number.parseFloat(posit.unrealizedProfit);
-    var nx = n1 / 4;
-    var n3 = nx * 3;
+    var nx = n1 / 2;
+    //var n3 = nx * 3;
     var n4 = Math.abs(n2);     
 
-    if(n2 < 0 && n4 >= n3){
+    if(n2 < 0 && n4 >= nx){
 
         console.log('');
-        console.log('STOP DE MARGEM: (- 75%)');
+        console.log('STOP DE MARGEM: (- 50%)');
         console.log('');        
         
-        if (flag == "1mV" || flag == "5mV" || flag == "15mV" || flag == "1hV"){     
+        if (flag == "1mV" || flag == "5mV" || flag == "15mV" || flag == "1hV" || flag == "St00V"){     
         
             let result = await api.closePositionSell(timestamp);
             if (result != undefined){
@@ -981,7 +1126,7 @@ async function calcStopEmerg(posit){
             }
         }
 
-        if (flag == "1mC" || flag == "5mC" || flag == "15mC" || flag == "1hC"){     
+        if (flag == "1mC" || flag == "5mC" || flag == "15mC" || flag == "1hC" || flag == "St00C"){     
         
             let result = await api.closePositionBuy(timestamp);
             if (result != undefined){
