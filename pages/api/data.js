@@ -120,8 +120,8 @@ var pnlHist = null;
 //var userTradesObj = [];
 //var userTrades = null;
 
-const cryptSymbol = process.env.SYMBOL;
-//const cryptSymbol = 'BTCUSDT';
+//const cryptSymbol = process.env.SYMBOL;
+const cryptSymbol = 'BTCUSDT';
 //const cryptSymbol = 'ADAUSDT';
 
 async function data(request, response){ 
