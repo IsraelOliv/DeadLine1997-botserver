@@ -4,17 +4,19 @@
 import axios from 'axios';
 import queryString from 'querystring';
 import crypto from 'crypto';
-/*
-    const apiKey = process.env.API_KEY;
-    const apiSecret = process.env.SECRET_KEY;
+
+    //const apiKey = process.env.API_KEY;
+    //const apiSecret = process.env.SECRET_KEY;
     const apiUrl = process.env.API_URL_SPOT;
     const apiUrlFut = process.env.API_URL_FUT;
-*/
+
+    
+
 
 const apiKey = process.env.API_KEY_TESTNET;
 const apiSecret = process.env.SECRET_KEY_TESTNET;
-const apiUrl = process.env.API_URL_SPOT_TESTNET;
-const apiUrlFut = process.env.API_URL_FUT_TESTNET;
+//const apiUrl = process.env.API_URL_SPOT_TESTNET;
+//const apiUrlFut = process.env.API_URL_FUT_TESTNET;
 
 
 //const symbol = process.env.SYMBOL;
