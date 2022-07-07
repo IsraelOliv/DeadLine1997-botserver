@@ -428,7 +428,7 @@ async function data(request, response){
             histFix(timestamp);
 
             //console.log(await api.exchangeInfo());
-            response.setHeader('Cache-Control', 's-maxage=5', 'stale-while-revalidate');
+            //response.setHeader('Cache-Control', 's-maxage=5', 'stale-while-revalidate');
             response.json(objSendcalc);
             
         }
