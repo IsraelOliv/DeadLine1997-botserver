@@ -192,7 +192,7 @@ async function newOrderBuy(timestamp){
     const type = "MARKET";
 
     if(symbol == "BTCUSDT"){
-        quantity = 0.003;
+        quantity = 0.005;
     }else if(symbol == "ADAUSDT"){
         quantity = 90;
     }
@@ -207,7 +207,7 @@ async function newOrderSell(timestamp){
     var quantity = 0.0;
 
     if(symbol == "BTCUSDT"){
-        quantity = 0.003;
+        quantity = 0.005;
     }else if(symbol == "ADAUSDT"){
         quantity = 90;
     }
