@@ -465,7 +465,7 @@ async function calcOpenPosition(timestamp, sig){
     const dif1d = objSendcalc.stoch1d.k - objSendcalc.stoch1d.d;
     const dif1w = objSendcalc.stoch1w.k - objSendcalc.stoch1w.d;
 
-    if (objSendcalc.stoch15m.k < 30){
+    if (objSendcalc.stoch15m.k < 30 || dif15m > 0){
         if (objSendcalc.stoch5m.k < 30 && dif5m > 0){
             if (flag == "") {
                 // St00C
@@ -515,7 +515,7 @@ async function calcOpenPosition(timestamp, sig){
         }
     }
 
-    if (objSendcalc.stoch15m.k > 70){
+    if (objSendcalc.stoch15m.k > 70 || dif15m < 0){
         if (objSendcalc.stoch5m.k > 70 && dif5m < 0){
             if (flag == "") {
                 // St00V
