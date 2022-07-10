@@ -1119,7 +1119,7 @@ async function calcStopEmerg(posit){
         console.log('STOP DE MARGEM: (- 50%)');
         console.log('');        
         
-        if (flag == "1mV" || flag == "5mV" || flag == "15mV" || flag == "1hV" || flag == "St00V"){     
+        if (flag == "St00V" || flag == "1mV" || flag == "5mV" || flag == "15mV" || flag == "1hV" || flag == "St00V"){     
         
             let result = await api.closePositionSell(timestamp);
             if (result != undefined){
@@ -1139,7 +1139,7 @@ async function calcStopEmerg(posit){
             }
         }
 
-        if (flag == "1mC" || flag == "5mC" || flag == "15mC" || flag == "1hC" || flag == "St00C"){     
+        if (flag == "St00C" || flag == "1mC" || flag == "5mC" || flag == "15mC" || flag == "1hC" || flag == "St00C"){     
         
             let result = await api.closePositionBuy(timestamp);
             if (result != undefined){
