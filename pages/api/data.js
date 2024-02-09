@@ -1,5 +1,7 @@
 import api from './api';
 import { stochasticrsi } from 'technicalindicators';
+import { sma } from 'technicalindicators';
+import { EMA } from 'technicalindicators';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, child, get } from "firebase/database";
 
