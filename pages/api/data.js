@@ -5,6 +5,9 @@ import { EMA } from 'technicalindicators';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, child, get } from "firebase/database";
 
+
+// deploy test pu node
+
 const firebaseConfig = {
     apiKey: "AIzaSyCCpzWIhst6gD7GHqLhIe2_N38T6cOwt6M",
     authDomain: "deadline-1997.firebaseapp.com",
