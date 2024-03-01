@@ -190,6 +190,7 @@ async function data(request, response){
                 position[`${cryptSymbol}`] = await positions.filter(b => b.symbol == cryptSymbol);
                 //console.log(`TEST:position:  ${JSON.stringify(position[`${cryptSymbol}`])}`);
                 //set(ref(database, `rsidata/positions/${symbol}`), obj);
+                //NTest
 
             }
 
